@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true" android:duration="100">
+        <set>
+            <scale
+                android:fromXScale="0.9"
+                android:toXScale="1.0"
+                android:fromYScale="0.9"
+                android:toYScale="1.0"
+                android:pivotX="50%"
+                android:pivotY="50%" />
+        </set>
+    </item>
+    <item>
+        <set>
+            <scale
+                android:fromXScale="1.0"
+                android:toXScale="1.0"
+                android:fromYScale="1.0"
+                android:toYScale="1.0" />
+        </set>
+    </item>
+</selector>

@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name" translatable="false">GoTrad</string>
+    <string name="button1">Calculate</string>
+    <string name="intro">Изучайте местную культуру Воткинского района с интересом!</string>
+    <string name="guest_button">Войти как гость</string>
+    <string name="reg_button">Создать аккаунт</string>
+    <string name="auth_button">У меня уже есть аккаунт</string>
+    <string name="forgot">Забыли пароль?</string>
+    <string name="sign_button">Войти</string>
+    <string name="vals">Введите данные</string>
+    <string name="vals2">Зарегестрируйтесь</string>
+    <string name="continue_button">Продолжить</string>
+    <string name="req_text1">Сколько вам лет?</string>
+    <string name="hintAge">Возраст</string>
+    <string name="req_text2">Как вас зовут?</string>
+    <string name="hintName">Имя</string>
+    <string name="hintSurname">Фамилия</string>
+    <string name="req_text3">Ваш адрес электронной почты:</string>
+    <string name="hintEmail">Электронная почта</string>
+    <string name="req_text4">Придумайте пароль</string>
+    <string name="hintPass">Пароль</string>
+    <string name="mapText">Карта Воткинского района</string>
+    <string name="textinfo">Информация</string>
+    <string name="eventbutton">Подробнее</string>
+    <string name="adminbutton">Изменить содержимое [admin]</string>
+    <string name="info1">Создатель приложения: Русанов Сергей (tg @soopium)</string>
+    <string name="info2">For api version 34 and below</string>
+</resources>
