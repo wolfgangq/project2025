@@ -162,7 +162,7 @@ class MainFragmentMap : Fragment() {
             }
         }
         else{
-            binding.textViewInfo.text = "Тест git"
+            binding.textViewInfo.text = "Не авторизован"
         }
     }
 
