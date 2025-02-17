@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.physicsproject"
+    namespace = "com.tradition.mobilevtkproject"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.physicsproject"
+        applicationId = "com.tradition.mobilevtkproject"
         minSdk = 23
         targetSdk = 34
         versionCode = 1

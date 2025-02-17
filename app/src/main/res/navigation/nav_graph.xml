@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/firstFragmentAge"
-        android:name="com.example.physicsproject.screens.FirstFragmentAge"
+        android:name="com.tradition.mobilevtkproject.screens.FirstFragmentAge"
         android:label="fragment_first"
         tools:layout="@layout/fragment_first" >
         <action
@@ -17,16 +17,16 @@
             app:popExitAnim="@android:anim/slide_out_right" />
         <argument
             android:name="info"
-            app:argType="com.example.physicsproject.User" />
+            app:argType="com.tradition.mobilevtkproject.User" />
     </fragment>
     <fragment
         android:id="@+id/secondFragmentName"
-        android:name="com.example.physicsproject.screens.SecondFragmentName"
+        android:name="com.tradition.mobilevtkproject.screens.SecondFragmentName"
         android:label="fragment_second"
         tools:layout="@layout/fragment_second" >
         <argument
             android:name="info"
-            app:argType="com.example.physicsproject.User" />
+            app:argType="com.tradition.mobilevtkproject.User" />
         <action
             android:id="@+id/action_secondFragment_to_thirdFragment"
             app:destination="@id/thirdFragmentEmail"
@@ -35,7 +35,7 @@
     </fragment>
     <fragment
         android:id="@+id/startFragment"
-        android:name="com.example.physicsproject.screens.StartFragment"
+        android:name="com.tradition.mobilevtkproject.screens.StartFragment"
         android:label="fragment_start"
         tools:layout="@layout/fragment_start" >
         <action
@@ -63,7 +63,7 @@
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.physicsproject.screens.MainFragmentMap"
+        android:name="com.tradition.mobilevtkproject.screens.MainFragmentMap"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" >
         <action
@@ -92,7 +92,7 @@
     </fragment>
     <fragment
         android:id="@+id/thirdFragmentEmail"
-        android:name="com.example.physicsproject.screens.ThirdFragmentEmail"
+        android:name="com.tradition.mobilevtkproject.screens.ThirdFragmentEmail"
         android:label="fragment_third"
         tools:layout="@layout/fragment_third" >
         <action
@@ -102,11 +102,11 @@
             app:popExitAnim="@android:anim/slide_out_right" />
         <argument
             android:name="info"
-            app:argType="com.example.physicsproject.User" />
+            app:argType="com.tradition.mobilevtkproject.User" />
     </fragment>
     <fragment
         android:id="@+id/fourthFragmentPass"
-        android:name="com.example.physicsproject.screens.FourthFragmentPass"
+        android:name="com.tradition.mobilevtkproject.screens.FourthFragmentPass"
         android:label="fragment_fourth"
         tools:layout="@layout/fragment_fourth" >
         <action
@@ -114,11 +114,11 @@
             app:destination="@id/mainFragment" />
         <argument
             android:name="info"
-            app:argType="com.example.physicsproject.User" />
+            app:argType="com.tradition.mobilevtkproject.User" />
     </fragment>
     <fragment
         android:id="@+id/authFragment"
-        android:name="com.example.physicsproject.screens.AuthFragment"
+        android:name="com.tradition.mobilevtkproject.screens.AuthFragment"
         android:label="fragment_auth"
         tools:layout="@layout/fragment_auth" >
         <action
@@ -127,17 +127,17 @@
     </fragment>
     <fragment
         android:id="@+id/infoFragment"
-        android:name="com.example.physicsproject.screens.InfoFragment"
+        android:name="com.tradition.mobilevtkproject.screens.InfoFragment"
         android:label="fragment_info"
         tools:layout="@layout/fragment_info" />
     <fragment
         android:id="@+id/accountFragment"
-        android:name="com.example.physicsproject.screens.AccountFragment"
+        android:name="com.tradition.mobilevtkproject.screens.AccountFragment"
         android:label="fragment_account"
         tools:layout="@layout/fragment_account" />
     <fragment
         android:id="@+id/regionFragment"
-        android:name="com.example.physicsproject.screens.RegionFragment"
+        android:name="com.tradition.mobilevtkproject.screens.RegionFragment"
         android:label="fragment_region"
         tools:layout="@layout/fragment_region" />
 </navigation>

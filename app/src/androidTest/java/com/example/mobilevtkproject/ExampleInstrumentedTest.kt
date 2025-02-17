@@ -1,4 +1,4 @@
-package com.example.physicsproject
+package com.tradition.mobilevtkproject
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

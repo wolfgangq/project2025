@@ -1,4 +1,4 @@
-package com.example.physicsproject
+package com.tradition.mobilevtkproject
 
 import org.junit.Test
 
