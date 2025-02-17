@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity(), MainFragmentMap.OnDataPass {
 
         var db = AppDatabase.getInstance(MAIN)
 
-        var startUser = User(email = "admin@gmail.com", accessLevel = Level.Admin, pass = "12345678", name = "Сергей", surname = "Русанов", age = 16)
+        var startUser = User(email = "admin@gmail.com", accessLevel = Level.Admin, pass = "12345678", name = "Сергей", surname = "Русанов", age = 16, balance = 1000)
         var startUser2 = User(email = "test@gmail.com", pass = "12345678", name = "Test", surname = "Testov", age = 18)
         lifecycleScope.launch {
             val user = db.getDao().getUserByEmail("admin@gmail.com")

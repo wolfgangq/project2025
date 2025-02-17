@@ -3,7 +3,7 @@
     <string name="button1">Calculate</string>
     <string name="intro">Изучайте местную культуру Воткинского района с интересом!</string>
     <string name="guest_button">Войти как гость</string>
-    <string name="reg_button">Создать аккаунт</string>
+    <string name="reg_button">⠀⠀⠀Создать аккаунт⠀⠀⠀</string>
     <string name="auth_button">У меня уже есть аккаунт</string>
     <string name="forgot">Забыли пароль?</string>
     <string name="sign_button">Войти</string>
@@ -21,8 +21,10 @@
     <string name="hintPass">Пароль</string>
     <string name="mapText">Карта Воткинского района</string>
     <string name="textinfo">Информация</string>
-    <string name="eventbutton">Подробнее</string>
-    <string name="adminbutton">Изменить содержимое [admin]</string>
+    <string name="regionbutton">Подробнее</string>
+    <string name="compet_button">Текущие конкурсы</string>
+    <string name="sights_button">Достопримечательности</string>
+    <string name="event_button">⠀⠀⠀⠀Мероприятия⠀⠀⠀⠀</string>
     <string name="info1">Создатель приложения: Русанов Сергей (tg @soopium)</string>
     <string name="info2">For api version 34 and below</string>
 </resources>
