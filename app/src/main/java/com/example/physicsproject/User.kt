@@ -14,5 +14,6 @@ data class User (
     @ColumnInfo(name = "pass") var pass: String = "",
     @ColumnInfo(name = "name") var name: String = "",
     @ColumnInfo(name = "surname") var surname: String = "",
-    @ColumnInfo(name = "age") var age: Int = 0
+    @ColumnInfo(name = "age") var age: Int = 0,
+    @ColumnInfo(name = "balance") var balance: Int = 0
 ): Serializable

@@ -1,10 +1,14 @@
 package com.example.physicsproject.screens
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.ClipDescription
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,6 +17,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.widget.LinearLayout
+import android.widget.PopupMenu
+import android.widget.PopupWindow
+import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.physicsproject.AppDatabase
@@ -27,6 +36,7 @@ import com.example.physicsproject.R
 class MainFragmentMap : Fragment() {
 
     lateinit var binding: FragmentMainBinding
+    val bundle = Bundle()
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -59,6 +69,7 @@ class MainFragmentMap : Fragment() {
 
         var db = AppDatabase.getInstance(MAIN)
         var id = arguments?.getInt("UserId")
+        var regionId = ""
         sendDataToActivity(id)
 
         val items = arrayListOf<Item>()
@@ -76,6 +87,74 @@ class MainFragmentMap : Fragment() {
         items.add(Item("Новый", "Поселок Новый"))
         items.add(Item("Камское", "Село Камское"))
 
+
+        /*
+        val popupView = layoutInflater.inflate(R.layout.popup_menu, null)
+        val popupWindow = PopupWindow(
+            popupView,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+
+        popupWindow.setBackgroundDrawable(ColorDrawable(Color.WHITE))
+
+        popupWindow.isFocusable = true
+
+        popupView.findViewById<TextView>(R.id.action_one).setOnClickListener {
+            Toast.makeText(MAIN, "Action One clicked", Toast.LENGTH_SHORT).show()
+            popupWindow.dismiss()
+        }
+        popupView.findViewById<TextView>(R.id.action_two).setOnClickListener {
+            Toast.makeText(MAIN, "Action Two clicked", Toast.LENGTH_SHORT).show()
+            popupWindow.dismiss()
+        }
+        binding.imageButtonAccount.setOnClickListener{
+            popupWindow.showAsDropDown(binding.imageButtonAccount)
+        }
+        */
+
+        val popupMenu2 = PopupMenu(MAIN, binding.imageButtonAccount)
+        popupMenu2.inflate(R.menu.popupmenu)
+        popupMenu2.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.item1 -> {
+                    lifecycleScope.launch {
+                        val curUser = db.getDao().getUserById(id)
+                        bundle.putSerializable("info", curUser)
+                        MAIN.navController.navigate(R.id.action_mainFragment_to_accountFragment, bundle)
+                    }
+                }
+                R.id.item2 -> {
+                    lifecycleScope.launch {
+                        val curUser = db.getDao().getUserById(id)
+
+                        val builder = AlertDialog.Builder(MAIN)
+                        builder.setTitle("Баланс")
+                            .setMessage("Ваш текущий баланс: ${curUser?.balance} зернышек")
+
+                        builder.setPositiveButton("Ок") { dialog, which ->
+                        }
+                        val alertDialog = builder.create()
+                        alertDialog.show()
+                    }
+                }
+                R.id.item3 -> {
+                    id = -1
+                    MAIN.navController.navigate(R.id.action_mainFragment_to_startFragment)
+                }
+            }
+            false
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            popupMenu2.setForceShowIcon(true)
+        }
+
+        binding.imageButtonAccount.setOnClickListener {
+            popupMenu2.show()
+        }
+
+
         var k = 0
         binding.textViewInfo.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -83,87 +162,91 @@ class MainFragmentMap : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // Этот метод вызывается при изменении текста
                 if (s != null && s.isNotEmpty()) {
-                    if(k == 2){
+                    if(k != 0){
                         binding.textViewInfo.visibility = View.VISIBLE
                         binding.button.visibility = View.VISIBLE
-                        binding.textViewInfo.removeTextChangedListener(this) // Удаляем слушатель после первого срабатывания
+                        binding.textViewInfo.removeTextChangedListener(this)
                     }
                 }
             }
 
             override fun afterTextChanged(s: Editable?) {
-                // Этот метод вызывается после изменения текста
+
             }
         })
 
         binding.imageButtonVtk.setOnClickListener{
+            regionId = "Воткинск"
             binding.textViewInfo.text = items.find{it.name == "Воткинск"}?.description.toString()
         }
         binding.imageButtonKukui.setOnClickListener{
+            regionId = "Кукуи"
             binding.textViewInfo.text = items.find{it.name == "Кукуи"}?.description.toString()
         }
         binding.imageButtonNoviy.setOnClickListener{
+            regionId = "Новый"
             binding.textViewInfo.text = items.find{it.name == "Новый"}?.description.toString()
         }
         binding.imageButtonBolguri.setOnClickListener{
+            regionId = "Болгуры"
             binding.textViewInfo.text = items.find{it.name == "Болгуры"}?.description.toString()
         }
         binding.imageButtonBolshayaKivara.setOnClickListener{
+            regionId = "Большая Кивара"
             binding.textViewInfo.text = items.find{it.name == "Большая Кивара"}?.description.toString()
         }
         binding.imageButtonGavrilovka.setOnClickListener{
+            regionId = "Гавриловка"
             binding.textViewInfo.text = items.find{it.name == "Гавриловка"}?.description.toString()
         }
         binding.imageButtonSvetloe.setOnClickListener{
+            regionId = "Светлое"
             binding.textViewInfo.text = items.find{it.name == "Светлое"}?.description.toString()
         }
         binding.imageButtonIulskoe.setOnClickListener{
+            regionId = "Июльское"
             binding.textViewInfo.text = items.find{it.name == "Июльское"}?.description.toString()
         }
         binding.imageButtonKamskoe.setOnClickListener{
+            regionId = "Камское"
             binding.textViewInfo.text = items.find{it.name == "Камское"}?.description.toString()
         }
         binding.imageButtonKvarsa.setOnClickListener{
+            regionId = "Кварса"
             binding.textViewInfo.text = items.find{it.name == "Кварса"}?.description.toString()
         }
         binding.imageButtonPerevoznoe.setOnClickListener{
+            regionId = "Перевозное"
             binding.textViewInfo.text = items.find{it.name == "Перевозное"}?.description.toString()
         }
         binding.imageButtonPervomaiskoe.setOnClickListener{
+            regionId = "Первомайское"
             binding.textViewInfo.text = items.find{it.name == "Первомайское"}?.description.toString()
         }
         binding.imageButtonVerhnyayaTalitsa.setOnClickListener{
+            regionId = "Верхняя Талица"
             binding.textViewInfo.text = items.find{it.name == "Верхняя Талица"}?.description.toString()
         }
 
-        binding.imageButtonToOut.setOnClickListener{
-            id = -1
-            MAIN.navController.navigate(R.id.action_mainFragment_to_startFragment)
-        }
-        binding.buttonToOut.setOnClickListener{
-            id = -1
-            MAIN.navController.navigate(R.id.action_mainFragment_to_startFragment)
+        binding.button.setOnClickListener{
+            bundle.putInt("UserId", id!!)
+            bundle.putString("RegionName", regionId)
+            MAIN.navController.navigate(R.id.action_mainFragment_to_regionFragment, bundle)
         }
 
+        /*
         if(id != -1){
-            binding.buttonToOut.text = "Выйти"
             binding.imageButtonToOut.setImageResource(R.drawable.logout)
             lifecycleScope.launch {
                 val curUser = db.getDao().getUserById(id)
                 binding.textViewInfo.text = "${curUser?.id} \n ${curUser?.email} \n ${curUser?.accessLevel} \n ${curUser?.pass} \n ${curUser?.name} \n ${curUser?.surname} \n ${curUser?.age}"
-                if(curUser?.accessLevel == Level.Admin || curUser?.accessLevel == Level.TopAdmin){
-                    binding.buttonForAdmins.visibility = View.VISIBLE
-                    binding.buttonForAdmins.setOnClickListener{
-                        binding.textViewInfo.text = "User is admin"
-                    }
-                }
             }
         }
         else{
             binding.textViewInfo.text = "Не авторизован"
         }
+         */
     }
 
     override fun onResume() {

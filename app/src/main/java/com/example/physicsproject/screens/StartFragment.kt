@@ -1,5 +1,6 @@
 package com.example.physicsproject.screens
 
+import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.WindowInsetsController
+import android.widget.Toast
 import com.example.physicsproject.MAIN
 import com.example.physicsproject.MainActivity.Companion.setDarkStatusBar
 import com.example.physicsproject.MainActivity.Companion.setLightStatusBar
@@ -34,9 +36,19 @@ class StartFragment : Fragment() {
 
         binding.buttonToAuth.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
-                val textSize = binding.buttonToAuth.textSize
-                binding.buttonToReg.textSize = (textSize / 2.68).toFloat()
-                binding.buttonAsGuest.textSize = (textSize / 2.68).toFloat()
+
+                /*
+                val builder = AlertDialog.Builder(MAIN)
+                builder.setTitle("Информация")
+                    .setMessage("Выберите одно из следующих действий:")
+
+                builder.setPositiveButton("Ок") { dialog, which ->
+                }
+
+                val alertDialog = builder.create()
+                alertDialog.show()
+
+                 */
 
                 binding.buttonToAuth.viewTreeObserver.removeOnGlobalLayoutListener(this)
             }
@@ -63,7 +75,7 @@ class StartFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         setDarkStatusBar(requireActivity())
-        toDefaultColors(requireActivity()) // MAIN
+        toDefaultColors(requireActivity())
     }
 
     override fun onStop() {

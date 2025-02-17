@@ -9,22 +9,20 @@
     android:persistentDrawingCache="animation"
     tools:context=".screens.MainFragmentMap">
 
-    <TextView
-        android:id="@+id/textViewTitle"
+    <ImageButton
+        android:id="@+id/imageButtonAccount"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginRight="15dp"
-        android:gravity="center"
-        android:text="@string/mapText"
-        android:visibility="invisible"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:src="@drawable/menu"
+        android:visibility="visible"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.04"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/imageViewMap"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.099" />
+        app:layout_constraintHeight_percent="0.045"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageViewMap"
@@ -38,10 +36,10 @@
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_default="spread"
-        app:layout_constraintHorizontal_bias="0.444"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.242"
+        app:layout_constraintVertical_bias="0.18"
         app:layout_constraintWidth_default="spread" />
 
     <ImageButton
@@ -252,14 +250,12 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="12dp"
-        android:layout_marginBottom="10dp"
-        android:gravity="center_horizontal"
-        android:text="@string/textinfo"
-        app:autoSizeMaxTextSize="40sp"
+        android:gravity="center_horizontal|top"
+        android:visibility="visible"
+        app:autoSizeMaxTextSize="60sp"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHeight_percent="0.07"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewMap" />
 
@@ -268,13 +264,32 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="8dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="25dp"
         android:backgroundTint="@color/darkGreen"
         android:insetTop="3dp"
         android:insetBottom="3dp"
-        android:text="@string/eventbutton"
+        android:text="@string/regionbutton"
         android:visibility="invisible"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.07"
+        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewInfo" />
+
+    <Button
+        android:id="@+id/buttonEvent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/blue"
+        android:insetTop="3dp"
+        android:insetBottom="3dp"
+        android:text="@string/compet_button"
+        android:visibility="visible"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -297,63 +312,6 @@
         app:layout_constraintTop_toTopOf="@+id/imageViewMap"
         app:layout_constraintVertical_bias="0.375"
         app:layout_constraintWidth_percent="0.37" />
-
-    <Button
-        android:id="@+id/buttonToOut"
-        style="@style/CustomSignOut"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@null"
-        android:gravity="center"
-        android:insetTop="3dp"
-        android:insetBottom="3dp"
-        android:padding="0dp"
-        android:text="Назад"
-        android:textColor="@color/black"
-        app:autoSizeMinTextSize="2sp"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.045"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.3" />
-
-    <ImageButton
-        android:id="@+id/imageButtonToOut"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@null"
-        android:scaleType="fitCenter"
-        android:src="@drawable/arrow"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/buttonToOut"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/buttonToOut"
-        app:layout_constraintHeight_percent="0.045"
-        app:layout_constraintTop_toTopOf="@+id/buttonToOut"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/buttonForAdmins"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:backgroundTint="@color/red"
-        android:ellipsize="end"
-
-        android:gravity="center"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:text="@string/adminbutton"
-        android:visibility="invisible"
-        app:autoSizeMinTextSize="2sp"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButtonToOut"
-        app:layout_constraintHeight_percent="0.06"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageButtonToOut"
-        app:layout_constraintWidth_percent="0.35" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
