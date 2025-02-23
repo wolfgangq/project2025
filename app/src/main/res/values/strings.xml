@@ -27,4 +27,6 @@
     <string name="event_button">⠀⠀⠀⠀Мероприятия⠀⠀⠀⠀</string>
     <string name="info1">Создатель приложения: Русанов Сергей (tg @soopium)</string>
     <string name="info2">For api version 34 and below</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

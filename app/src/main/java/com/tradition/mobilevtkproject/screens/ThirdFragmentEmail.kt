@@ -7,11 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
-import com.tradition.mobilevtkproject.AppDatabase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.tradition.mobilevtkproject.MAIN
+import com.tradition.mobilevtkproject.MainActivity.Companion.getUserInfo
 import com.tradition.mobilevtkproject.R
 import com.tradition.mobilevtkproject.databinding.FragmentThirdBinding
 import com.tradition.mobilevtkproject.MainActivity.Companion.isEmailValid
+import com.tradition.mobilevtkproject.MainActivity.Companion.userWithThisEmailExists
 import com.tradition.mobilevtkproject.User
 import kotlinx.coroutines.launch
 
@@ -41,10 +45,8 @@ class ThirdFragmentEmail : Fragment() {
                 !isEmailValid(email) -> Toast.makeText(MAIN, "Введите правильный адрес почты", Toast.LENGTH_SHORT).show()
 
                 else -> {
-                    var db = AppDatabase.getInstance(MAIN)
                     lifecycleScope.launch {
-                        val user = db.getDao().getUserByEmail(email)
-                        if(user != null){
+                        if(userWithThisEmailExists(email)){
                             Toast.makeText(MAIN, "Такой пользователь уже зарегестрирован", Toast.LENGTH_LONG).show()
                         }
                         else{

@@ -10,7 +10,7 @@
 
 
     <Button
-        android:id="@+id/buttonToReg6"
+        android:id="@+id/buttonSights"
         style="@style/CustomButtonStyle"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -19,7 +19,7 @@
         android:insetBottom="3dp"
         android:text="@string/sights_button"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/buttonToReg"
+        app:layout_constraintBottom_toTopOf="@+id/buttonEvent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.07"
         app:layout_constraintStart_toStartOf="parent" />
@@ -65,7 +65,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewProfile" />
 
     <Button
-        android:id="@+id/buttonToReg"
+        android:id="@+id/buttonEvent"
         style="@style/CustomButtonStyle"
         android:layout_marginBottom="16dp"
         android:backgroundTint="@color/darkGreen"
@@ -84,7 +84,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonToReg6"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSights"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewDivider">

@@ -279,7 +279,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewInfo" />
 
     <Button
-        android:id="@+id/buttonEvent"
+        android:id="@+id/buttonCompetitions"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginLeft="10dp"

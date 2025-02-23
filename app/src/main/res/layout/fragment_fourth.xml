@@ -49,7 +49,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextPass" />
 
     <TextView
-        android:id="@+id/textViewReg"
+        android:id="@+id/textViewForgot"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginLeft="15dp"

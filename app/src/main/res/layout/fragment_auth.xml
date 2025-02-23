@@ -9,7 +9,7 @@
     tools:context=".screens.AuthFragment">
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress"
+        android:id="@+id/editTextEmailAddress"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
@@ -39,7 +39,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextEmailAddress" />
 
     <Button
         android:id="@+id/button_Sign_In"
@@ -70,7 +70,7 @@
         android:layout_marginTop="12dp"
         android:layout_marginRight="15dp"
         android:clickable="true"
-        android:focusable="true"
+        android:contextClickable="true"
         android:gravity="center"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
@@ -84,7 +84,7 @@
         app:layout_constraintTop_toBottomOf="@+id/button_Sign_In" />
 
     <TextView
-        android:id="@+id/textViewReg"
+        android:id="@+id/textViewEnterData"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="28dp"
@@ -103,14 +103,15 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_gravity="center"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:background="@null"
         android:cropToPadding="true"
         android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewReg"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewEnterData"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintStart_toStartOf="@+id/textViewReg"
-        app:layout_constraintTop_toTopOf="@+id/textViewReg"
+        app:layout_constraintStart_toStartOf="@+id/textViewEnterData"
+        app:layout_constraintTop_toTopOf="@+id/textViewEnterData"
+        app:layout_constraintVertical_bias="0.0"
         app:layout_constraintWidth_percent="0.08"
         app:srcCompat="@drawable/whitecross" />
 

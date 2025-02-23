@@ -8,151 +8,34 @@
     android:background="@color/mainGreen"
     tools:context=".screens.AccountFragment">
 
-
-    <TextView
-        android:id="@+id/textViewAge"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="20dp"
-        android:text="Возраст"
-        android:textColor="@color/white"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintHeight_percent="0.03"
-        app:layout_constraintStart_toStartOf="@+id/editTextAge2"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEmail2"
-        app:layout_constraintWidth_percent="0.5" />
-
     <ImageButton
         android:id="@+id/imageButtonBack"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:background="@null"
         android:scaleType="fitCenter"
         android:src="@drawable/whitearrow"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewProfile"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.08" />
-
-    <EditText
-        android:id="@+id/editTextName2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:ems="10"
-        android:inputType="text"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.06"
-        app:layout_constraintHorizontal_bias="0.476"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewName" />
-
-    <TextView
-        android:id="@+id/textViewName"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="35dp"
-        android:text="Имя"
-        android:textColor="@color/white"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintHeight_percent="0.03"
-        app:layout_constraintStart_toStartOf="@+id/editTextName2"
-        app:layout_constraintTop_toBottomOf="@+id/textViewBalance"
-        app:layout_constraintWidth_percent="0.5" />
-
-    <TextView
-        android:id="@+id/textViewEmail"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="20dp"
-        android:text="Электронная почта"
-        android:textColor="@color/white"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintHeight_percent="0.03"
-        app:layout_constraintStart_toStartOf="@+id/editTextEmail2"
-        app:layout_constraintTop_toBottomOf="@+id/editTextSurname2"
-        app:layout_constraintWidth_percent="0.5" />
-
-    <EditText
-        android:id="@+id/editTextSurname2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:ems="10"
-        android:inputType="text"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.06"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewSurname" />
-
-    <TextView
-        android:id="@+id/textViewBalance"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginRight="10dp"
-        android:text="Ваш баланс:"
-        android:textColor="@color/white"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.04"
-        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewDivider"
-        app:layout_constraintVertical_bias="0.021" />
-
-    <TextView
-        android:id="@+id/textViewSurname"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="20dp"
-        android:text="Фамилия"
-        android:textColor="@color/white"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintHeight_percent="0.03"
-        app:layout_constraintStart_toStartOf="@+id/editTextSurname2"
-        app:layout_constraintTop_toBottomOf="@+id/editTextName2"
-        app:layout_constraintWidth_percent="0.5" />
-
-    <EditText
-        android:id="@+id/editTextEmail2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.06"
-        app:layout_constraintHorizontal_bias="0.476"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewEmail" />
+        app:layout_constraintTop_toTopOf="@+id/textViewProfile" />
 
     <TextView
         android:id="@+id/textViewProfile"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="16dp"
         android:gravity="center"
-        android:text="Профиль"
+        android:text="Настройки профиля"
         android:textColor="@color/white"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButtonBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.04"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageButtonBack"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="@+id/textViewSize" />
 
     <View
         android:id="@+id/viewDivider"
@@ -165,19 +48,306 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewProfile" />
 
-    <EditText
-        android:id="@+id/editTextAge2"
+
+    <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:ems="10"
-        android:inputType="number"
-        android:textColor="@color/white"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.06"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAge" />
+        app:layout_constraintTop_toTopOf="@+id/viewDivider">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewBalance"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="Ваш баланс:"
+                android:textColor="@color/white"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.04"
+                app:layout_constraintHorizontal_bias="0.476"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/textViewName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginRight="10dp"
+                android:text="Имя"
+                android:textColor="@color/white"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintHeight_percent="0.03"
+                app:layout_constraintWidth_percent="0.5" />
+
+            <EditText
+                android:id="@+id/editTextName2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:ems="10"
+                android:inputType="text"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.06"
+                app:layout_constraintHorizontal_bias="0.476"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewSurname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:text="Фамилия"
+                android:textColor="@color/white"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintHeight_percent="0.03"
+                app:layout_constraintStart_toStartOf="@+id/editTextSurname2"
+                app:layout_constraintTop_toBottomOf="@+id/editTextName2"
+                app:layout_constraintWidth_percent="0.5" />
+
+            <EditText
+                android:id="@+id/editTextSurname2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:ems="10"
+                android:inputType="text"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.06"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewSurname" />
+
+            <TextView
+                android:id="@+id/textViewEmail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:text="Электронная почта"
+                android:textColor="@color/white"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintHeight_percent="0.03"
+                app:layout_constraintStart_toStartOf="@+id/editTextEmail2"
+                app:layout_constraintTop_toBottomOf="@+id/editTextSurname2"
+                app:layout_constraintWidth_percent="0.5" />
+
+            <EditText
+                android:id="@+id/editTextEmail2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:ems="10"
+                android:enabled="false"
+                android:focusableInTouchMode="false"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.06"
+                app:layout_constraintHorizontal_bias="0.476"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewEmail" />
+
+            <TextView
+                android:id="@+id/textViewAge"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:text="Возраст"
+                android:textColor="@color/white"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintHeight_percent="0.03"
+                app:layout_constraintStart_toStartOf="@+id/editTextAge2"
+                app:layout_constraintTop_toBottomOf="@+id/editTextEmail2"
+                app:layout_constraintWidth_percent="0.5" />
+
+            <EditText
+                android:id="@+id/editTextAge2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:ems="10"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.06"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewAge" />
+
+            <Button
+                android:id="@+id/buttonSaveChanges"
+                style="@style/CustomButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/darkGreen"
+                android:text="Сохранить"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.07"
+                app:layout_constraintHorizontal_bias="0.533"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextAge2" />
+
+            <View
+                android:id="@+id/viewDivider3"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="28dp"
+                android:background="@color/white" />
+
+            <TextView
+                android:id="@+id/textViewChangePass"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="28dp"
+                android:gravity="center"
+                android:text="Смена пароля"
+                android:textColor="@color/white"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintHeight_percent="0.04" />
+
+            <TextView
+                android:id="@+id/textViewOldPass"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:text="Введите старый пароль"
+                android:textColor="@color/white"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintHeight_percent="0.03"
+                app:layout_constraintWidth_percent="0.5" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp">
+
+                <EditText
+                    android:id="@+id/editTextOldPass"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="10"
+                    android:inputType="text|textPassword"
+                    android:textColor="@color/white"
+                    app:layout_constraintHeight_percent="0.06" />
+
+                <ImageButton
+                    android:id="@+id/imageButtonChangeTypeOld"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="80"
+                    android:background="@null"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/closed_eye"
+                    android:visibility="gone"
+                    app:layout_constraintHeight_percent="0.04" />
+            </TableRow>
+
+            <TextView
+                android:id="@+id/textViewNewPass"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:text="Введите новый пароль"
+                android:textColor="@color/white"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintHeight_percent="0.03"
+                app:layout_constraintWidth_percent="0.5" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp">
+
+                <EditText
+                    android:id="@+id/editTextNewPass"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="10"
+                    android:ems="10"
+                    android:inputType="text|textPassword"
+                    android:textColor="@color/white"
+                    app:layout_constraintHeight_percent="0.06" />
+
+                <ImageButton
+                    android:id="@+id/imageButtonChangeTypeNew"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="80"
+                    android:background="@null"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/closed_eye"
+                    android:visibility="gone"
+                    app:layout_constraintHeight_percent="0.04" />
+            </TableRow>
+
+            <Button
+                android:id="@+id/buttonChangePass"
+                style="@style/CustomButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/darkGreen"
+                android:text="Сменить пароль"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintHeight_percent="0.07" />
+
+            <TextView
+                android:id="@+id/textViewBufer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/textViewSize"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

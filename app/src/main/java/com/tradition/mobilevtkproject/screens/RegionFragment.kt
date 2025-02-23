@@ -1,6 +1,7 @@
 package com.tradition.mobilevtkproject.screens
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -27,6 +28,26 @@ class RegionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.imageButtonBack.setOnClickListener {
             MAIN.navController.popBackStack()
+        }
+        binding.buttonEvent.setOnClickListener{
+            val builder = AlertDialog.Builder(MAIN)
+            builder.setTitle("")
+                .setMessage("Еще не реализовано")
+
+            builder.setPositiveButton("Ок") { dialog, which ->
+            }
+            val alertDialog = builder.create()
+            alertDialog.show()
+        }
+        binding.buttonSights.setOnClickListener{
+            val builder = AlertDialog.Builder(MAIN)
+            builder.setTitle("")
+                .setMessage("Еще не реализовано")
+
+            builder.setPositiveButton("Ок") { dialog, which ->
+            }
+            val alertDialog = builder.create()
+            alertDialog.show()
         }
         val regionName = arguments?.getString("RegionName")
         when (regionName){
