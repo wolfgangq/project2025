@@ -110,16 +110,6 @@ class MainFragmentMap : Fragment() {
         popupMenu.inflate(R.menu.popupmenu)
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {
-                R.id.account -> {
-                    val builder = AlertDialog.Builder(MAIN)
-                    builder.setTitle("")
-                        .setMessage("Еще не реализовано")
-
-                    builder.setPositiveButton("Ок") { dialog, which ->
-                    }
-                    val alertDialog = builder.create()
-                    alertDialog.show()
-                }
                 R.id.settings -> {
                     lifecycleScope.launch {
                         //val curUser = db.collection("users").document(id)
@@ -142,16 +132,6 @@ class MainFragmentMap : Fragment() {
                         val alertDialog = builder.create()
                         alertDialog.show()
                     }
-                }
-                R.id.shop -> {
-                    val builder = AlertDialog.Builder(MAIN)
-                    builder.setTitle("")
-                        .setMessage("Еще не реализовано")
-
-                    builder.setPositiveButton("Ок") { dialog, which ->
-                    }
-                    val alertDialog = builder.create()
-                    alertDialog.show()
                 }
                 R.id.logOut -> {
                     auth.signOut()

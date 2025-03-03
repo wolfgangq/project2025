@@ -198,4 +198,14 @@
         android:name="com.tradition.mobilevtkproject.screens.SelectedGlobalCompetitionFragment"
         android:label="fragment_selected_global_competition"
         tools:layout="@layout/fragment_selected_global_competition" />
+    <fragment
+        android:id="@+id/shopFragment"
+        android:name="com.tradition.mobilevtkproject.screens.ShopFragment"
+        android:label="fragment_shop"
+        tools:layout="@layout/fragment_shop" />
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="com.tradition.mobilevtkproject.screens.AccountFragment"
+        android:label="fragment_account"
+        tools:layout="@layout/fragment_account" />
 </navigation>

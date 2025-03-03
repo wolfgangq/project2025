@@ -21,9 +21,14 @@ import kotlinx.coroutines.tasks.await
 class RegionFragment : Fragment() {
 
     lateinit var binding: FragmentRegionBinding
-    val id = arguments?.getInt("UserId")
     val db = Firebase.firestore
+    lateinit var regionName: String
     var bundle = Bundle()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        regionName = ""
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +42,9 @@ class RegionFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val regionName = arguments?.getString("RegionName")
+        if (regionName == ""){
+            regionName = arguments?.getString("RegionName").toString()
+        }
         binding.imageButtonBack.setOnClickListener {
             MAIN.navController.popBackStack()
         }

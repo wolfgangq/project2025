@@ -1,6 +1,7 @@
 package com.tradition.mobilevtkproject.screens
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,10 +14,12 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.tradition.mobilevtkproject.MAIN
+import com.tradition.mobilevtkproject.MAIN2
 import com.tradition.mobilevtkproject.MainActivity.Companion.isInternetAvailable
 import com.tradition.mobilevtkproject.MainActivity.Companion.setDarkStatusBar
 import com.tradition.mobilevtkproject.MainActivity.Companion.toDefaultColors
 import com.tradition.mobilevtkproject.R
+import com.tradition.mobilevtkproject.TransitionActivity
 import com.tradition.mobilevtkproject.databinding.FragmentStartBinding
 import kotlinx.coroutines.delay
 
@@ -128,6 +131,8 @@ class StartFragment : Fragment() {
                 user = auth.currentUser
                 if (user != null) {
                     MAIN.navController.navigate(R.id.action_startFragment_to_mainFragment)
+                    /*val intent = Intent(MAIN, TransitionActivity::class.java)
+                    startActivity(intent)*/
                     Toast.makeText(MAIN, "Вы вошли как ${user?.email}", Toast.LENGTH_LONG).show()
                 }
             } else {

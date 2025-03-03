@@ -1,6 +1,7 @@
 package com.tradition.mobilevtkproject
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.graphics.Color
@@ -16,7 +17,6 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.os.postDelayed
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.FragmentActivity
@@ -29,6 +29,8 @@ import com.tradition.mobilevtkproject.screens.MainFragmentMap
 import kotlinx.coroutines.tasks.await
 import android.os.Handler
 import android.os.Looper
+import com.google.android.material.tabs.TabLayout
+import kotlin.properties.Delegates
 
 @Suppress("OVERRIDE_DEPRECATION")
 class MainActivity : AppCompatActivity(), MainFragmentMap.OnDataPass {
@@ -36,6 +38,16 @@ class MainActivity : AppCompatActivity(), MainFragmentMap.OnDataPass {
     lateinit var binding: ActivityMainBinding
     lateinit var navController: NavController
     val db = Firebase.firestore
+    var previousDest by Delegates.notNull<Int>()
+    var List0Dest = mutableListOf<Int>(
+        R.id.shopFragment
+    )
+    var List1Dest = mutableListOf<Int>(
+        R.id.mainFragment
+    )
+    var List2Dest = mutableListOf<Int>(
+        R.id.accountFragment
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +62,100 @@ class MainActivity : AppCompatActivity(), MainFragmentMap.OnDataPass {
             insets
         }
         MAIN = this
+
+        previousDest = navController.currentDestination?.id!!
+
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            val dest = navController.currentDestination?.id
+            if (dest == R.id.mainFragment) {
+                binding.tabLayout.visibility = View.VISIBLE
+            }
+            if (dest == R.id.startFragment) {
+                binding.tabLayout.visibility = View.GONE
+            }
+            if (dest == R.id.shopFragment || dest == R.id.mainFragment || dest == R.id.accountFragment) {
+                val position = binding.tabLayout.selectedTabPosition
+                when (position) {
+                    0 -> {List0Dest = mutableListOf<Int>(
+                        R.id.shopFragment
+                    )
+                    }
+                    1 -> {List1Dest = mutableListOf<Int>(
+                        R.id.mainFragment
+                    )
+                    }
+                    2 -> {List2Dest = mutableListOf<Int>(
+                        R.id.accountFragment
+                    )
+                    }
+                }
+            }
+            when (binding.tabLayout.selectedTabPosition) {
+                0 -> {
+                    if (previousDest != R.id.mainFragment && previousDest != R.id.accountFragment && previousDest != R.id.startFragment) {
+                        List0Dest.add(dest!!)
+                    }
+                }
+                1 -> {
+                    if (previousDest != R.id.shopFragment && previousDest != R.id.accountFragment && previousDest != R.id.startFragment) {
+                        List1Dest.add(dest!!)
+                    }
+                }
+                2 -> {
+                    if (previousDest != R.id.shopFragment && previousDest != R.id.mainFragment && previousDest != R.id.startFragment) {
+                        List2Dest.add(dest!!)
+                    }
+                }
+            }
+            previousDest = dest!!
+        }
+
+        binding.tabLayout.getTabAt(1)?.select()
+
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                val position = tab.position
+                when (position) {
+                    0 -> {
+                        /*binding.tabLayout.getTabAt(1)?.select()
+                        fireAlert()*/
+                        navController.navigate(List0Dest.last())
+                    }
+                    1 -> navController.navigate(List1Dest.last())
+                    2 -> {
+                        /*binding.tabLayout.getTabAt(1)?.select()
+                        fireAlert()*/
+                        navController.navigate(List2Dest.last())
+                    }
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+                //change icon's alpha
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab) {
+                val position = tab.position
+                when (position) {
+                    0 -> {List0Dest = mutableListOf<Int>(
+                        R.id.shopFragment
+                    )
+                        navController.navigate(List0Dest.last())
+                    }
+                    1 -> {List1Dest = mutableListOf<Int>(
+                        R.id.mainFragment
+                    )
+                        navController.navigate(List1Dest.last())
+                    }
+                    2 -> {List2Dest = mutableListOf<Int>(
+                        R.id.accountFragment
+                    )
+                        navController.navigate(List2Dest.last())
+                    }
+                }
+            }
+        })
+
         val descBolguri = "Деревня находится в восточной части республики, в подзоне южной тайги, у реки Позимь, на расстоянии примерно 14 километ" +
                 "ров (по прямой) юго-западнее города Воткинска, административного центра района. Рядом проходит автодорога Ижевск — Воткинск"
         val historyBolguri = "Справка: Деревня Болгуры (по словамъ однихъ крестьянъ деревня получила свое названіе отъ «бугровъ» — холмовъ, которыми изобилуетъ эта мѣстн" +
@@ -78,50 +184,43 @@ class MainActivity : AppCompatActivity(), MainFragmentMap.OnDataPass {
 
         addRegion("Болгуры", descBolguri, historyBolguri, sightsListBolguri)
         addRegion("Кукуи", descKukui, historyKukui, sightsListKukui)
+    }
 
-        //var db = AppDatabase.getInstance(MAIN)
-        /*val user = hashMapOf(
-            "email" to "admin@gmail.com",
-            "accessLevel" to Level.Admin,
-            "pass" to "12345678",
-            "name" to "Сергей",
-            "surname" to "Русанов",
-            "age" to 16,
-            "balance" to 1000
-        )
-        db.collection("users")
-            .add(user)
-            .addOnSuccessListener { documentReference ->
-                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-            }
-            .addOnFailureListener { e ->
-                //Toast.makeText(MAIN, "Нет интернета", Toast.LENGTH_LONG).show()
-                Log.w(TAG, "Error adding document", e)
-            }*/
+//main start second
+// |     |     |
+//shop main account(settings)
+    fun fireAlert(){
+    val builder = AlertDialog.Builder(MAIN)
+    builder.setTitle("")
+        .setMessage("Еще не реализовано")
 
-        /*var startUser = User(email = "admin@gmail.com", accessLevel = Level.Admin, pass = "12345678", name = "Сергей", surname = "Русанов", age = 16, balance = 1000)
-        var startUser2 = User(email = "test@gmail.com", pass = "12345678", name = "Test", surname = "Testov", age = 18)
-        lifecycleScope.launch {
-            val user = db.getDao().getUserByEmail("admin@gmail.com")
-            if(user == null){
-                withContext(Dispatchers.IO) {
-                    db.getDao().insertItem(startUser)
-                }
-            }
-            val user2 = db.getDao().getUserByEmail("test@gmail.com")
-            if(user2 == null){
-                withContext(Dispatchers.IO) {
-                    db.getDao().insertItem(startUser2)
-                }
-            }
-        }*/
+    builder.setPositiveButton("Ок") { dialog, which ->
+    }
+    val alertDialog = builder.create()
+    alertDialog.show()
     }
 
     var f = 0
     @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
         val dest = navController.currentDestination?.id
-        if (dest == R.id.startFragment || dest == R.id.mainFragment) {
+        if (dest != R.id.shopFragment && dest != R.id.mainFragment && dest != R.id.accountFragment) {
+            val position = binding.tabLayout.selectedTabPosition
+            when (position) {
+                0 -> {
+                    navController.navigate(List0Dest.last())
+                    List0Dest.removeAt(List0Dest.lastIndex)
+                }
+                1 -> {
+                    navController.navigate(List1Dest[List1Dest.size-2])
+                    List1Dest.removeAt(List1Dest.lastIndex)
+                }
+                2 -> {
+                    navController.navigate(List2Dest.last())
+                    List2Dest.removeAt(List2Dest.lastIndex)
+                }
+            }
+        } else {
             val toast = Toast.makeText(MAIN, "Нажмите еще раз для выхода", Toast.LENGTH_SHORT)
             f += 1
             if (f == 2) {
@@ -137,8 +236,6 @@ class MainActivity : AppCompatActivity(), MainFragmentMap.OnDataPass {
                     f = 0
                 }, 2000)
             }
-        } else {
-            navController.popBackStack()
         }
     }
 
@@ -251,7 +348,7 @@ class MainActivity : AppCompatActivity(), MainFragmentMap.OnDataPass {
             if (colorResId != 0) {
                 val color = ContextCompat.getColor(act, colorResId)
                 act.window.statusBarColor = color
-                act.window.navigationBarColor = color
+                act.window.navigationBarColor = Color.WHITE
             } else {
                 Log.e("setColors", "Color resource not found: $colorName")
             }
