@@ -6,36 +6,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/mainBackground"
-    tools:context=".screens.RegionFragment">
+    tools:context=".screens.RegionHistoryFragment">
 
 
-    <Button
-        android:id="@+id/buttonHistory"
-        style="@style/CustomButtonStyle"
+    <View
+        android:id="@+id/viewDivider2"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewEventTitle" />
+
+    <TextView
+        android:id="@+id/textViewEventTitle"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="4dp"
-        android:backgroundTint="@color/darkGreen"
-        android:insetBottom="3dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
         android:text="История"
+        android:textColor="@color/white"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/buttonEvent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.07"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHeight_percent="0.04"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/imageButtonBack"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:background="@null"
         android:scaleType="fitCenter"
         android:src="@drawable/whitearrow"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewEventTitle"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewEventTitle"
         app:layout_constraintWidth_percent="0.08" />
 
     <TextView
@@ -43,30 +55,16 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:layout_marginRight="10dp"
         android:gravity="center"
         android:textColor="@color/white"
         app:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.04"
-        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewRegion"
+        app:layout_constraintTop_toBottomOf="@+id/viewDivider2"
         app:layout_constraintWidth_percent="0.6" />
-
-    <Button
-        android:id="@+id/buttonEvent"
-        style="@style/CustomButtonStyle"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="@color/darkGreen"
-        android:text="@string/event_button"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.07"
-        app:layout_constraintHorizontal_bias="0.533"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <ScrollView
         android:layout_width="0dp"
@@ -74,8 +72,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="15dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonHistory"
+        android:layout_marginBottom="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewRegionName">
@@ -86,28 +84,12 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textViewInformation"
+                android:id="@+id/textViewHistoryInformation"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
         </LinearLayout>
     </ScrollView>
-
-    <ImageView
-        android:id="@+id/imageViewRegion"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/usadba"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.25"
-        app:layout_constraintHorizontal_bias="0.476"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButtonBack"
-        app:layout_constraintVertical_bias="0.047" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

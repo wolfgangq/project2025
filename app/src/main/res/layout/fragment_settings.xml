@@ -5,8 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mainGreen"
-    tools:context=".screens.AccountFragment">
+    android:background="@color/mainBackground"
+    tools:context=".screens.SettingsFragment">
 
     <ImageButton
         android:id="@+id/imageButtonBack"
@@ -28,7 +28,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:gravity="center"
-        android:text="Настройки профиля"
+        android:text="@string/profile"
         android:textColor="@color/white"
         app:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,7 +71,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:text="Ваш баланс:"
+                android:text="@string/balance"
                 android:textColor="@color/white"
                 app:autoSizeTextType="uniform"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -329,6 +329,24 @@
                 android:text="Сменить пароль"
                 app:autoSizeTextType="uniform"
                 app:layout_constraintHeight_percent="0.07" />
+
+            <TextView
+                android:id="@+id/textViewForgotPass2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="15dp"
+                android:clickable="true"
+                android:contextClickable="true"
+                android:gravity="center"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="Забыли старый пароль?"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintHeight_percent="0.06" />
 
             <TextView
                 android:id="@+id/textViewBufer"

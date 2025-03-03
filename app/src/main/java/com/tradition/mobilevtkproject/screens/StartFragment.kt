@@ -116,7 +116,7 @@ class StartFragment : Fragment() {
         setDarkStatusBar(requireActivity())
         toDefaultColors(requireActivity())
         turnButtons(false)
-        val auth = FirebaseAuth.getInstance()
+        val auth = Firebase.auth
         var user = auth.currentUser
         if (user == null) {
             turnButtons(true)
@@ -131,7 +131,23 @@ class StartFragment : Fragment() {
                     Toast.makeText(MAIN, "Вы вошли как ${user?.email}", Toast.LENGTH_LONG).show()
                 }
             } else {
-                Toast.makeText(MAIN, "Аккаунт ${user?.email} был заморожен", Toast.LENGTH_SHORT).show()
+                if (isInternetAvailable(MAIN)) {
+                    Toast.makeText(
+                        MAIN,
+                        "Аккаунт ${user?.email} был заморожен",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                else{
+                    val builder = AlertDialog.Builder(MAIN)
+                    builder.setTitle("Сеть")
+                        .setMessage("Интернет недоступен")
+
+                    builder.setPositiveButton("Ок") { dialog, which ->
+                    }
+                    val alertDialog = builder.create()
+                    alertDialog.show()
+                }
             }
         }
     }

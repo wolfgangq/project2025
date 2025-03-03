@@ -8,20 +8,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import com.tradition.mobilevtkproject.MAIN
 import com.tradition.mobilevtkproject.R
-import com.tradition.mobilevtkproject.databinding.FragmentRegionBinding
+import com.tradition.mobilevtkproject.databinding.FragmentRegionHistoryBinding
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-class RegionFragment : Fragment() {
+class RegionHistoryFragment : Fragment() {
 
-    lateinit var binding: FragmentRegionBinding
-    val id = arguments?.getInt("UserId")
+    lateinit var binding: FragmentRegionHistoryBinding
     val db = Firebase.firestore
     var bundle = Bundle()
 
@@ -29,35 +27,26 @@ class RegionFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentRegionBinding.inflate(layoutInflater, container, false)
+        binding = FragmentRegionHistoryBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
-
 
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val regionName = arguments?.getString("RegionName")
-        binding.imageButtonBack.setOnClickListener {
-            MAIN.navController.popBackStack()
-        }
-        binding.buttonEvent.setOnClickListener{
-            bundle.putString("RegionName", regionName)
-            MAIN.navController.navigate(R.id.action_regionFragment_to_regionEventFragment, bundle)
-        }
-        binding.buttonHistory.setOnClickListener{
-            bundle.putString("RegionName", regionName)
-            MAIN.navController.navigate(R.id.action_regionFragment_to_regionHistoryFragment, bundle)
-        }
-        binding.textViewRegionName.setText(regionName)
-        var desc = ""
+        var regionHistory = ""
+        binding.textViewRegionName.text = regionName
         lifecycleScope.launch {
             val snapshot = db.collection("regions").whereEqualTo("regionName", regionName).get().await()
             if (!snapshot.isEmpty) {
                 val document = snapshot.documents[0]
-                desc = document.get("regionDescription", String::class.java)!!
-                binding.textViewInformation.text = desc
+                regionHistory = document.get("regionHistory", String::class.java)!!
+                binding.textViewHistoryInformation.text = regionHistory
             }
         }
+        binding.imageButtonBack.setOnClickListener {
+            MAIN.navController.popBackStack()
+        }
+        }
     }
-}

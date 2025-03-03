@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mainBackground"
+    tools:context=".screens.RegionEventFragment">
+
+
+    <View
+        android:id="@+id/viewDivider2"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewEventTitle" />
+
+    <TextView
+        android:id="@+id/textViewEventTitle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:text="Активности"
+        android:textColor="@color/white"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.04"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imageButtonBack"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:src="@drawable/whitearrow"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewEventTitle"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewEventTitle"
+        app:layout_constraintWidth_percent="0.08" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewDivider2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/buttonExcursions"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="15dp"
+                android:backgroundTint="@color/lightBlue"
+                android:drawableLeft="@drawable/bottom_arrow"
+                android:insetTop="1dp"
+                android:insetBottom="1dp"
+                android:lines="1"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="⠀⠀⠀⠀⠀Экскурсии⠀⠀⠀⠀⠀"
+                android:textAllCaps="true"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintHeight_percent="0.075" />
+
+            <LinearLayout
+                android:id="@+id/LinearLayoutExcursionsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"></LinearLayout>
+
+            <Button
+                android:id="@+id/buttonEvents"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginRight="15dp"
+                android:backgroundTint="@color/lightBlue"
+                android:drawableLeft="@drawable/bottom_arrow"
+                android:insetTop="1dp"
+                android:insetBottom="1dp"
+                android:lines="1"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="⠀⠀⠀⠀Мероприятия⠀⠀⠀⠀"
+                android:textAllCaps="true"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintHeight_percent="0.075" />
+
+            <LinearLayout
+                android:id="@+id/LinearLayoutEventsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"></LinearLayout>
+
+            <Button
+                android:id="@+id/buttonSights"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginRight="15dp"
+                android:backgroundTint="@color/lightBlue"
+                android:drawableLeft="@drawable/bottom_arrow"
+                android:insetTop="1dp"
+                android:insetBottom="1dp"
+                android:lines="1"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="@string/sights_button"
+                android:textAllCaps="true"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintHeight_percent="0.075" />
+
+            <LinearLayout
+                android:id="@+id/LinearLayoutSightsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"></LinearLayout>
+
+            <Button
+                android:id="@+id/buttonLocalCompetitions"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginRight="15dp"
+                android:backgroundTint="@color/blue"
+                android:drawableLeft="@drawable/bottom_arrow"
+                android:insetTop="1dp"
+                android:insetBottom="1dp"
+                android:lines="1"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="⠀⠀⠀⠀⠀Конкурсы⠀⠀⠀⠀⠀"
+                android:textAllCaps="true"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintHeight_percent="0.075" />
+
+            <LinearLayout
+                android:id="@+id/LinearLayoutCompetitionsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"></LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/textViewSize"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

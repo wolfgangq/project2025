@@ -98,6 +98,7 @@
         android:background="@null"
         android:scaleType="fitCenter"
         android:src="@drawable/info"
+        android:visibility="gone"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

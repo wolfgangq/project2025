@@ -20,6 +20,7 @@ android {
     }
 
     buildFeatures{
+        //noinspection DataBindingWithoutKapt
         dataBinding = true
         viewBinding = true
     }
@@ -43,13 +44,16 @@ android {
 }
 
 dependencies {
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    implementation(libs.androidx.recyclerview)
+
     implementation(platform("com.google.firebase:firebase-bom:33.9.0"))
     implementation("com.google.firebase:firebase-firestore-ktx:25.1.2")
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth-ktx:23.2.0")
-    implementation(libs.androidx.room.runtime)
+    /*implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
-    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.ktx)*/
 
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.kotlin.stdlib)

@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darkGreen"
+    android:background="@color/authBackground"
     tools:context=".screens.FourthFragmentPass">
 
 
@@ -41,8 +41,8 @@
         android:paddingBottom="8dp"
         android:text="@string/continue_button"
         android:textAllCaps="true"
-        app:backgroundTint="@color/back"
         app:autoSizeTextType="uniform"
+        app:backgroundTint="@color/back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.07"
         app:layout_constraintStart_toStartOf="parent"

@@ -1,6 +1,7 @@
 package com.tradition.mobilevtkproject
 
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.graphics.Color
 import android.net.ConnectivityManager
@@ -11,9 +12,11 @@ import android.util.Log
 import android.view.View
 import android.view.WindowInsetsController
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.os.postDelayed
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.FragmentActivity
@@ -24,13 +27,15 @@ import com.google.firebase.ktx.Firebase
 import com.tradition.mobilevtkproject.databinding.ActivityMainBinding
 import com.tradition.mobilevtkproject.screens.MainFragmentMap
 import kotlinx.coroutines.tasks.await
+import android.os.Handler
+import android.os.Looper
 
 @Suppress("OVERRIDE_DEPRECATION")
 class MainActivity : AppCompatActivity(), MainFragmentMap.OnDataPass {
 
     lateinit var binding: ActivityMainBinding
     lateinit var navController: NavController
-    var id = -1
+    val db = Firebase.firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +50,34 @@ class MainActivity : AppCompatActivity(), MainFragmentMap.OnDataPass {
             insets
         }
         MAIN = this
+        val descBolguri = "Деревня находится в восточной части республики, в подзоне южной тайги, у реки Позимь, на расстоянии примерно 14 километ" +
+                "ров (по прямой) юго-западнее города Воткинска, административного центра района. Рядом проходит автодорога Ижевск — Воткинск"
+        val historyBolguri = "Справка: Деревня Болгуры (по словамъ однихъ крестьянъ деревня получила свое названіе отъ «бугровъ» — холмовъ, которыми изобилуетъ эта мѣстн" +
+                "ость, а по словамъ другихъ—отъ народа болгаръ, жившаго въ прежнее время при устьѣ р. Камы) расположена при рѣчкѣ Болгаринкѣ, въ 60 вер. отъ города" +
+                " Сарапула, въ 12 вер. отъ волостнаго правленія и ближайшаго училища и въ 18 вер. отъ приходской церкви (въ Воткинскомъ заводѣ). Населяютъ деревню р" +
+                "усскіе, сельскіе обыватели и б. государственные крестьяне (сторонніе), православные и старообрядцы. Основана деревня болѣе 100 лѣтъ тому назадъ пере" +
+                "селенцами изъ д. Пустой Кварсы. Земля раздѣлена по ревизскимъ душамъ. Кромѣ надѣльной земли у крестьянъ имѣются 36,4 дес. захватной земли—исключител" +
+                "ьно сѣнокоса. Въ деревнѣ насчитывается 11 вѣялокъ и имѣются двѣ водяныхъ мукомольныхъ мельницы, въ общемъ владѣніи съ крестьянами другихъ деревень." + "\n" +
+                "Существуют две версии происхождения названия Болгуры:\n" +
+                "1)Людям долго обдумывать и придумывать название деревни не пришлось. От слов «большие угоры», бугры была названа деревня Болгуры. \n" +
+                "2)Люди издавна пытались устанавливать торговые отношения друг с другом. Самый лучший путь, дававший возможность торговать, был водный. И возможно плывя по Каме, Сиве, булгарские купцы могли заехать на нашу реку и дать ей название Болгуринка, отсюда пошло название Болгуры.\n" +
+                "\n" +
+                "Согласно переписи 1790 года в деревне Болгуры насчитывалось 6 хозяйств и проживало 80 жителей, считается, что первые поселенцы пришли на эти земли около 1760 года.\n" +
+                "Некоторое время деревня была приписана к Воткинску, Воткинскому заводу, в пользу которого жители отрабатывали несколько дней в году.\n"
+        val sightsListBolguri = listOf(
+            SightItem("Card 1", "Description 1", "https://ic.pics.livejournal.com/begemusja/12301520/1175308/1175308_original.jpg"),
+            SightItem("Card 2", "Description 2", "https://mobileproject-410e3.web.app/usadba.jpg"),
+            SightItem("Card 3", "Description 3", "https://drive.usercontent.google.com/download?id=1P1DNpurxJ5kb4wyeXs5npeK4fs0nks7_&export=view"),
+            SightItem("Card 4", "Description 4", "https://ic.pics.livejournal.com/begemusja/12301520/1175308/1175308_original.jpg"),
+            SightItem("Card 5", "Description 5", "https://cdn.culture.ru/images/dd356c8e-8357-53fd-b5a5-53f0ebbd41b9"),
+        )
+
+        val descKukui = "[Описание Кукуи]"
+        val historyKukui = "[История Кукуи]"
+        val sightsListKukui = mutableListOf<SightItem>()
+
+        addRegion("Болгуры", descBolguri, historyBolguri, sightsListBolguri)
+        addRegion("Кукуи", descKukui, historyKukui, sightsListKukui)
 
         //var db = AppDatabase.getInstance(MAIN)
         /*val user = hashMapOf(
@@ -84,13 +117,26 @@ class MainActivity : AppCompatActivity(), MainFragmentMap.OnDataPass {
         }*/
     }
 
-
+    var f = 0
     @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
         val dest = navController.currentDestination?.id
-
-        if (dest == R.id.startFragment || (dest == R.id.mainFragment)) {
-            super.onBackPressedDispatcher.onBackPressed()
+        if (dest == R.id.startFragment || dest == R.id.mainFragment) {
+            val toast = Toast.makeText(MAIN, "Нажмите еще раз для выхода", Toast.LENGTH_SHORT)
+            f += 1
+            if (f == 2) {
+                f = 0
+                toast.cancel()
+                super.onBackPressedDispatcher.onBackPressed()
+            } else if (f == 1) {
+                toast.show()
+                Handler(Looper.getMainLooper()).postDelayed({
+                    toast.cancel()
+                }, 2000)
+                Handler(Looper.getMainLooper()).postDelayed({
+                    f = 0
+                }, 2000)
+            }
         } else {
             navController.popBackStack()
         }
@@ -112,7 +158,7 @@ class MainActivity : AppCompatActivity(), MainFragmentMap.OnDataPass {
                 null
             }
         }
-        suspend fun updateUserField(id: String, fieldName: String, newValue: Any) {
+        /*suspend fun updateUserField(id: String, fieldName: String, newValue: Any) {
             val db = Firebase.firestore
 
             try {
@@ -127,7 +173,7 @@ class MainActivity : AppCompatActivity(), MainFragmentMap.OnDataPass {
             } catch (e: Exception) {
                 Log.w("Firestore", "Error updating document.", e)
             }
-        }
+        }*/
         suspend fun userWithThisEmailExists(email: String): Boolean {
             val db = Firebase.firestore
             return try {
@@ -140,6 +186,50 @@ class MainActivity : AppCompatActivity(), MainFragmentMap.OnDataPass {
                 e.printStackTrace()
                 false
             }
+        }
+        fun addRegion(RegionName: String, descReg: String, historyReg: String, sightList: List<SightItem>){
+            val db = Firebase.firestore
+            db.collection("regions")
+                .whereEqualTo("regionName", RegionName)
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    if (querySnapshot.isEmpty) {
+                        val region = hashMapOf(
+                            "regionName" to RegionName,
+                            "regionDescription" to descReg,
+                            "regionHistory" to historyReg
+                        )
+                        db.collection("regions")
+                            .add(region)
+                            .addOnSuccessListener { documentReference ->
+                                Log.d(TAG, "DocumentSnapshot added with regionName: $RegionName")
+                                for(item in sightList){
+                                    val sight = hashMapOf(
+                                        "sightName" to item.title,
+                                        "sightDescription" to item.description,
+                                        "sightImageUrl" to item.imageUrl
+                                    )
+                                    documentReference.collection("sights")
+                                        .add(sight)
+                                        .addOnSuccessListener {
+                                            Log.d(TAG, "Sight added successfully")
+                                        }
+                                        .addOnFailureListener { e ->
+                                            Log.w(TAG, "Error adding sight", e)
+                                        }
+                                }
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w(TAG, "Error adding document", e)
+                            }
+                    }
+                    else {
+                        Log.d(TAG, "Region with name $RegionName already exists.")
+                    }
+                }
+                .addOnFailureListener { e ->
+                    Log.w(TAG, "Error getting documents: ", e)
+                }
         }
         fun isInternetAvailable(context: Context): Boolean {
             val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -195,7 +285,7 @@ class MainActivity : AppCompatActivity(), MainFragmentMap.OnDataPass {
 
 
     override fun onDataPass(data: Int?) {
-        id = data!!
+        //id = data!!
     }
 
 

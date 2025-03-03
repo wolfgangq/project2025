@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mainGreen"
+    android:background="@color/mainBackground"
     android:persistentDrawingCache="animation"
     tools:context=".screens.MainFragmentMap">
 
@@ -286,8 +286,8 @@
         android:layout_marginRight="10dp"
         android:layout_marginBottom="16dp"
         android:backgroundTint="@color/blue"
-        android:insetTop="3dp"
-        android:insetBottom="3dp"
+        android:insetTop="1dp"
+        android:insetBottom="1dp"
         android:text="@string/compet_button"
         android:visibility="visible"
         app:autoSizeTextType="uniform"

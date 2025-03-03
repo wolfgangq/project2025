@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.text.Editable
-import android.text.InputType
 import android.text.TextWatcher
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
@@ -23,25 +22,25 @@ import com.google.firebase.firestore.firestore
 import com.tradition.mobilevtkproject.MAIN
 import com.tradition.mobilevtkproject.MainActivity.Companion.getUserInfo
 import com.tradition.mobilevtkproject.MainActivity.Companion.isPassValid
-import com.tradition.mobilevtkproject.MainActivity.Companion.updateUserField
-import com.tradition.mobilevtkproject.User
-import com.tradition.mobilevtkproject.databinding.FragmentAccountBinding
+import com.tradition.mobilevtkproject.MainActivity.Companion.setColors
+import com.tradition.mobilevtkproject.databinding.FragmentSettingsBinding
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlin.toString
 import com.tradition.mobilevtkproject.R
 
-class AccountFragment : Fragment() {
+class SettingsFragment : Fragment() {
 
-    lateinit var binding: FragmentAccountBinding
+    lateinit var binding: FragmentSettingsBinding
     val auth = FirebaseAuth.getInstance()
     var user = auth.currentUser
+    var bundle = Bundle()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentAccountBinding.inflate(layoutInflater, container, false)
+        binding = FragmentSettingsBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -72,10 +71,13 @@ class AccountFragment : Fragment() {
                 binding.editTextOldPass.height = c2
 
                 binding.buttonSaveChanges.height = (constraintHeight * 0.07).toInt()
+                binding.buttonChangePass.height = (constraintHeight * 0.07).toInt()
 
                 binding.textViewChangePass.height = (constraintHeight * 0.04).toInt()
 
                 binding.textViewBufer.height = (constraintHeight * 0.5).toInt()
+
+                binding.textViewForgotPass2.height = (constraintHeight * 0.06).toInt()
 
                 binding.textViewSize.viewTreeObserver.removeOnGlobalLayoutListener(this)
             }
@@ -294,6 +296,10 @@ class AccountFragment : Fragment() {
                 }
             }
         }
+        binding.textViewForgotPass2.setOnClickListener{
+            bundle.putString("Email", binding.editTextEmail2.text.toString())
+            MAIN.navController.navigate(R.id.action_settingsFragment_to_forgotPasswordFragment, bundle)
+        }
         lifecycleScope.launch {
             val auth = FirebaseAuth.getInstance()
             var id = auth.currentUser?.uid.toString()
@@ -306,5 +312,9 @@ class AccountFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        setColors(requireActivity(), "mainGreen")
+    }
 
     }
