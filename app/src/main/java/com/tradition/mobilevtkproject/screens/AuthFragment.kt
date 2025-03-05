@@ -1,15 +1,19 @@
 package com.tradition.mobilevtkproject.screens
 
+import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.tradition.mobilevtkproject.MAIN
+import com.tradition.mobilevtkproject.MainActivity
 import com.tradition.mobilevtkproject.MainActivity.Companion.getUserInfo
 import com.tradition.mobilevtkproject.R
 import com.tradition.mobilevtkproject.databinding.FragmentAuthBinding
@@ -17,7 +21,9 @@ import com.tradition.mobilevtkproject.MainActivity.Companion.isPassValid
 import com.tradition.mobilevtkproject.MainActivity.Companion.isEmailValid
 import com.tradition.mobilevtkproject.MainActivity.Companion.setColors
 import com.tradition.mobilevtkproject.MainActivity.Companion.setLightStatusBar
+import com.tradition.mobilevtkproject.MainActivity.Companion.successAuth
 import com.tradition.mobilevtkproject.MainActivity.Companion.toDefaultColors
+import com.tradition.mobilevtkproject.TransitionActivity
 
 class AuthFragment : Fragment() {
     lateinit var binding: FragmentAuthBinding
@@ -45,11 +51,7 @@ class AuthFragment : Fragment() {
                 auth.signInWithEmailAndPassword(enteremail, enterpass)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            MAIN.navController.navigate(
-                                R.id.action_authFragment_to_mainFragment,
-                                bundle
-                            )
-                            Toast.makeText(MAIN, "Вы вошли как $enteremail", Toast.LENGTH_LONG).show()
+                            successAuth(enteremail)
                         }
                     }.addOnFailureListener { exception ->
                     Toast.makeText(MAIN, "Не удалось войти", Toast.LENGTH_LONG)
@@ -65,7 +67,7 @@ class AuthFragment : Fragment() {
             if (isEmailValid(email)){
                 bundle.putString("Email", email)
             }
-            MAIN.navController.navigate(R.id.action_authFragment_to_forgotPasswordFragment, bundle)
+            (activity as? MainActivity)?.goFragment(null, ForgotPasswordFragment(), bundle)
         }
             /*if(isEmailValid(enteremail) && isPassValid(enterpass)){
                 val db = AppDatabase.getInstance(MAIN)
@@ -87,7 +89,7 @@ class AuthFragment : Fragment() {
         }*/
 
         binding.imageButton.setOnClickListener{
-            MAIN.navController.popBackStack()
+            (activity as? MainActivity)?.onBackPressed()
         }
     }
 

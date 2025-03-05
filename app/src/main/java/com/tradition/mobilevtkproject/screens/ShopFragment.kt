@@ -14,6 +14,8 @@ import com.tradition.mobilevtkproject.databinding.FragmentShopBinding
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.auth.FirebaseAuth
+import com.tradition.mobilevtkproject.MainActivity.Companion.getUserInfo
 
 class ShopFragment : Fragment() {
 
@@ -34,6 +36,11 @@ class ShopFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        lifecycleScope.launch {
+            val auth = FirebaseAuth.getInstance()
+            var id = auth.currentUser?.uid.toString()
+            var currentUser = getUserInfo(id)
+            binding.textViewBalance.text = "Ваш баланс: ${currentUser?.get("balance")} зернышек"
+        }
     }
 }

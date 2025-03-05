@@ -1,7 +1,6 @@
 package com.tradition.mobilevtkproject.screens
 
 import android.app.AlertDialog
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,19 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.Toast
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import androidx.fragment.app.commit
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.tradition.mobilevtkproject.MAIN
-import com.tradition.mobilevtkproject.MAIN2
+import com.tradition.mobilevtkproject.MainActivity
 import com.tradition.mobilevtkproject.MainActivity.Companion.isInternetAvailable
 import com.tradition.mobilevtkproject.MainActivity.Companion.setDarkStatusBar
+import com.tradition.mobilevtkproject.MainActivity.Companion.successAuth
 import com.tradition.mobilevtkproject.MainActivity.Companion.toDefaultColors
 import com.tradition.mobilevtkproject.R
-import com.tradition.mobilevtkproject.TransitionActivity
 import com.tradition.mobilevtkproject.databinding.FragmentStartBinding
-import kotlinx.coroutines.delay
 
 @Suppress("DEPRECATION")
 class StartFragment : Fragment() {
@@ -63,7 +60,7 @@ class StartFragment : Fragment() {
 
         binding.buttonToReg.setOnClickListener{
             if(isInternetAvailable(MAIN)){
-                MAIN.navController.navigate(R.id.action_startFragment_to_firstFragment)
+                (activity as? MainActivity)?.goFragment(null, FirstFragmentAge(), null)
             }
             else{
                 val builder = AlertDialog.Builder(MAIN)
@@ -79,7 +76,7 @@ class StartFragment : Fragment() {
 
         binding.buttonToAuth.setOnClickListener{
             if(isInternetAvailable(MAIN)){
-                MAIN.navController.navigate(R.id.action_startFragment_to_authFragment)
+                (activity as? MainActivity)?.goFragment(null, AuthFragment(), null)
             }
             else{
                 val builder = AlertDialog.Builder(MAIN)
@@ -99,7 +96,7 @@ class StartFragment : Fragment() {
         }*/
 
         binding.imageButtonInfo.setOnClickListener{
-            MAIN.navController.navigate(R.id.action_startFragment_to_infoFragment)
+            (activity as? MainActivity)?.goFragment(null, InfoFragment(), null)
         }
 
         }
@@ -130,10 +127,7 @@ class StartFragment : Fragment() {
             if (task.isSuccessful) {
                 user = auth.currentUser
                 if (user != null) {
-                    MAIN.navController.navigate(R.id.action_startFragment_to_mainFragment)
-                    /*val intent = Intent(MAIN, TransitionActivity::class.java)
-                    startActivity(intent)*/
-                    Toast.makeText(MAIN, "Вы вошли как ${user?.email}", Toast.LENGTH_LONG).show()
+                    successAuth(user!!.email!!)
                 }
             } else {
                 if (isInternetAvailable(MAIN)) {
@@ -156,8 +150,4 @@ class StartFragment : Fragment() {
             }
         }
     }
-
-    override fun onStop() {
-        super.onStop()
-    }
-    }
+}

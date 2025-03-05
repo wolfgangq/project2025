@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/second_nav_graph"
+    app:startDestination="@id/mainFragmentMap">
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.tradition.mobilevtkproject.screens.SettingsFragment"
+        tools:layout="@layout/fragment_settings"
+        android:label="fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_forgotPasswordFragment2"
+            app:destination="@id/forgotPasswordFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/regionHistoryFragment"
+        android:name="com.tradition.mobilevtkproject.screens.RegionHistoryFragment"
+        tools:layout="@layout/fragment_region_history"
+        android:label="fragment_region_history" />
+    <fragment
+        android:id="@+id/regionFragment"
+        android:name="com.tradition.mobilevtkproject.screens.RegionFragment"
+        tools:layout="@layout/fragment_region"
+        android:label="fragment_region">
+        <action
+            android:id="@+id/action_regionFragment_to_regionHistoryFragment"
+            app:destination="@id/regionHistoryFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_regionFragment_to_regionEventFragment"
+            app:destination="@id/regionEventFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/regionEventFragment"
+        android:name="com.tradition.mobilevtkproject.screens.RegionEventFragment"
+        tools:layout="@layout/fragment_region_event"
+        android:label="fragment_region_event">
+        <action
+            android:id="@+id/action_regionEventFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/globalCompetitionsFragment"
+        android:name="com.tradition.mobilevtkproject.screens.GlobalCompetitionsFragment"
+        tools:layout="@layout/fragment_global_competitions"
+        android:label="fragment_global_competitions">
+        <action
+            android:id="@+id/action_globalCompetitionsFragment_to_selectedGlobalCompetitionFragment"
+            app:destination="@id/selectedGlobalCompetitionFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectedGlobalCompetitionFragment"
+        android:name="com.tradition.mobilevtkproject.screens.SelectedGlobalCompetitionFragment"
+        tools:layout="@layout/fragment_selected_global_competition"
+        android:label="fragment_selected_global_competition" />
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="com.tradition.mobilevtkproject.screens.AccountFragment"
+        tools:layout="@layout/fragment_account"
+        android:label="fragment_account"/>
+    <fragment
+        android:id="@+id/shopFragment"
+        android:name="com.tradition.mobilevtkproject.screens.ShopFragment"
+        tools:layout="@layout/fragment_shop"
+        android:label="fragment_shop"/>
+    <fragment
+        android:id="@+id/mainFragmentMap"
+        android:name="com.tradition.mobilevtkproject.screens.MainFragmentMap"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragmentMap_to_globalCompetitionsFragment"
+            app:destination="@id/globalCompetitionsFragment" />
+        <action
+            android:id="@+id/action_mainFragmentMap_to_regionFragment"
+            app:destination="@id/regionFragment" />
+        <action
+            android:id="@+id/action_mainFragmentMap_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgotPasswordFragment2"
+        android:name="com.tradition.mobilevtkproject.screens.ForgotPasswordFragment"
+        android:label="fragment_forgot_password"
+        tools:layout="@layout/fragment_forgot_password" />
+</navigation>

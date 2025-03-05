@@ -11,6 +11,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.tradition.mobilevtkproject.MAIN
+import com.tradition.mobilevtkproject.MainActivity
 import com.tradition.mobilevtkproject.MainActivity.Companion.getUserInfo
 import com.tradition.mobilevtkproject.R
 import com.tradition.mobilevtkproject.databinding.FragmentThirdBinding
@@ -35,7 +36,7 @@ class ThirdFragmentEmail : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.progressBar.setProgress(75)
+        binding.progressBar.progress = 75
 
         binding.continueButton.setOnClickListener{
             val email = binding.editTextEmail.text.toString().trim()
@@ -52,14 +53,14 @@ class ThirdFragmentEmail : Fragment() {
                         else{
                             currentUser.email = email
                             bundle.putSerializable("info", currentUser)
-                            MAIN.navController.navigate(R.id.action_thirdFragment_to_fourthFragment, bundle)
+                            (activity as? MainActivity)?.goFragment(null, FourthFragmentPass(), bundle)
                         }
                     }
                 }
             }
         }
         binding.imageButton.setOnClickListener{
-            MAIN.navController.popBackStack()
+            (activity as? MainActivity)?.onBackPressed()
         }
     }
     }

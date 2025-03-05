@@ -15,9 +15,11 @@ import com.google.firebase.ktx.Firebase
 import com.tradition.mobilevtkproject.Level
 import com.tradition.mobilevtkproject.User
 import com.tradition.mobilevtkproject.MAIN
+import com.tradition.mobilevtkproject.MainActivity
 import com.tradition.mobilevtkproject.R
 import com.tradition.mobilevtkproject.databinding.FragmentFourthBinding
 import com.tradition.mobilevtkproject.MainActivity.Companion.isPassValid
+import com.tradition.mobilevtkproject.MainActivity.Companion.successAuth
 
 @Suppress("DEPRECATION")
 class FourthFragmentPass : Fragment() {
@@ -36,7 +38,7 @@ class FourthFragmentPass : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.progressBar.setProgress(100)
+        binding.progressBar.progress = 100
 
         binding.continueButton.setOnClickListener{
             val pass = binding.editTextPass.text.toString().trim()
@@ -54,7 +56,6 @@ class FourthFragmentPass : Fragment() {
                     if(task.isSuccessful){
                         val db = Firebase.firestore
                         var id = auth.currentUser?.uid.toString()
-                        //bundle.putString("UserId", id)
                         db.collection("users")
                             .whereEqualTo("email", currentUser.email)
                             .get()
@@ -84,29 +85,18 @@ class FourthFragmentPass : Fragment() {
                             .addOnFailureListener { e ->
                                 Log.w(TAG, "Error getting documents: ", e)
                             }
-                        MAIN.navController.navigate(R.id.action_fourthFragment_to_mainFragment, bundle)
-                        var user = auth.currentUser
-                        Toast.makeText(MAIN, "Аккаунт ${user?.email} успешно создан", Toast.LENGTH_LONG).show()
+                        successAuth(auth.currentUser!!.email!!)
                     }
                 }.addOnFailureListener { exception ->
                     Toast.makeText(MAIN,"Нет подключения к интернету",Toast.LENGTH_LONG).show()
                 }
-                /*var db = AppDatabase.getInstance(MAIN)
-                lifecycleScope.launch {
-                    withContext(Dispatchers.IO) {
-                        db.getDao().insertItem(currentUser)
-                    }
-                    val user = db.getDao().getUserByEmail(currentUser.email)
-                    bundle.putInt("UserId", user?.id?.toInt() ?: -1)
-                    MAIN.navController.navigate(R.id.action_fourthFragment_to_mainFragment, bundle)
-                }*/
             }
 
 
 
         }
         binding.imageButton.setOnClickListener{
-            MAIN.navController.popBackStack()
+            (activity as? MainActivity)?.onBackPressed()
         }
     }
 

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
@@ -20,34 +21,21 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.FragmentActivity
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.tradition.mobilevtkproject.databinding.ActivityMainBinding
-import com.tradition.mobilevtkproject.screens.MainFragmentMap
 import kotlinx.coroutines.tasks.await
 import android.os.Handler
 import android.os.Looper
-import com.google.android.material.tabs.TabLayout
-import kotlin.properties.Delegates
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
+import com.tradition.mobilevtkproject.screens.StartFragment
 
 @Suppress("OVERRIDE_DEPRECATION")
-class MainActivity : AppCompatActivity(), MainFragmentMap.OnDataPass {
+class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
-    lateinit var navController: NavController
     val db = Firebase.firestore
-    var previousDest by Delegates.notNull<Int>()
-    var List0Dest = mutableListOf<Int>(
-        R.id.shopFragment
-    )
-    var List1Dest = mutableListOf<Int>(
-        R.id.mainFragment
-    )
-    var List2Dest = mutableListOf<Int>(
-        R.id.accountFragment
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,106 +43,12 @@ class MainActivity : AppCompatActivity(), MainFragmentMap.OnDataPass {
         binding = ActivityMainBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(binding.root)
-        navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
         MAIN = this
-
-        previousDest = navController.currentDestination?.id!!
-
-        navController.addOnDestinationChangedListener { controller, destination, arguments ->
-            val dest = navController.currentDestination?.id
-            if (dest == R.id.mainFragment) {
-                binding.tabLayout.visibility = View.VISIBLE
-            }
-            if (dest == R.id.startFragment) {
-                binding.tabLayout.visibility = View.GONE
-            }
-            if (dest == R.id.shopFragment || dest == R.id.mainFragment || dest == R.id.accountFragment) {
-                val position = binding.tabLayout.selectedTabPosition
-                when (position) {
-                    0 -> {List0Dest = mutableListOf<Int>(
-                        R.id.shopFragment
-                    )
-                    }
-                    1 -> {List1Dest = mutableListOf<Int>(
-                        R.id.mainFragment
-                    )
-                    }
-                    2 -> {List2Dest = mutableListOf<Int>(
-                        R.id.accountFragment
-                    )
-                    }
-                }
-            }
-            when (binding.tabLayout.selectedTabPosition) {
-                0 -> {
-                    if (previousDest != R.id.mainFragment && previousDest != R.id.accountFragment && previousDest != R.id.startFragment) {
-                        List0Dest.add(dest!!)
-                    }
-                }
-                1 -> {
-                    if (previousDest != R.id.shopFragment && previousDest != R.id.accountFragment && previousDest != R.id.startFragment) {
-                        List1Dest.add(dest!!)
-                    }
-                }
-                2 -> {
-                    if (previousDest != R.id.shopFragment && previousDest != R.id.mainFragment && previousDest != R.id.startFragment) {
-                        List2Dest.add(dest!!)
-                    }
-                }
-            }
-            previousDest = dest!!
-        }
-
-        binding.tabLayout.getTabAt(1)?.select()
-
-        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                val position = tab.position
-                when (position) {
-                    0 -> {
-                        /*binding.tabLayout.getTabAt(1)?.select()
-                        fireAlert()*/
-                        navController.navigate(List0Dest.last())
-                    }
-                    1 -> navController.navigate(List1Dest.last())
-                    2 -> {
-                        /*binding.tabLayout.getTabAt(1)?.select()
-                        fireAlert()*/
-                        navController.navigate(List2Dest.last())
-                    }
-                }
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab) {
-                //change icon's alpha
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab) {
-                val position = tab.position
-                when (position) {
-                    0 -> {List0Dest = mutableListOf<Int>(
-                        R.id.shopFragment
-                    )
-                        navController.navigate(List0Dest.last())
-                    }
-                    1 -> {List1Dest = mutableListOf<Int>(
-                        R.id.mainFragment
-                    )
-                        navController.navigate(List1Dest.last())
-                    }
-                    2 -> {List2Dest = mutableListOf<Int>(
-                        R.id.accountFragment
-                    )
-                        navController.navigate(List2Dest.last())
-                    }
-                }
-            }
-        })
 
         val descBolguri = "Деревня находится в восточной части республики, в подзоне южной тайги, у реки Позимь, на расстоянии примерно 14 километ" +
                 "ров (по прямой) юго-западнее города Воткинска, административного центра района. Рядом проходит автодорога Ижевск — Воткинск"
@@ -200,27 +94,23 @@ class MainActivity : AppCompatActivity(), MainFragmentMap.OnDataPass {
     alertDialog.show()
     }
 
+    fun goFragment(stackName: String?, fragment: Fragment, bundle: Bundle?){
+        supportFragmentManager.commit{
+            fragment.arguments = bundle
+            setReorderingAllowed(true)
+            replace(R.id.fragmentContainerView1, fragment)
+            addToBackStack(stackName)
+        }
+    }
+
     var f = 0
     @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
-        val dest = navController.currentDestination?.id
-        if (dest != R.id.shopFragment && dest != R.id.mainFragment && dest != R.id.accountFragment) {
-            val position = binding.tabLayout.selectedTabPosition
-            when (position) {
-                0 -> {
-                    navController.navigate(List0Dest.last())
-                    List0Dest.removeAt(List0Dest.lastIndex)
-                }
-                1 -> {
-                    navController.navigate(List1Dest[List1Dest.size-2])
-                    List1Dest.removeAt(List1Dest.lastIndex)
-                }
-                2 -> {
-                    navController.navigate(List2Dest.last())
-                    List2Dest.removeAt(List2Dest.lastIndex)
-                }
-            }
-        } else {
+        var currentFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView1)
+        if (currentFragment !is StartFragment) {
+            supportFragmentManager.popBackStack()
+        }
+        else {
             val toast = Toast.makeText(MAIN, "Нажмите еще раз для выхода", Toast.LENGTH_SHORT)
             f += 1
             if (f == 2) {
@@ -231,7 +121,7 @@ class MainActivity : AppCompatActivity(), MainFragmentMap.OnDataPass {
                 toast.show()
                 Handler(Looper.getMainLooper()).postDelayed({
                     toast.cancel()
-                }, 2000)
+                }, 1700)
                 Handler(Looper.getMainLooper()).postDelayed({
                     f = 0
                 }, 2000)
@@ -240,6 +130,12 @@ class MainActivity : AppCompatActivity(), MainFragmentMap.OnDataPass {
     }
 
     companion object {
+        fun successAuth(email: String){
+            val intent = Intent(MAIN, TransitionActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            MAIN.startActivity(intent)
+            Toast.makeText(MAIN, "Вы вошли как $email", Toast.LENGTH_LONG).show()
+        }
         suspend fun getUserInfo(id: String): Map<String?, Any?>? {
             val db = Firebase.firestore
 
@@ -255,22 +151,6 @@ class MainActivity : AppCompatActivity(), MainFragmentMap.OnDataPass {
                 null
             }
         }
-        /*suspend fun updateUserField(id: String, fieldName: String, newValue: Any) {
-            val db = Firebase.firestore
-
-            try {
-                val snapshot = db.collection("users").whereEqualTo("authId", id).get().await()
-                if (!snapshot.isEmpty) {
-                    val document = snapshot.documents[0]
-                    document.reference.update(fieldName, newValue).await()
-                    Log.d("Firestore", "Field updated successfully.")
-                } else {
-                    Log.w("Firestore", "No matching documents found.")
-                }
-            } catch (e: Exception) {
-                Log.w("Firestore", "Error updating document.", e)
-            }
-        }*/
         suspend fun userWithThisEmailExists(email: String): Boolean {
             val db = Firebase.firestore
             return try {
@@ -284,22 +164,22 @@ class MainActivity : AppCompatActivity(), MainFragmentMap.OnDataPass {
                 false
             }
         }
-        fun addRegion(RegionName: String, descReg: String, historyReg: String, sightList: List<SightItem>){
+        fun addRegion(regionName: String, descReg: String, historyReg: String, sightList: List<SightItem>){
             val db = Firebase.firestore
             db.collection("regions")
-                .whereEqualTo("regionName", RegionName)
+                .whereEqualTo("regionName", regionName)
                 .get()
                 .addOnSuccessListener { querySnapshot ->
                     if (querySnapshot.isEmpty) {
                         val region = hashMapOf(
-                            "regionName" to RegionName,
+                            "regionName" to regionName,
                             "regionDescription" to descReg,
                             "regionHistory" to historyReg
                         )
                         db.collection("regions")
                             .add(region)
                             .addOnSuccessListener { documentReference ->
-                                Log.d(TAG, "DocumentSnapshot added with regionName: $RegionName")
+                                Log.d(TAG, "DocumentSnapshot added with regionName: $regionName")
                                 for(item in sightList){
                                     val sight = hashMapOf(
                                         "sightName" to item.title,
@@ -321,7 +201,7 @@ class MainActivity : AppCompatActivity(), MainFragmentMap.OnDataPass {
                             }
                     }
                     else {
-                        Log.d(TAG, "Region with name $RegionName already exists.")
+                        Log.d(TAG, "Region with name $regionName already exists.")
                     }
                 }
                 .addOnFailureListener { e ->
@@ -329,7 +209,7 @@ class MainActivity : AppCompatActivity(), MainFragmentMap.OnDataPass {
                 }
         }
         fun isInternetAvailable(context: Context): Boolean {
-            val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val connectivityManager = context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
             val networkCapabilities = connectivityManager.activeNetwork?.let { connectivityManager.getNetworkCapabilities(it) }
             return networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
         }
@@ -339,6 +219,8 @@ class MainActivity : AppCompatActivity(), MainFragmentMap.OnDataPass {
         fun isPassValid(pass: String): Boolean {
             return (pass.length >= 8)
         }
+        @SuppressLint("DiscouragedApi")
+        @Suppress("DEPRECATION")
         fun setColors(act: FragmentActivity, colorName: String){
             act.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             act.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -348,7 +230,7 @@ class MainActivity : AppCompatActivity(), MainFragmentMap.OnDataPass {
             if (colorResId != 0) {
                 val color = ContextCompat.getColor(act, colorResId)
                 act.window.statusBarColor = color
-                act.window.navigationBarColor = Color.WHITE
+                act.window.navigationBarColor = color
             } else {
                 Log.e("setColors", "Color resource not found: $colorName")
             }
@@ -381,9 +263,6 @@ class MainActivity : AppCompatActivity(), MainFragmentMap.OnDataPass {
     }
 
 
-    override fun onDataPass(data: Int?) {
-        //id = data!!
-    }
 
 
 }

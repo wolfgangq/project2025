@@ -2,7 +2,7 @@ package com.tradition.mobilevtkproject.screens
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
@@ -15,17 +15,15 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.QueryDocumentSnapshot
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.tradition.mobilevtkproject.Item
-import com.tradition.mobilevtkproject.MAIN
+import com.tradition.mobilevtkproject.MAIN2
+import com.tradition.mobilevtkproject.MainActivity
 import com.tradition.mobilevtkproject.MainActivity.Companion.getUserInfo
 import com.tradition.mobilevtkproject.databinding.FragmentMainBinding
 import kotlinx.coroutines.launch
-import com.tradition.mobilevtkproject.MainActivity.Companion.setColors
+import com.tradition.mobilevtkproject.TransitionActivity.Companion.setColors
 import com.tradition.mobilevtkproject.R
+import com.tradition.mobilevtkproject.TransitionActivity
 
 class MainFragmentMap : Fragment() {
 
@@ -44,7 +42,7 @@ class MainFragmentMap : Fragment() {
 
         /*binding.imageButtonToOut.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
-                val drawable = ContextCompat.getDrawable(MAIN, R.drawable.arrow) as BitmapDrawable?
+                val drawable = ContextCompat.getDrawable(MAIN2, R.drawable.arrow) as BitmapDrawable?
 
                 if (drawable != null) {
                     val density = resources.displayMetrics.density
@@ -63,7 +61,6 @@ class MainFragmentMap : Fragment() {
 
         val auth = FirebaseAuth.getInstance()
         var regionId = ""
-        //sendDataToActivity(id)
 
         val items = arrayListOf<Item>()
         items.add(Item("Воткинск", "Город Воткинск"))
@@ -80,50 +77,24 @@ class MainFragmentMap : Fragment() {
         items.add(Item("Новый", "Поселок Новый"))
         items.add(Item("Камское", "Село Камское"))
 
-
-        /*
-        val popupView = layoutInflater.inflate(R.layout.popup_menu, null)
-        val popupWindow = PopupWindow(
-            popupView,
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
-        )
-
-        popupWindow.setBackgroundDrawable(ColorDrawable(Color.WHITE))
-
-        popupWindow.isFocusable = true
-
-        popupView.findViewById<TextView>(R.id.action_one).setOnClickListener {
-            Toast.makeText(MAIN, "Action One clicked", Toast.LENGTH_SHORT).show()
-            popupWindow.dismiss()
+        binding.imageButtonSettings.setOnClickListener{
+            (activity as? TransitionActivity)?.goFragment("Map", SettingsFragment(), null)
         }
-        popupView.findViewById<TextView>(R.id.action_two).setOnClickListener {
-            Toast.makeText(MAIN, "Action Two clicked", Toast.LENGTH_SHORT).show()
-            popupWindow.dismiss()
-        }
-        binding.imageButtonAccount.setOnClickListener{
-            popupWindow.showAsDropDown(binding.imageButtonAccount)
-        }
-        */
 
-        val popupMenu = PopupMenu(MAIN, binding.imageButtonAccount)
+
+        /*val popupMenu = PopupMenu(requireActivity(), binding.imageButtonAccount)
         popupMenu.inflate(R.menu.popupmenu)
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.settings -> {
-                    lifecycleScope.launch {
-                        //val curUser = db.collection("users").document(id)
-                        //bundle.putSerializable("info", curUser as Serializable?)
-                        MAIN.navController.navigate(R.id.action_mainFragment_to_settingsFragment)
-                    }
+                    (activity as? TransitionActivity)?.goFragment("Map", SettingsFragment(), null)
                 }
                 R.id.checkBalance -> {
                     lifecycleScope.launch {
-                        //val curUser = db.getDao().getUserById(id)
                         val auth = FirebaseAuth.getInstance()
                         var id = auth.currentUser?.uid
                         var currentUser = getUserInfo(id.toString())
-                        val builder = AlertDialog.Builder(MAIN)
+                        val builder = AlertDialog.Builder(MAIN2)
                         builder.setTitle("Баланс")
                             .setMessage("Ваш текущий баланс: ${currentUser!!["balance"]} зернышек")
 
@@ -135,8 +106,10 @@ class MainFragmentMap : Fragment() {
                 }
                 R.id.logOut -> {
                     auth.signOut()
-                    MAIN.navController.navigate(R.id.action_mainFragment_to_startFragment)
-                    Toast.makeText(MAIN, "Вы вышли из аккаунта", Toast.LENGTH_LONG).show()
+                    val intent = Intent(MAIN2, MainActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    MAIN2.startActivity(intent)
+                    Toast.makeText(MAIN2, "Вы вышли из аккаунта", Toast.LENGTH_LONG).show()
                 }
             }
             false
@@ -148,9 +121,9 @@ class MainFragmentMap : Fragment() {
 
         binding.imageButtonAccount.setOnClickListener {
             popupMenu.show()
-        }
+        }*/
         binding.buttonCompetitions.setOnClickListener{
-            val builder = AlertDialog.Builder(MAIN)
+            val builder = AlertDialog.Builder(MAIN2)
             builder.setTitle("")
                 .setMessage("Еще не реализовано")
 
@@ -237,41 +210,14 @@ class MainFragmentMap : Fragment() {
 
         binding.button.setOnClickListener{
             bundle.putString("RegionName", regionId)
-            MAIN.navController.navigate(R.id.action_mainFragment_to_regionFragment, bundle)
+            (activity as? TransitionActivity)?.goFragment("Map", RegionFragment(), bundle)
         }
 
-        /*
-        if(id != -1){
-            binding.imageButtonToOut.setImageResource(R.drawable.logout)
-            lifecycleScope.launch {
-                val curUser = db.getDao().getUserById(id)
-                binding.textViewInfo.text = "${curUser?.id} \n ${curUser?.email} \n ${curUser?.accessLevel} \n ${curUser?.pass} \n ${curUser?.name} \n ${curUser?.surname} \n ${curUser?.age}"
-            }
-        }
-        else{
-            binding.textViewInfo.text = "Не авторизован"
-        }
-         */
     }
 
     override fun onResume() {
         super.onResume()
         setColors(requireActivity(), "mainGreen")
-    }
-
-    interface OnDataPass {
-        fun onDataPass(data: Int?)
-    }
-
-    private lateinit var dataPasser: OnDataPass
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        dataPasser = context as OnDataPass
-    }
-
-    private fun sendDataToActivity(id: Int?) {
-        dataPasser.onDataPass(id)
     }
 
 }

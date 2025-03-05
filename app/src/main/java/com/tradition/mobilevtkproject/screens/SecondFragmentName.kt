@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.tradition.mobilevtkproject.MAIN
+import com.tradition.mobilevtkproject.MainActivity
 import com.tradition.mobilevtkproject.R
 import com.tradition.mobilevtkproject.User
 import com.tradition.mobilevtkproject.databinding.FragmentSecondBinding
@@ -27,7 +28,7 @@ class SecondFragmentName : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.progressBar.setProgress(50)
+        binding.progressBar.progress = 50
 
         binding.continueButton.setOnClickListener{
             val name = binding.editTextName.text.toString().trim()
@@ -41,13 +42,13 @@ class SecondFragmentName : Fragment() {
                 currentUser.name = name
                 currentUser.surname = surname
                 bundle.putSerializable("info", currentUser)
-                MAIN.navController.navigate(R.id.action_secondFragment_to_thirdFragment, bundle)
+                (activity as? MainActivity)?.goFragment(null, ThirdFragmentEmail(), bundle)
             }
 
 
         }
         binding.imageButton.setOnClickListener{
-            MAIN.navController.popBackStack()
+            (activity as? MainActivity)?.onBackPressed()
         }
     }
 

@@ -19,15 +19,16 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.firestore
-import com.tradition.mobilevtkproject.MAIN
+import com.tradition.mobilevtkproject.MAIN2
 import com.tradition.mobilevtkproject.MainActivity.Companion.getUserInfo
 import com.tradition.mobilevtkproject.MainActivity.Companion.isPassValid
-import com.tradition.mobilevtkproject.MainActivity.Companion.setColors
+import com.tradition.mobilevtkproject.TransitionActivity.Companion.setColors
 import com.tradition.mobilevtkproject.databinding.FragmentSettingsBinding
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlin.toString
 import com.tradition.mobilevtkproject.R
+import com.tradition.mobilevtkproject.TransitionActivity
 
 class SettingsFragment : Fragment() {
 
@@ -52,7 +53,7 @@ class SettingsFragment : Fragment() {
                 val constraintHeight = binding.textViewSize.height
                 val constraintWidth = binding.textViewSize.width
 
-                binding.textViewBalance.height = (constraintHeight * 0.04).toInt()
+                //binding.textViewBalance.height = (constraintHeight * 0.04).toInt()
 
                 val c1 = (constraintHeight * 0.03).toInt()
                 binding.textViewName.height = c1
@@ -83,7 +84,7 @@ class SettingsFragment : Fragment() {
             }
         })
         binding.imageButtonBack.setOnClickListener {
-            MAIN.navController.popBackStack()
+            (activity as? TransitionActivity)?.onBackPressed()
         }
         binding.buttonSaveChanges.setOnClickListener{
             lifecycleScope.launch {
@@ -128,10 +129,10 @@ class SettingsFragment : Fragment() {
                         }
 
                         if(k == 3){
-                            Toast.makeText(MAIN, "Введите изменения", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(MAIN2, "Введите изменения", Toast.LENGTH_SHORT).show()
                         }
                         else{
-                            Toast.makeText(MAIN, "Изменения применены", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(MAIN2, "Изменения применены", Toast.LENGTH_SHORT).show()
                         }
                         Log.d("Firestore", "Field updated successfully.")
                     }
@@ -272,33 +273,33 @@ class SettingsFragment : Fragment() {
             val oldpass = binding.editTextOldPass.text.toString()
             val newpass = binding.editTextNewPass.text.toString()
             if(oldpass == "" || newpass == ""){
-                Toast.makeText(MAIN, "Поля не могут быть пустыми", Toast.LENGTH_SHORT).show()
+                Toast.makeText(MAIN2, "Поля не могут быть пустыми", Toast.LENGTH_SHORT).show()
             }
             else if(oldpass == newpass){
-                Toast.makeText(MAIN, "Старый и новый пароли не могут совпадать", Toast.LENGTH_SHORT).show()
+                Toast.makeText(MAIN2, "Старый и новый пароли не могут совпадать", Toast.LENGTH_SHORT).show()
             }
             else if(newpass.length > 40){
-                Toast.makeText(MAIN, "Новый пароль слишком длинный", Toast.LENGTH_SHORT).show()
+                Toast.makeText(MAIN2, "Новый пароль слишком длинный", Toast.LENGTH_SHORT).show()
             }
             else if(!isPassValid(newpass)){
-                Toast.makeText(MAIN, "Новый пароль должен быть не менее 8 символов", Toast.LENGTH_SHORT).show()
+                Toast.makeText(MAIN2, "Новый пароль должен быть не менее 8 символов", Toast.LENGTH_SHORT).show()
             }
             else{
                 val credential = EmailAuthProvider.getCredential(user?.email.toString(), oldpass)
                 user?.reauthenticate(credential)?.addOnSuccessListener {
                     Log.d(TAG, "User re-authenticated.")
                     user?.updatePassword(newpass)
-                    Toast.makeText(MAIN, "Пароль успешно сменен", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(MAIN2, "Пароль успешно сменен", Toast.LENGTH_SHORT).show()
                     binding.editTextOldPass.setText("")
                     binding.editTextNewPass.setText("")
                 }?.addOnFailureListener{
-                    Toast.makeText(MAIN, "Не удалось сменить пароль", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(MAIN2, "Не удалось сменить пароль", Toast.LENGTH_SHORT).show()
                 }
             }
         }
         binding.textViewForgotPass2.setOnClickListener{
             bundle.putString("Email", binding.editTextEmail2.text.toString())
-            MAIN.navController.navigate(R.id.action_settingsFragment_to_forgotPasswordFragment, bundle)
+            (activity as? TransitionActivity)?.goFragment("Map", ForgotPasswordFragment(), bundle)
         }
         lifecycleScope.launch {
             val auth = FirebaseAuth.getInstance()
@@ -308,7 +309,6 @@ class SettingsFragment : Fragment() {
             binding.editTextSurname2.setText(currentUser?.get("surname").toString())
             binding.editTextEmail2.setText(currentUser?.get("email").toString())
             binding.editTextAge2.setText(currentUser?.get("age").toString())
-            binding.textViewBalance.text = "Ваш баланс: ${currentUser?.get("balance")} зернышек"
         }
     }
 

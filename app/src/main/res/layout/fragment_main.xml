@@ -10,14 +10,14 @@
     tools:context=".screens.MainFragmentMap">
 
     <ImageButton
-        android:id="@+id/imageButtonAccount"
+        android:id="@+id/imageButtonSettings"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@null"
         android:scaleType="fitCenter"
-        android:src="@drawable/menu"
+        android:src="@drawable/settings"
         android:visibility="visible"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"

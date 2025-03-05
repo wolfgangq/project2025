@@ -12,7 +12,9 @@ import androidx.lifecycle.lifecycleScope
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import com.tradition.mobilevtkproject.MAIN
+import com.tradition.mobilevtkproject.MAIN2
 import com.tradition.mobilevtkproject.R
+import com.tradition.mobilevtkproject.TransitionActivity
 import com.tradition.mobilevtkproject.databinding.FragmentRegionHistoryBinding
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -36,7 +38,7 @@ class RegionHistoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val regionName = arguments?.getString("RegionName")
         var regionHistory = ""
-        binding.textViewRegionName.text = regionName
+        binding.textViewEventTitle.text = "История [$regionName]"
         lifecycleScope.launch {
             val snapshot = db.collection("regions").whereEqualTo("regionName", regionName).get().await()
             if (!snapshot.isEmpty) {
@@ -46,7 +48,7 @@ class RegionHistoryFragment : Fragment() {
             }
         }
         binding.imageButtonBack.setOnClickListener {
-            MAIN.navController.popBackStack()
+            (activity as? TransitionActivity)?.onBackPressed()
         }
         }
     }

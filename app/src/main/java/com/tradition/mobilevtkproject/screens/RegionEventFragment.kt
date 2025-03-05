@@ -15,7 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
-import com.tradition.mobilevtkproject.MAIN
+import com.tradition.mobilevtkproject.MAIN2
 import com.tradition.mobilevtkproject.R
 import com.tradition.mobilevtkproject.SightItem
 import com.tradition.mobilevtkproject.databinding.FragmentRegionEventBinding
@@ -23,6 +23,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import android.os.Handler
 import android.os.Looper
+import com.tradition.mobilevtkproject.TransitionActivity
 
 class RegionEventFragment : Fragment() {
 
@@ -72,7 +73,7 @@ class RegionEventFragment : Fragment() {
 
     }
     private fun populateCards() {
-        val inflater = LayoutInflater.from(MAIN)
+        val inflater = LayoutInflater.from(MAIN2)
 
         for (item in sightItems) {
             val view = inflater.inflate(R.layout.sight_item_layout, binding.LinearLayoutSightsContainer, false)
@@ -92,8 +93,8 @@ class RegionEventFragment : Fragment() {
     private fun onItemClick(item: SightItem) {
         bundle = Bundle()
         bundle.putString("SightName", item.title)
-        MAIN.navController.navigate(R.id.action_regionEventFragment_to_settingsFragment, bundle)
-        val toast = Toast.makeText(MAIN, "Вы нажали на ${item.title}", Toast.LENGTH_SHORT)
+        (activity as? TransitionActivity)?.goFragment("Map", SettingsFragment(), bundle) //!!!
+        val toast = Toast.makeText(MAIN2, "Вы нажали на ${item.title}", Toast.LENGTH_SHORT)
         toast.show()
         Handler(Looper.getMainLooper()).postDelayed({
             toast.cancel()
@@ -158,7 +159,7 @@ class RegionEventFragment : Fragment() {
             }
         }
         binding.imageButtonBack.setOnClickListener {
-            MAIN.navController.popBackStack()
+            (activity as? TransitionActivity)?.onBackPressed()
         }
     }
 }

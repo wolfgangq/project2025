@@ -69,7 +69,7 @@ class ForgotPasswordFragment : Fragment() {
             }
         }
         binding.imageButton.setOnClickListener{
-            MAIN.navController.popBackStack()
+            //MAIN.navController.popBackStack()
         }
     }
 

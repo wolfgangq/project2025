@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.tradition.mobilevtkproject.MAIN
+import com.tradition.mobilevtkproject.MainActivity
 import com.tradition.mobilevtkproject.MainActivity.Companion.setColors
 import com.tradition.mobilevtkproject.MainActivity.Companion.setLightStatusBar
 import com.tradition.mobilevtkproject.R
@@ -29,7 +30,7 @@ class FirstFragmentAge : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.progressBar.setProgress(25)
+        binding.progressBar.progress = 25
         binding.continueButton.setOnClickListener{
             val age = binding.editTextAge.text.toString().trim()
             if(age == ""){
@@ -42,13 +43,13 @@ class FirstFragmentAge : Fragment() {
             else{
                 currentUser.age = age.toInt()
                 bundle.putSerializable("info", currentUser)
-                MAIN.navController.navigate(R.id.action_firstFragment_to_secondFragment, bundle)
+                (activity as? MainActivity)?.goFragment(null, SecondFragmentName(), bundle)
             }
 
 
         }
         binding.imageButton.setOnClickListener{
-            MAIN.navController.popBackStack()
+            (activity as? MainActivity)?.onBackPressed()
         }
     }
 

@@ -12,8 +12,9 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
-import com.tradition.mobilevtkproject.MAIN
+import com.tradition.mobilevtkproject.MAIN2
 import com.tradition.mobilevtkproject.R
+import com.tradition.mobilevtkproject.TransitionActivity
 import com.tradition.mobilevtkproject.databinding.FragmentRegionBinding
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -46,17 +47,17 @@ class RegionFragment : Fragment() {
             regionName = arguments?.getString("RegionName").toString()
         }
         binding.imageButtonBack.setOnClickListener {
-            MAIN.navController.popBackStack()
+            (activity as? TransitionActivity)?.onBackPressed()
         }
         binding.buttonEvent.setOnClickListener{
             bundle.putString("RegionName", regionName)
-            MAIN.navController.navigate(R.id.action_regionFragment_to_regionEventFragment, bundle)
+            (activity as? TransitionActivity)?.goFragment("Map", RegionEventFragment(), bundle)
         }
         binding.buttonHistory.setOnClickListener{
             bundle.putString("RegionName", regionName)
-            MAIN.navController.navigate(R.id.action_regionFragment_to_regionHistoryFragment, bundle)
+            (activity as? TransitionActivity)?.goFragment("Map", RegionHistoryFragment(), bundle)
         }
-        binding.textViewRegionName.setText(regionName)
+        binding.textViewRegionName.text = regionName
         var desc = ""
         lifecycleScope.launch {
             val snapshot = db.collection("regions").whereEqualTo("regionName", regionName).get().await()
