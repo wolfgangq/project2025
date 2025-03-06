@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -18,16 +17,16 @@ import com.google.firebase.firestore.firestore
 import com.tradition.mobilevtkproject.MAIN2
 import com.tradition.mobilevtkproject.R
 import com.tradition.mobilevtkproject.SightItem
-import com.tradition.mobilevtkproject.databinding.FragmentRegionEventBinding
+import com.tradition.mobilevtkproject.databinding.FragmentRegionActivitiesBinding
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import android.os.Handler
 import android.os.Looper
 import com.tradition.mobilevtkproject.TransitionActivity
 
-class RegionEventFragment : Fragment() {
+class RegionActivitiesFragment : Fragment() {
 
-    lateinit var binding: FragmentRegionEventBinding
+    lateinit var binding: FragmentRegionActivitiesBinding
     val db = Firebase.firestore
     lateinit var bundle: Bundle
     lateinit var sightItems: MutableList<SightItem>
@@ -37,7 +36,7 @@ class RegionEventFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentRegionEventBinding.inflate(layoutInflater, container, false)
+        binding = FragmentRegionActivitiesBinding.inflate(layoutInflater, container, false)
         regionName = arguments?.getString("RegionName").toString()
         lifecycleScope.launch {
             try {

@@ -40,8 +40,8 @@
     </fragment>
     <fragment
         android:id="@+id/regionEventFragment"
-        android:name="com.tradition.mobilevtkproject.screens.RegionEventFragment"
-        tools:layout="@layout/fragment_region_event"
+        android:name="com.tradition.mobilevtkproject.screens.RegionActivitiesFragment"
+        tools:layout="@layout/fragment_region_activities"
         android:label="fragment_region_event">
         <action
             android:id="@+id/action_regionEventFragment_to_settingsFragment"
