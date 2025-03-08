@@ -37,7 +37,7 @@ class StartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonToAuth.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+        /*binding.buttonToAuth.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
 
                 /*
@@ -56,7 +56,7 @@ class StartFragment : Fragment() {
 
                 binding.buttonToAuth.viewTreeObserver.removeOnGlobalLayoutListener(this)
             }
-        })
+        })*/
 
         binding.buttonToReg.setOnClickListener{
             if(isInternetAvailable(MAIN)){

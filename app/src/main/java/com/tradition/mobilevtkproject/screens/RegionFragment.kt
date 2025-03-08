@@ -13,6 +13,7 @@ import com.tradition.mobilevtkproject.TransitionActivity
 import com.tradition.mobilevtkproject.databinding.FragmentRegionBinding
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import com.tradition.mobilevtkproject.R
 
 class RegionFragment : Fragment() {
 
@@ -40,6 +41,9 @@ class RegionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         if (regionName == ""){
             regionName = arguments?.getString("RegionName").toString()
+        }
+        if (regionName == "Болгуры"){
+            binding.imageViewRegion.setImageResource(R.drawable.bolguri)
         }
         binding.imageButtonBack.setOnClickListener {
             (activity as? TransitionActivity)?.onBackPressed()

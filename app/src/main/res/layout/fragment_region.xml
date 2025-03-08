@@ -101,7 +101,6 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/usadba"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.25"

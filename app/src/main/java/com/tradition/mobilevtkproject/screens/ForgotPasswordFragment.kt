@@ -2,6 +2,7 @@ package com.tradition.mobilevtkproject.screens
 
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -13,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.tradition.mobilevtkproject.MAIN
+import com.tradition.mobilevtkproject.MainActivity
 import com.tradition.mobilevtkproject.R
 import com.tradition.mobilevtkproject.databinding.FragmentForgotPasswordBinding
 import com.tradition.mobilevtkproject.MainActivity.Companion.isPassValid
@@ -20,6 +22,7 @@ import com.tradition.mobilevtkproject.MainActivity.Companion.isEmailValid
 import com.tradition.mobilevtkproject.MainActivity.Companion.setColors
 import com.tradition.mobilevtkproject.MainActivity.Companion.setLightStatusBar
 import com.tradition.mobilevtkproject.MainActivity.Companion.toDefaultColors
+import com.tradition.mobilevtkproject.TransitionActivity
 
 class ForgotPasswordFragment : Fragment() {
     lateinit var binding: FragmentForgotPasswordBinding
@@ -37,8 +40,8 @@ class ForgotPasswordFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val PrevEmail = arguments?.getString("Email")
-        binding.editTextEmail.setText(PrevEmail)
+        val prevEmail = arguments?.getString("Email")
+        binding.editTextEmail.setText(prevEmail)
 
         binding.buttonSendEmail.setOnClickListener{
             val gotEmail = binding.editTextEmail.text.toString()
@@ -69,7 +72,12 @@ class ForgotPasswordFragment : Fragment() {
             }
         }
         binding.imageButton.setOnClickListener{
-            //MAIN.navController.popBackStack()
+            if (requireActivity() is MainActivity){
+                (activity as? MainActivity)?.onBackPressed()
+            }
+            else if (requireActivity() is TransitionActivity){
+                (activity as? TransitionActivity)?.onBackPressed()
+            }
         }
     }
 
@@ -82,6 +90,9 @@ class ForgotPasswordFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         setColors(requireActivity(), "darkGreen")
+        if (requireActivity() is TransitionActivity){
+            requireActivity().window.navigationBarColor = Color.WHITE
+        }
     }
 }
 

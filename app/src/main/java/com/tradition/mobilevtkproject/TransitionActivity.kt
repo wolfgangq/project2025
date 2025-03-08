@@ -22,9 +22,6 @@ import com.tradition.mobilevtkproject.screens.AccountFragment
 import com.tradition.mobilevtkproject.screens.MainFragmentMap
 import com.tradition.mobilevtkproject.screens.ShopFragment
 
-//main start second
-// |     |     |
-//shop main settings
 
 @Suppress("OVERRIDE_DEPRECATION")
 class TransitionActivity : AppCompatActivity() {
@@ -151,8 +148,16 @@ class TransitionActivity : AppCompatActivity() {
         }
     }
 
-    fun goFragment(stackName: String, fragment: Fragment, bundle: Bundle?){
+    fun goFragment(stackName: String, fragment: Fragment, bundle: Bundle?, bool: Boolean? = true){
         supportFragmentManager.commit{
+            if (bool == true){
+                setCustomAnimations(
+                    0,//R.anim.slide_in, // enter
+                    0,//R.anim.fade_out, // exit
+                    R.anim.fade_in, // popEnter
+                    R.anim.slide_out // popExit
+                )
+            }
             fragment.arguments = bundle
             setReorderingAllowed(true)
             replace(R.id.fragmentContainerView, fragment)
@@ -161,6 +166,8 @@ class TransitionActivity : AppCompatActivity() {
     }
 
     companion object{
+        @SuppressLint("DiscouragedApi")
+        @Suppress("DEPRECATION")
         fun setColors(act: FragmentActivity, colorName: String){
             act.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             act.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
