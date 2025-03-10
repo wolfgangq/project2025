@@ -1,6 +1,7 @@
 package com.tradition.mobilevtkproject
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -41,7 +42,45 @@ class TransitionActivity : AppCompatActivity() {
         }
         MAIN2 = this
 
+        val builder = AlertDialog.Builder(MAIN2)
+        builder.setTitle("Информация")
+            .setMessage("Уважаемый пользователь! Данное приложение находится на стадии активной разработки.\nНа " +
+                    "данный момент доступны лишь такие территориальные образования, как: Болгуринский, Светлянский.\nОтнеситесь к этому с пониманием!")
+
+        builder.setPositiveButton("Ок(3)") { dialog, which ->
+        }
+        val alertDialog = builder.create()
+        alertDialog.setCancelable(false)
+        alertDialog.show()
+
+        val button = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+        button.isEnabled = false
+        var countdown = 3
+
+        val handler = Handler(Looper.getMainLooper())
+
+        val runnable = object : Runnable {
+            override fun run() {
+                if (countdown > 0) {
+                    button.text = "ОК($countdown)"
+                    countdown--
+                    handler.postDelayed(this, 1000)
+                } else {
+                    button.text = "ОК"
+                    button.isEnabled = true
+                    alertDialog.setCancelable(true)
+                }
+            }
+        }
+
+// Запускаем обратный отсчет
+        handler.post(runnable)
+
         binding.tabLayout.getTabAt(1)?.select()
+
+        binding.tabLayout.getTabAt(0)?.icon!!.alpha = 70
+        binding.tabLayout.getTabAt(1)?.icon!!.alpha = 250
+        binding.tabLayout.getTabAt(2)?.icon!!.alpha = 70
 
         val tab1 = "Shop"
         val tab2 = "Map"
@@ -50,12 +89,14 @@ class TransitionActivity : AppCompatActivity() {
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 val position = tab.position
+                tab.icon!!.alpha = 250
                 when (position) {
                     0 -> {
                         goLastFragment(tab1, ShopFragment())
                         }
                     1 -> {
                         goLastFragment(tab2, MainFragmentMap())
+                        tab.setIcon(R.drawable.map_icon)
                     }
                     2 -> {
                         goLastFragment(tab3, AccountFragment())
@@ -65,6 +106,7 @@ class TransitionActivity : AppCompatActivity() {
 
             override fun onTabUnselected(tab: TabLayout.Tab) {
                 val position = tab.position
+                tab.icon!!.alpha = 70
                 when (position) {
                     0 -> {
                         prevStack = tab1
@@ -74,6 +116,8 @@ class TransitionActivity : AppCompatActivity() {
                     }
                     1 -> {
                         prevStack = tab2
+                        tab.setIcon(R.drawable.unselected_map)
+                        tab.icon!!.alpha = 70
                         supportFragmentManager.commit{
                             supportFragmentManager.saveBackStack(tab2)
                         }

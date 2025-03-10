@@ -9,17 +9,33 @@
     tools:context=".screens.AccountFragment">
 
 
+    <ImageButton
+        android:id="@+id/imageButtonSettings"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:src="@drawable/settings"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewEventTitle"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.045"
+        app:layout_constraintTop_toTopOf="@+id/textViewEventTitle" />
+
     <Button
         android:id="@+id/buttonLogOut"
         style="@style/CustomButtonStyle"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:backgroundTint="#F02323"
         android:text="Выйти из аккаунта"
         app:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.07"
+        app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewDivider2" />
 
@@ -64,5 +80,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textViewEventTitle"
         app:layout_constraintWidth_percent="0.08" />
+
+    <Button
+        android:id="@+id/button2"
+        style="@style/CustomSignOut"
+        android:layout_width="44dp"
+        android:layout_height="41dp"
+        android:visibility="gone"
+        app:icon="@drawable/settings"
+        app:iconGravity="textTop"
+        app:iconPadding="0dp"
+        app:iconTint="#60575050"
+        app:iconTintMode="src_atop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.65"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.281"
+        app:rippleColor="@color/lightBlue" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

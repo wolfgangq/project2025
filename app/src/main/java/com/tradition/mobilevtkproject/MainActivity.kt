@@ -72,19 +72,19 @@ class MainActivity : AppCompatActivity() {
             SightItem("Card 5", "Description 5", "https://cdn.culture.ru/images/dd356c8e-8357-53fd-b5a5-53f0ebbd41b9"),
         )
 
-        val descKukui = "[Описание Кукуи]"
-        val historyKukui = "[История Кукуи]"
-        val sightsListKukui = mutableListOf<SightItem>()
+        val descSvetloe = "[Описание Кукуи]"
+        val historySvetloe = "[История Кукуи]"
+        val sightsListSvetloe = mutableListOf<SightItem>()
 
         addRegion("Болгуры", descBolguri, historyBolguri, sightsListBolguri)
-        addRegion("Кукуи", descKukui, historyKukui, sightsListKukui)
+        addRegion("Светлое", descSvetloe, historySvetloe, sightsListSvetloe)
     }
 
 //main start second
 // |     |     |
 //shop main account(settings)
     fun fireAlert(){
-    val builder = AlertDialog.Builder(MAIN)
+    val builder = AlertDialog.Builder(MAIN2)
     builder.setTitle("")
         .setMessage("Еще не реализовано")
 

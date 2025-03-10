@@ -15,6 +15,7 @@ import com.tradition.mobilevtkproject.MAIN
 import com.tradition.mobilevtkproject.MAIN2
 import com.tradition.mobilevtkproject.MainActivity
 import com.tradition.mobilevtkproject.R
+import com.tradition.mobilevtkproject.TransitionActivity
 import com.tradition.mobilevtkproject.databinding.FragmentAccountBinding
 
 class AccountFragment : Fragment() {
@@ -36,6 +37,10 @@ class AccountFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.imageButtonSettings.setOnClickListener{
+            (activity as? TransitionActivity)?.goFragment("Account", SettingsFragment(), null)
+        }
         binding.buttonLogOut.setOnClickListener{
             auth.signOut()
             val intent = Intent(MAIN2, MainActivity::class.java)

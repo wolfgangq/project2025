@@ -77,9 +77,6 @@ class MainFragmentMap : Fragment() {
         items.add(Item("Новый", "Поселок Новый"))
         items.add(Item("Камское", "Село Камское"))
 
-        binding.imageButtonSettings.setOnClickListener{
-            (activity as? TransitionActivity)?.goFragment("Map", SettingsFragment(), null)
-        }
 
 
         /*val popupMenu = PopupMenu(requireActivity(), binding.imageButtonAccount)
@@ -135,7 +132,7 @@ class MainFragmentMap : Fragment() {
 
 
         var k = 0
-        binding.textViewInfo.addTextChangedListener(object : TextWatcher {
+        /*binding.textViewInfo.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 k += 1
             }
@@ -153,59 +150,72 @@ class MainFragmentMap : Fragment() {
             override fun afterTextChanged(s: Editable?) {
 
             }
-        })
+        })*/
 
         binding.imageButtonVtk.setOnClickListener{
             regionId = "Воткинск"
             binding.textViewInfo.text = items.find{it.name == "Воткинск"}?.description.toString()
+            binding.button.visibility = View.INVISIBLE
         }
         binding.imageButtonKukui.setOnClickListener{
             regionId = "Кукуи"
             binding.textViewInfo.text = items.find{it.name == "Кукуи"}?.description.toString()
+            binding.button.visibility = View.INVISIBLE
         }
         binding.imageButtonNoviy.setOnClickListener{
             regionId = "Новый"
             binding.textViewInfo.text = items.find{it.name == "Новый"}?.description.toString()
+            binding.button.visibility = View.INVISIBLE
         }
         binding.imageButtonBolguri.setOnClickListener{
             regionId = "Болгуры"
             binding.textViewInfo.text = items.find{it.name == "Болгуры"}?.description.toString()
+            binding.button.visibility = View.VISIBLE
         }
         binding.imageButtonBolshayaKivara.setOnClickListener{
             regionId = "Большая Кивара"
             binding.textViewInfo.text = items.find{it.name == "Большая Кивара"}?.description.toString()
+            binding.button.visibility = View.INVISIBLE
         }
         binding.imageButtonGavrilovka.setOnClickListener{
             regionId = "Гавриловка"
             binding.textViewInfo.text = items.find{it.name == "Гавриловка"}?.description.toString()
+            binding.button.visibility = View.INVISIBLE
         }
         binding.imageButtonSvetloe.setOnClickListener{
             regionId = "Светлое"
             binding.textViewInfo.text = items.find{it.name == "Светлое"}?.description.toString()
+            binding.button.visibility = View.VISIBLE
         }
         binding.imageButtonIulskoe.setOnClickListener{
             regionId = "Июльское"
             binding.textViewInfo.text = items.find{it.name == "Июльское"}?.description.toString()
+            binding.button.visibility = View.INVISIBLE
         }
         binding.imageButtonKamskoe.setOnClickListener{
             regionId = "Камское"
             binding.textViewInfo.text = items.find{it.name == "Камское"}?.description.toString()
+            binding.button.visibility = View.INVISIBLE
         }
         binding.imageButtonKvarsa.setOnClickListener{
             regionId = "Кварса"
             binding.textViewInfo.text = items.find{it.name == "Кварса"}?.description.toString()
+            binding.button.visibility = View.INVISIBLE
         }
         binding.imageButtonPerevoznoe.setOnClickListener{
             regionId = "Перевозное"
             binding.textViewInfo.text = items.find{it.name == "Перевозное"}?.description.toString()
+            binding.button.visibility = View.INVISIBLE
         }
         binding.imageButtonPervomaiskoe.setOnClickListener{
             regionId = "Первомайское"
             binding.textViewInfo.text = items.find{it.name == "Первомайское"}?.description.toString()
+            binding.button.visibility = View.INVISIBLE
         }
         binding.imageButtonVerhnyayaTalitsa.setOnClickListener{
             regionId = "Верхняя Талица"
             binding.textViewInfo.text = items.find{it.name == "Верхняя Талица"}?.description.toString()
+            binding.button.visibility = View.INVISIBLE
         }
 
         binding.button.setOnClickListener{
