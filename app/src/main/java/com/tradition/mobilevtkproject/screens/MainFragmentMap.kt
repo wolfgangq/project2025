@@ -176,7 +176,7 @@ class MainFragmentMap : Fragment() {
         binding.imageButtonSvetloe.setOnClickListener{
             regionName = "Светлое"
             binding.textViewInfo.text = regions[regionName]
-            binding.button.visibility = View.VISIBLE
+            binding.button.visibility = View.INVISIBLE
         }
         binding.imageButtonIulskoe.setOnClickListener{
             regionName = "Июльское"
