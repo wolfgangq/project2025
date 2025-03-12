@@ -1,7 +1,9 @@
 package com.tradition.mobilevtkproject
 
 enum class Level {
-    TopAdmin,
+    Creator,
+    SeniorAdmin,
     Admin,
+    Moderator,
     RegularUser
 }

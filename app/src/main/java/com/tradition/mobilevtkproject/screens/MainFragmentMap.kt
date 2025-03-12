@@ -2,28 +2,19 @@ package com.tradition.mobilevtkproject.screens
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.Intent
-import android.os.Build
+import android.graphics.Color
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
-import android.widget.Toast
-import androidx.lifecycle.lifecycleScope
-import com.google.firebase.auth.FirebaseAuth
-import com.tradition.mobilevtkproject.Item
 import com.tradition.mobilevtkproject.MAIN2
 import com.tradition.mobilevtkproject.MainActivity
-import com.tradition.mobilevtkproject.MainActivity.Companion.getUserInfo
+import com.tradition.mobilevtkproject.MainActivity.Companion.setLightStatusBar
 import com.tradition.mobilevtkproject.databinding.FragmentMainBinding
-import kotlinx.coroutines.launch
-import com.tradition.mobilevtkproject.TransitionActivity.Companion.setColors
 import com.tradition.mobilevtkproject.R
 import com.tradition.mobilevtkproject.TransitionActivity
+import com.tradition.mobilevtkproject.TransitionActivity.Companion.setColors
 
 class MainFragmentMap : Fragment() {
 
@@ -59,23 +50,23 @@ class MainFragmentMap : Fragment() {
         })*/
         //setColors(requireActivity())
 
-        val auth = FirebaseAuth.getInstance()
-        var regionId = ""
+        var regionName = ""
 
-        val items = arrayListOf<Item>()
-        items.add(Item("Воткинск", "Город Воткинск"))
-        items.add(Item("Большая Кивара", "Село Большая Кивара"))
-        items.add(Item("Первомайское", "Село Первомайское"))
-        items.add(Item("Верхняя Талица", "Село Верхняя Талица"))
-        items.add(Item("Светлое", "Село Светлое"))
-        items.add(Item("Кукуи", "Село Кукуи"))
-        items.add(Item("Июльское", "Село Июльское"))
-        items.add(Item("Болгуры", "Село Болгуры"))
-        items.add(Item("Кварса", "Село Кварса"))
-        items.add(Item("Гавриловка", "Деревня Гавриловка"))
-        items.add(Item("Перевозное", "Село Перевозное"))
-        items.add(Item("Новый", "Поселок Новый"))
-        items.add(Item("Камское", "Село Камское"))
+        val regions = mapOf(
+            "Воткинск" to "Город Воткинск",
+            "Большая Кивара" to "Село Большая Кивара",
+            "Первомайское" to "Село Первомайское",
+            "Верхняя Талица" to "Село Верхняя Талица",
+            "Светлое" to "Село Светлое",
+            "Кукуи" to "Село Кукуи",
+            "Июльское" to "Село Июльское",
+            "Болгуры" to "Село Болгуры",
+            "Кварса" to "Село Кварса",
+            "Гавриловка" to "Деревня Гавриловка",
+            "Перевозное" to "Село Перевозное",
+            "Новый" to "Поселок Новый",
+            "Камское" to "Село Камское"
+        )
 
 
 
@@ -131,8 +122,8 @@ class MainFragmentMap : Fragment() {
         }
 
 
-        var k = 0
-        /*binding.textViewInfo.addTextChangedListener(object : TextWatcher {
+        /*var k = 0
+        binding.textViewInfo.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 k += 1
             }
@@ -153,73 +144,73 @@ class MainFragmentMap : Fragment() {
         })*/
 
         binding.imageButtonVtk.setOnClickListener{
-            regionId = "Воткинск"
-            binding.textViewInfo.text = items.find{it.name == "Воткинск"}?.description.toString()
+            regionName = "Воткинск"
+            binding.textViewInfo.text = regions[regionName]
             binding.button.visibility = View.INVISIBLE
         }
         binding.imageButtonKukui.setOnClickListener{
-            regionId = "Кукуи"
-            binding.textViewInfo.text = items.find{it.name == "Кукуи"}?.description.toString()
+            regionName = "Кукуи"
+            binding.textViewInfo.text = regions[regionName]
             binding.button.visibility = View.INVISIBLE
         }
         binding.imageButtonNoviy.setOnClickListener{
-            regionId = "Новый"
-            binding.textViewInfo.text = items.find{it.name == "Новый"}?.description.toString()
+            regionName = "Новый"
+            binding.textViewInfo.text = regions[regionName]
             binding.button.visibility = View.INVISIBLE
         }
         binding.imageButtonBolguri.setOnClickListener{
-            regionId = "Болгуры"
-            binding.textViewInfo.text = items.find{it.name == "Болгуры"}?.description.toString()
+            regionName = "Болгуры"
+            binding.textViewInfo.text = regions[regionName]
             binding.button.visibility = View.VISIBLE
         }
         binding.imageButtonBolshayaKivara.setOnClickListener{
-            regionId = "Большая Кивара"
-            binding.textViewInfo.text = items.find{it.name == "Большая Кивара"}?.description.toString()
+            regionName = "Большая Кивара"
+            binding.textViewInfo.text = regions[regionName]
             binding.button.visibility = View.INVISIBLE
         }
         binding.imageButtonGavrilovka.setOnClickListener{
-            regionId = "Гавриловка"
-            binding.textViewInfo.text = items.find{it.name == "Гавриловка"}?.description.toString()
+            regionName = "Гавриловка"
+            binding.textViewInfo.text = regions[regionName]
             binding.button.visibility = View.INVISIBLE
         }
         binding.imageButtonSvetloe.setOnClickListener{
-            regionId = "Светлое"
-            binding.textViewInfo.text = items.find{it.name == "Светлое"}?.description.toString()
+            regionName = "Светлое"
+            binding.textViewInfo.text = regions[regionName]
             binding.button.visibility = View.VISIBLE
         }
         binding.imageButtonIulskoe.setOnClickListener{
-            regionId = "Июльское"
-            binding.textViewInfo.text = items.find{it.name == "Июльское"}?.description.toString()
+            regionName = "Июльское"
+            binding.textViewInfo.text = regions[regionName]
             binding.button.visibility = View.INVISIBLE
         }
         binding.imageButtonKamskoe.setOnClickListener{
-            regionId = "Камское"
-            binding.textViewInfo.text = items.find{it.name == "Камское"}?.description.toString()
+            regionName = "Камское"
+            binding.textViewInfo.text = regions[regionName]
             binding.button.visibility = View.INVISIBLE
         }
         binding.imageButtonKvarsa.setOnClickListener{
-            regionId = "Кварса"
-            binding.textViewInfo.text = items.find{it.name == "Кварса"}?.description.toString()
+            regionName = "Кварса"
+            binding.textViewInfo.text = regions[regionName]
             binding.button.visibility = View.INVISIBLE
         }
         binding.imageButtonPerevoznoe.setOnClickListener{
-            regionId = "Перевозное"
-            binding.textViewInfo.text = items.find{it.name == "Перевозное"}?.description.toString()
+            regionName = "Перевозное"
+            binding.textViewInfo.text = regions[regionName]
             binding.button.visibility = View.INVISIBLE
         }
         binding.imageButtonPervomaiskoe.setOnClickListener{
-            regionId = "Первомайское"
-            binding.textViewInfo.text = items.find{it.name == "Первомайское"}?.description.toString()
+            regionName = "Первомайское"
+            binding.textViewInfo.text = regions[regionName]
             binding.button.visibility = View.INVISIBLE
         }
         binding.imageButtonVerhnyayaTalitsa.setOnClickListener{
-            regionId = "Верхняя Талица"
-            binding.textViewInfo.text = items.find{it.name == "Верхняя Талица"}?.description.toString()
+            regionName = "Верхняя Талица"
+            binding.textViewInfo.text = regions[regionName]
             binding.button.visibility = View.INVISIBLE
         }
 
         binding.button.setOnClickListener{
-            bundle.putString("RegionName", regionId)
+            bundle.putString("RegionName", regionName)
             (activity as? TransitionActivity)?.goFragment("Map", RegionFragment(), bundle)
         }
 
@@ -227,6 +218,7 @@ class MainFragmentMap : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        requireActivity().window.navigationBarColor = Color.WHITE
         setColors(requireActivity(), "mainGreen")
     }
 

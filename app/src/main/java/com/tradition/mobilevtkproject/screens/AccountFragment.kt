@@ -2,6 +2,7 @@ package com.tradition.mobilevtkproject.screens
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,11 +12,12 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.tradition.mobilevtkproject.MAIN
 import com.tradition.mobilevtkproject.MAIN2
 import com.tradition.mobilevtkproject.MainActivity
+import com.tradition.mobilevtkproject.MainActivity.Companion.setLightStatusBar
 import com.tradition.mobilevtkproject.R
 import com.tradition.mobilevtkproject.TransitionActivity
+import com.tradition.mobilevtkproject.TransitionActivity.Companion.setColors
 import com.tradition.mobilevtkproject.databinding.FragmentAccountBinding
 
 class AccountFragment : Fragment() {
@@ -48,5 +50,11 @@ class AccountFragment : Fragment() {
             MAIN2.startActivity(intent)
             Toast.makeText(MAIN2, "Вы вышли из аккаунта", Toast.LENGTH_LONG).show()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireActivity().window.navigationBarColor = Color.WHITE
+        setColors(requireActivity(), "mainGreen")
     }
 }

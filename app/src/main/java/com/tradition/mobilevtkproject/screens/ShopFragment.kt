@@ -1,6 +1,7 @@
 package com.tradition.mobilevtkproject.screens
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,6 +17,8 @@ import kotlinx.coroutines.tasks.await
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
 import com.tradition.mobilevtkproject.MainActivity.Companion.getUserInfo
+import com.tradition.mobilevtkproject.MainActivity.Companion.setLightStatusBar
+import com.tradition.mobilevtkproject.TransitionActivity.Companion.setColors
 
 class ShopFragment : Fragment() {
 
@@ -42,5 +45,11 @@ class ShopFragment : Fragment() {
             var currentUser = getUserInfo(id)
             binding.textViewBalance.text = "Ваш баланс: ${currentUser?.get("balance")} зернышек"
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireActivity().window.navigationBarColor = Color.WHITE
+        setColors(requireActivity(), "mainGreen")
     }
 }

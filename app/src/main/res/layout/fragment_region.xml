@@ -60,7 +60,7 @@
         style="@style/CustomButtonStyle"
         android:layout_marginBottom="16dp"
         android:backgroundTint="@color/darkGreen"
-        android:text="@string/event_button"
+        android:text="Активности"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

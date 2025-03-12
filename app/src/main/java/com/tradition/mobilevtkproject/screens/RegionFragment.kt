@@ -1,6 +1,7 @@
 package com.tradition.mobilevtkproject.screens
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import com.tradition.mobilevtkproject.databinding.FragmentRegionBinding
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import com.tradition.mobilevtkproject.R
+import com.tradition.mobilevtkproject.TransitionActivity.Companion.setColors
 
 class RegionFragment : Fragment() {
 
@@ -66,5 +68,11 @@ class RegionFragment : Fragment() {
                 binding.textViewInformation.text = desc
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireActivity().window.navigationBarColor = Color.WHITE
+        setColors(requireActivity(), "mainGreen")
     }
 }

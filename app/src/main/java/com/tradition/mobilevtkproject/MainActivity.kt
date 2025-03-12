@@ -64,20 +64,48 @@ class MainActivity : AppCompatActivity() {
                 "\n" +
                 "Согласно переписи 1790 года в деревне Болгуры насчитывалось 6 хозяйств и проживало 80 жителей, считается, что первые поселенцы пришли на эти земли около 1760 года.\n" +
                 "Некоторое время деревня была приписана к Воткинску, Воткинскому заводу, в пользу которого жители отрабатывали несколько дней в году.\n"
+        val excursionsListBolguri = listOf(
+            UniversalRegionItem("Базовая экскурсия в деревне Болгуры", "Экскурсия по народным местам деревни Болгуры. Подойдет даже для тех, кто не знаком с культурой Удмуртской Республики!"),
+        )
+        val eventsListBolguri = mutableListOf<UniversalRegionItem>()
+
         val sightsListBolguri = listOf(
-            SightItem("Card 1", "Description 1", "https://ic.pics.livejournal.com/begemusja/12301520/1175308/1175308_original.jpg"),
-            SightItem("Card 2", "Description 2", "https://mobileproject-410e3.web.app/usadba.jpg"),
-            SightItem("Card 3", "Description 3", "https://drive.usercontent.google.com/download?id=1P1DNpurxJ5kb4wyeXs5npeK4fs0nks7_&export=view"),
-            SightItem("Card 4", "Description 4", "https://ic.pics.livejournal.com/begemusja/12301520/1175308/1175308_original.jpg"),
-            SightItem("Card 5", "Description 5", "https://cdn.culture.ru/images/dd356c8e-8357-53fd-b5a5-53f0ebbd41b9"),
+            UniversalRegionItem("Погибшим в Великой Отечественной войне", "",
+                "https://drive.usercontent.google.com/download?id=1VexEbLIVAEx07LJ-rDMiYUZ5uTghnkZg&export=view"),
+            UniversalRegionItem("Памятник Жертвам белого террора",
+                "В 1977 году в деревне Болгуры был возведён памятник «Жертвам белого террора». Он находится на улице Центральная, между домами 63 и 65",
+                "https://drive.usercontent.google.com/download?id=1yCKhsm6jyiNf4kIIV4Mvt2NhwzhLYN-O&export=view"),
+            UniversalRegionItem("Музей живых ремёсел и оленья ферма Добрянка", "«Добрянка» — музей живых ремёсел, объект сельского туризма. Комплекс, расположенный вблизи железнодорожной станции «Болгуры», демонстрирует традиционный быт и ремесленное мастерство русского народа. На территории также располагается оленья ферма и другие достопримечательности.)\n[56.941237, 53.771450]",
+                "https://drive.usercontent.google.com/download?id=1m3JRO-DrAU7BFYpj1a2DwEO6HIWPq6AK&export=view"),
+            UniversalRegionItem("Питомник орехоплодных культур и растений экзотов", "[56.958503, 53.787957]",
+                "https://drive.usercontent.google.com/download?id=1ivJEqm08oZLjtJSzZF0eyQuf5oae7y9Z&export=view"),
+            UniversalRegionItem("Пруд Сушилка", "Пруд «Сушилка» расположен в деревне Болгуры, используется для хозяйственно-питьевого и технического водоснабжения, а также является местом отдыха и рыболовства"),
+            UniversalRegionItem("Холм Белая Глинка", "Одна из главных природных достопримечательностей деревни Болгуры. Высота горы — более 60 метров. Половина покрыта лесом, на вершине растёт рябина. Другая половина поросла травой и открывает панораму на деревню и близлежащие поля и леса\n[56.963533, 53.762140]",
+                ),
+            UniversalRegionItem("Гора Пупыш", "Одна из главных природных достопримечательностей деревни Болгуры. Высота горы — более 60 метров. Половина покрыта лесом, на вершине растёт рябина. Другая половина поросла травой и открывает панораму на деревню и близлежащие поля и леса\n[56.963533, 53.762140]",
+                "https://drive.usercontent.google.com/download?id=1qS0T_Cwr0kj_CcFBR9Z8EgcE1uSIPygs&export=view"),
+            UniversalRegionItem("Обводненный карьер", "Бывший карьер, где когда-то на склоне холма добывали глину и увозили на стройки Воткинска. Обнажение получилось неглубоким, но большим по площади. Карьер пытались вернуть природе, засадили елями и соснами. Однако из-за бедности почвы саженцы не растут"),
+            UniversalRegionItem("«Бабушкины ивы»", "«Бабушкины ивы» — это ивы, которым более 100 лет, они растут в деревне Болгуры. В народе их прозвали «Бабушки ивы».Чтобы обхватить одно такое дерево,понадобится компания из 5 человек\n[56.963533, 53.762140]",
+                "https://drive.usercontent.google.com/download?id=10upWL7l40Q1r2IVxBpdcT48VBFVpWa_Q&export=view"),
+            UniversalRegionItem("Болгуринский СДК", "Учреждение находится по адресу: Удмуртская Республика, Воткинский район, д. Болгуры, ул. Школьная, д. 1е.\nВ Доме культуры проводятся занятия любительских объединений для всех возрастных групп, организуются выставки, конкурсы и экскурсии, творческие встречи с интересными людьми, экологические акции, праздничные вечера\n[56.963469, 53.764412]",
+                "https://drive.usercontent.google.com/download?id=1Xo-xiIUcGYtp07aIGxLsHexT-GBcCJT9&export=view"),
+            UniversalRegionItem("Деревообрабатывающее предприятие", ""),
+        )
+        val competitionsListBolguri = listOf(
+            UniversalRegionItem("Царь горы (Д.Болгуры [Холм Пупыш])", "Заберитесь на вершину холма Пупыш и сфотографируйтесь"),
+            UniversalRegionItem("Олень? (Д.Болгуры [Музей живых ремёсел и оленья ферма Добрянка])", "Найдите оленя на ферме и сфотографируйтесь с ним"),
+            UniversalRegionItem("Обними, если сможешь! (Д.Болгуры [Бабушкины Ивы])", "Обнимите иву полностью (можно не в одиночку), а затем сфотографируйтесь"),
         )
 
-        val descSvetloe = "[Описание Кукуи]"
-        val historySvetloe = "[История Кукуи]"
-        val sightsListSvetloe = mutableListOf<SightItem>()
 
-        addRegion("Болгуры", descBolguri, historyBolguri, sightsListBolguri)
-        addRegion("Светлое", descSvetloe, historySvetloe, sightsListSvetloe)
+
+        /*val descSvetloe = "[Описание Кукуи]"
+        val historySvetloe = "[История Кукуи]"
+        val sightsListSvetloe = mutableListOf<UniversalRegionItem>()*/
+
+        addRegion("Болгуры", descBolguri, historyBolguri, excursionsListBolguri,
+            eventsListBolguri, sightsListBolguri, competitionsListBolguri)
+        //addRegion("Светлое", descSvetloe, historySvetloe, sightsListSvetloe)
     }
 
 //main start second
@@ -164,7 +192,8 @@ class MainActivity : AppCompatActivity() {
                 false
             }
         }
-        fun addRegion(regionName: String, descReg: String, historyReg: String, sightList: List<SightItem>){
+        fun addRegion(regionName: String, descReg: String, historyReg: String, excursionList: List<UniversalRegionItem>, eventList: List<UniversalRegionItem>,
+                      sightList: List<UniversalRegionItem>, competitionList: List<UniversalRegionItem>){
             val db = Firebase.firestore
             db.collection("regions")
                 .whereEqualTo("regionName", regionName)
@@ -180,14 +209,63 @@ class MainActivity : AppCompatActivity() {
                             .add(region)
                             .addOnSuccessListener { documentReference ->
                                 Log.d(TAG, "DocumentSnapshot added with regionName: $regionName")
+                                for(item in excursionList){
+                                    val excursion = hashMapOf(
+                                        "excursionName" to item.title,
+                                        "excursionDescription" to item.description,
+                                        "excursionImageUrl" to item.imageUrl,
+                                        "excursionFullDesc" to item.fullDescription
+                                    )
+                                    documentReference.collection("excursions")
+                                        .add(excursion)
+                                        .addOnSuccessListener {
+                                            Log.d(TAG, "Sight added successfully")
+                                        }
+                                        .addOnFailureListener { e ->
+                                            Log.w(TAG, "Error adding sight", e)
+                                        }
+                                }
+                                for(item in eventList){
+                                    val event = hashMapOf(
+                                        "eventName" to item.title,
+                                        "eventDescription" to item.description,
+                                        "eventImageUrl" to item.imageUrl,
+                                        "eventFullDesc" to item.fullDescription
+                                    )
+                                    documentReference.collection("events")
+                                        .add(event)
+                                        .addOnSuccessListener {
+                                            Log.d(TAG, "Sight added successfully")
+                                        }
+                                        .addOnFailureListener { e ->
+                                            Log.w(TAG, "Error adding sight", e)
+                                        }
+                                }
                                 for(item in sightList){
                                     val sight = hashMapOf(
                                         "sightName" to item.title,
                                         "sightDescription" to item.description,
-                                        "sightImageUrl" to item.imageUrl
+                                        "sightImageUrl" to item.imageUrl,
+                                        "sightFullDesc" to item.fullDescription
                                     )
                                     documentReference.collection("sights")
                                         .add(sight)
+                                        .addOnSuccessListener {
+                                            Log.d(TAG, "Sight added successfully")
+                                        }
+                                        .addOnFailureListener { e ->
+                                            Log.w(TAG, "Error adding sight", e)
+                                        }
+                                }
+                                for(item in competitionList){
+                                    val competition = hashMapOf(
+                                        "competitionName" to item.title,
+                                        "competitionDescription" to item.description,
+                                        "competitionImageUrl" to item.imageUrl,
+                                        "competitionFullDesc" to item.fullDescription
+                                    )
+                                    documentReference.collection("competitions")
+                                        .add(competition)
                                         .addOnSuccessListener {
                                             Log.d(TAG, "Sight added successfully")
                                         }
