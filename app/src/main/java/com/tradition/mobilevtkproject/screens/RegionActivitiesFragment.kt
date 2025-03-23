@@ -2,44 +2,50 @@ package com.tradition.mobilevtkproject.screens
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.ContentValues.TAG
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.size
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
-import com.google.firebase.Firebase
-import com.google.firebase.firestore.firestore
-import com.tradition.mobilevtkproject.MAIN2
-import com.tradition.mobilevtkproject.R
-import com.tradition.mobilevtkproject.databinding.FragmentRegionActivitiesBinding
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import android.os.Handler
-import android.os.Looper
-import android.widget.Button
-import android.widget.ProgressBar
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+import com.google.firebase.firestore.firestore
 import com.tradition.mobilevtkproject.Card
+import com.tradition.mobilevtkproject.MAIN2
+import com.tradition.mobilevtkproject.R
 import com.tradition.mobilevtkproject.TransitionActivity
+import com.tradition.mobilevtkproject.TransitionActivity.Companion.getTime
 import com.tradition.mobilevtkproject.TransitionActivity.Companion.setColors
 import com.tradition.mobilevtkproject.UniversalRegionItem
+import com.tradition.mobilevtkproject.databinding.FragmentRegionActivitiesBinding
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import kotlin.math.pow
 
 class RegionActivitiesFragment : Fragment() {
 
     lateinit var binding: FragmentRegionActivitiesBinding
     val db = Firebase.firestore
+    val auth = Firebase.auth
     lateinit var bundle: Bundle
     var excursionItems = mutableListOf<UniversalRegionItem>()
     var eventItems = mutableListOf<UniversalRegionItem>()
@@ -85,6 +91,7 @@ class RegionActivitiesFragment : Fragment() {
                     } else {
                         Log.d("Firestore", "No excursions found for this region.")
                     }
+                    binding.progressBarExcursions.visibility = View.GONE
 
                     val eventsSnapshot = document.reference.collection("events").get().await()
                     if (!eventsSnapshot.isEmpty) {
@@ -110,6 +117,7 @@ class RegionActivitiesFragment : Fragment() {
                     } else {
                         Log.d("Firestore", "No events found for this region.")
                     }
+                    binding.progressBarEvents.visibility = View.GONE
 
                     val sightsSnapshot = document.reference.collection("sights").get().await()
                     if (!sightsSnapshot.isEmpty) {
@@ -135,6 +143,7 @@ class RegionActivitiesFragment : Fragment() {
                     } else {
                         Log.d("Firestore", "No sights found for this region.")
                     }
+                    binding.progressBarSights.visibility = View.GONE
 
                     val competitionsSnapshot = document.reference.collection("competitions").get().await()
                     if (!competitionsSnapshot.isEmpty) {
@@ -160,6 +169,7 @@ class RegionActivitiesFragment : Fragment() {
                     } else {
                         Log.d("Firestore", "No competitions found for this region.")
                     }
+                    binding.progressBarCompetitions.visibility = View.GONE
 
                 }
             }
@@ -229,9 +239,12 @@ class RegionActivitiesFragment : Fragment() {
     @SuppressLint("MissingInflatedId")
     private fun populateCards(container: android.widget.LinearLayout, someList: MutableList<UniversalRegionItem>, objectType: Card) {
         val inflater = LayoutInflater.from(MAIN2)
-        container.removeAllViews()
+        if (container.size >= 2){
+            return
+        }
 
-        if (someList.isEmpty()) {
+        if (objectType == Card.Event) {
+            binding.progressBarEvents.visibility = View.GONE
             val view = inflater.inflate(R.layout.sight_item_layout, container, false)
             view.findViewById<TextView>(R.id.event_title).text = "Находится в разработке"
             val continueButton: Button = view.findViewById(R.id.buttonToContinue)
@@ -270,6 +283,7 @@ class RegionActivitiesFragment : Fragment() {
             continueButton.setOnClickListener { onButtonClick(item, objectType) }
             container.addView(view)
         }
+
     }
 
     private fun onViewClick(item: UniversalRegionItem) {
@@ -280,27 +294,98 @@ class RegionActivitiesFragment : Fragment() {
         }, 1000)
     }
 
+    @SuppressLint("NewApi")
     private fun onButtonClick(item: UniversalRegionItem, objectType: Card) {
+        var cardName = item.title
         bundle = Bundle()
         bundle.putString("CardName", item.title)
         bundle.putSerializable("CardType", objectType)
         //(activity as? TransitionActivity)?.goFragment("Map", SettingsFragment(), bundle) //!!!
         when (objectType){
             Card.Excursion -> {
-                val builder = AlertDialog.Builder(MAIN2)
-                builder.setTitle("Экскурсия")
-                    .setMessage("Вы уверены, что хотите записаться на эскурсию?")
-                builder.setNegativeButton("Да") { dialog, which ->
-                    db
-                }
-                builder.setPositiveButton("Назад") { dialog, which ->
-                }
-                val alertDialog = builder.create()
-                alertDialog.show()
+                db.collection("excursionApplications")
+                    .whereEqualTo("cardName", cardName)
+                    .get()
+                    .addOnSuccessListener { querySnapshot ->
+                        if (querySnapshot.isEmpty) {
+                            val builder = AlertDialog.Builder(MAIN2)
+                            builder.setTitle("Экскурсия")
+                                .setMessage("Вы уверены, что хотите записаться на эскурсию «${item.title}»?")
+                            builder.setNegativeButton("Назад") { dialog, which ->
+
+                            }
+                            builder.setPositiveButton("Да") { dialog, which ->
+                                val myDate = getTime()
+                                db.collection("excursionApplications")
+                                    .whereEqualTo("cardName", cardName)
+                                    .get()
+                                    .addOnSuccessListener { querySnapshot ->
+                                        val application = hashMapOf(
+                                            "userId" to auth.currentUser!!.uid,
+                                            "cardName" to cardName,
+                                            "applicationDate" to myDate,
+                                        )
+                                        db.collection("excursionApplications")
+                                            .add(application)
+                                            .addOnSuccessListener {
+                                                Snackbar.make(requireView(), "Запись сохранена!", 2000)
+                                                    .setAction("Отменить") {
+                                                        lifecycleScope.launch {
+                                                            val snapshot =
+                                                                db.collection("excursionApplications")
+                                                                    .whereEqualTo(
+                                                                        "cardName",
+                                                                        cardName
+                                                                    ).get().await()
+                                                            if (!snapshot.isEmpty) {
+                                                                val document = snapshot.documents[0]
+                                                                document.reference.delete()
+                                                            }
+                                                        }
+                                                    }.setBackgroundTint(resources.getColor(R.color.black, null)).setTextColor(resources.getColor(R.color.greenSuccess, null)).setActionTextColor(resources.getColor(R.color.discard, null))
+                                                    .show()
+                                                Log.d(TAG, "Excursion application for ${cardName}added ")
+                                            }
+                                            .addOnFailureListener { e ->
+                                                Log.w(TAG, "Error adding document", e)
+                                            }
+                                    }
+                                    .addOnFailureListener { e ->
+                                        //!
+                                        Log.w(TAG, "Error getting documents: ", e)
+                                    }
+                            }
+                            val alertDialog = builder.create()
+                            alertDialog.show()
+                        } else {
+                            Log.d(TAG, "Excursion application on $cardName already exists.")
+                            showSnackbar(requireView(), "Вы уже записаны на эту экскурсию")
+                        }
+                    }
+                    .addOnFailureListener { e ->
+                        //!
+                        Log.w(TAG, "Error getting documents: ", e)
+                    }
             }
-            Card.Event -> ""
-            Card.Sight -> ""
-            Card.Competition -> (activity as? TransitionActivity)?.goFragment("Map", CompetitionFragment(), bundle)
+            Card.Event -> {}
+            Card.Sight -> {}
+            Card.Competition -> {
+                db.collection("competitiveApplications")
+                    .whereEqualTo("cardName", cardName)
+                    .get()
+                    .addOnSuccessListener { querySnapshot ->
+                        if (querySnapshot.isEmpty) {
+                            (activity as? TransitionActivity)?.goFragment("Map", CompetitionFragment(), bundle)
+                        } else {
+                            Log.d(TAG, "Competitive application on $cardName already exists.")
+                            showSnackbar(requireView(), "Вы уже отправили заявку")
+                        }
+                    }
+                    .addOnFailureListener { e ->
+                        //!
+                        Log.w(TAG, "Error getting documents: ", e)
+                    }
+            }
         }
     }
 
@@ -319,6 +404,9 @@ class RegionActivitiesFragment : Fragment() {
                 populateCards(binding.LinearLayoutExcursionsContainer, excursionItems, Card.Excursion)
                 binding.buttonExcursions.setCompoundDrawablesWithIntrinsicBounds(R.drawable.top_arrow, 0, 0, 0)
                 binding.LinearLayoutExcursionsContainer.visibility = View.VISIBLE
+                if (binding.LinearLayoutExcursionsContainer.size >= 2){
+                    binding.progressBarExcursions.visibility = View.GONE
+                }
             }
             else{
                 f1 = 0
@@ -332,6 +420,9 @@ class RegionActivitiesFragment : Fragment() {
                 populateCards(binding.LinearLayoutEventsContainer, eventItems, Card.Event)
                 binding.buttonEvents.setCompoundDrawablesWithIntrinsicBounds(R.drawable.top_arrow, 0, 0, 0)
                 binding.LinearLayoutEventsContainer.visibility = View.VISIBLE
+                if (binding.LinearLayoutEventsContainer.size >= 2){
+                    binding.progressBarEvents.visibility = View.GONE
+                }
             }
             else{
                 f2 = 0
@@ -345,6 +436,9 @@ class RegionActivitiesFragment : Fragment() {
                 populateCards(binding.LinearLayoutSightsContainer, sightItems, Card.Sight)
                 binding.buttonSights.setCompoundDrawablesWithIntrinsicBounds(R.drawable.top_arrow, 0, 0, 0)
                 binding.LinearLayoutSightsContainer.visibility = View.VISIBLE
+                if (binding.LinearLayoutSightsContainer.size >= 2){
+                    binding.progressBarSights.visibility = View.GONE
+                }
             }
             else{
                 f3 = 0
@@ -358,6 +452,9 @@ class RegionActivitiesFragment : Fragment() {
                 populateCards(binding.LinearLayoutCompetitionsContainer, competitionItems, Card.Competition)
                 binding.buttonLocalCompetitions.setCompoundDrawablesWithIntrinsicBounds(R.drawable.top_arrow, 0, 0, 0)
                 binding.LinearLayoutCompetitionsContainer.visibility = View.VISIBLE
+                if (binding.LinearLayoutCompetitionsContainer.size >= 2){
+                    binding.progressBarCompetitions.visibility = View.GONE
+                }
             }
             else{
                 f4 = 0
@@ -374,5 +471,13 @@ class RegionActivitiesFragment : Fragment() {
         super.onResume()
         requireActivity().window.navigationBarColor = Color.WHITE
         setColors(requireActivity(), "mainGreen")
+    }
+
+    fun showSnackbar(view: View, text: String) {
+        Snackbar.make(view, text, 1000)
+            .setAction("К записям") {
+                (activity as? TransitionActivity)?.goToAccount()
+            }.setBackgroundTint(resources.getColor(R.color.black, null)).setTextColor(resources.getColor(R.color.white, null)).setActionTextColor(resources.getColor(R.color.neutralBlue, null))
+            .show()
     }
 }

@@ -44,6 +44,13 @@ android {
 }
 
 dependencies {
+    implementation(libs.lifecycle.runtime.ktx)
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.material)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.material.icons.extended)
+
     implementation(libs.glide)
     implementation(libs.androidx.recyclerview)
 
@@ -66,6 +73,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.navigation.fragment)
+    //implementation(libs.play.services.ads)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

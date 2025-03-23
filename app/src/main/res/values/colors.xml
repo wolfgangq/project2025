@@ -8,15 +8,18 @@
 
     <color name="blue">#17265C</color>
     <color name="lightBlue">#98BFE7</color>
+    <color name="neutralBlue">#5384E9</color>
 
     <color name="back">#94B183</color>
     <color name="back2">#B9DCA5</color>
     <color name="darkGreen">#638953</color>
     <color name="mainGreen">#83B46F</color>
     <color name="gr">#8B9E6C</color>
+    <color name="greenSuccess">#23B42C</color>
 
     <color name="desert">#E2B767</color>
 
     <color name="red">#D30909</color>
+    <color name="discard">#CE3A3A</color>
 
 </resources>

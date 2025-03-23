@@ -9,6 +9,150 @@
     tools:context=".screens.AccountFragment">
 
 
+    <View
+        android:id="@+id/viewDivider6"
+        android:layout_width="0dp"
+        android:layout_height="3dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardViewAppl2" />
+
+    <View
+        android:id="@+id/viewDivider5"
+        android:layout_width="0dp"
+        android:layout_height="3dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardViewAppl1" />
+
+    <View
+        android:id="@+id/viewDivider4"
+        android:layout_width="0dp"
+        android:layout_height="3dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollViewExcursions" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardViewAppl1"
+        style="@style/MyCardViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="10dp"
+        app:cardBackgroundColor="@null"
+        app:cardCornerRadius="0dp"
+        app:contentPaddingBottom="6dp"
+        app:contentPaddingTop="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewExcursionApplications">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textViewSubjectName1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                android:layout_weight="4"
+                android:text="Название"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textViewDate1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="3"
+                android:text="Дата отправки"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/buttonDeleteApplication1"
+                style="@style/CustomSignOut"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center_vertical"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:visibility="invisible"
+                app:icon="@drawable/cross"
+                app:iconGravity="textEnd"
+                app:iconPadding="0dp"
+                app:iconTint="@color/discard"
+                app:rippleColor="@color/red" />
+
+        </TableRow>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewCompetitions"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="10dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCompetitionApplications" />
+
+    <TextView
+        android:id="@+id/textViewCompetitionApplications"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:text="Конкурсные заявки"
+        android:textColor="@color/white"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.037"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewDivider4" />
+
+    <TextView
+        android:id="@+id/textViewExcursionApplications"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:text="Текущие записи на экскурсии"
+        android:textColor="@color/white"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.037"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewDivider2" />
+
     <ImageButton
         android:id="@+id/imageButtonSettings"
         android:layout_width="0dp"
@@ -17,7 +161,6 @@
         android:background="@null"
         android:scaleType="fitCenter"
         android:src="@drawable/settings"
-        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/textViewEventTitle"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,14 +178,14 @@
         app:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.07"
-        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewDivider2" />
+        app:layout_constraintTop_toBottomOf="@+id/scrollViewCompetitions" />
 
     <View
         android:id="@+id/viewDivider2"
         android:layout_width="0dp"
-        android:layout_height="2dp"
+        android:layout_height="3dp"
         android:layout_marginTop="8dp"
         android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -62,7 +205,7 @@
         android:textColor="@color/white"
         app:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.04"
+        app:layout_constraintHeight_percent="0.045"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -99,5 +242,130 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.281"
         app:rippleColor="@color/lightBlue" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewExcursions"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="10dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewExcursionApplications" />
+
+    <ScrollView
+        android:id="@+id/scrollViewExcursions"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewDivider5">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutExcursions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        </LinearLayout>
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/scrollViewCompetitions"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewDivider6">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutCompetitions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardViewAppl2"
+        style="@style/MyCardViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="10dp"
+        app:cardBackgroundColor="@null"
+        app:cardCornerRadius="0dp"
+        app:contentPaddingBottom="6dp"
+        app:contentPaddingTop="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCompetitionApplications">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textViewSubjectName2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                android:layout_weight="4"
+                android:text="Название"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textViewDate2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="3"
+                android:text="Дата отправки"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textViewUrl2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="3"
+                android:text="Ссылка"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/buttonDeleteApplication"
+                style="@style/CustomSignOut"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center_vertical"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:visibility="invisible"
+                app:icon="@drawable/cross"
+                app:iconGravity="textEnd"
+                app:iconPadding="0dp"
+                app:iconTint="@color/discard"
+                app:rippleColor="@color/red" />
+
+        </TableRow>
+
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

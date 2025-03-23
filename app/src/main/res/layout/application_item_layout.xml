@@ -1,0 +1,59 @@
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardViewAppl"
+    style="@style/MyCardViewStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    app:cardBackgroundColor="@null"
+    app:cardCornerRadius="0dp">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textViewSubjectName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:layout_weight="4" />
+
+        <TextView
+            android:id="@+id/textViewDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="3" />
+
+        <TextView
+            android:id="@+id/textViewUrl"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="3" />
+
+        <Button
+            android:id="@+id/buttonDeleteApplication"
+            style="@style/CustomSignOut"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|center_vertical"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            app:icon="@drawable/cross"
+            app:iconGravity="textEnd"
+            app:iconPadding="0dp"
+            app:iconTint="@color/discard"
+            app:rippleColor="@color/red" />
+
+    </TableRow>
+
+</com.google.android.material.card.MaterialCardView>

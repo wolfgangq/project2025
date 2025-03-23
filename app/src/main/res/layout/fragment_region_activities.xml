@@ -87,7 +87,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone"></LinearLayout>
+                android:visibility="gone">
+
+                <ProgressBar
+                    android:id="@+id/progressBarExcursions"
+                    style="@android:style/Widget.Holo.ProgressBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/buttonEvents"
@@ -113,7 +120,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone"></LinearLayout>
+                android:visibility="gone">
+
+                <ProgressBar
+                    android:id="@+id/progressBarEvents"
+                    style="@android:style/Widget.Holo.ProgressBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/buttonSights"
@@ -139,7 +153,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone"></LinearLayout>
+                android:visibility="gone">
+
+                <ProgressBar
+                    android:id="@+id/progressBarSights"
+                    style="@android:style/Widget.Holo.ProgressBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/buttonLocalCompetitions"
@@ -165,7 +186,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone"></LinearLayout>
+                android:visibility="gone">
+
+                <ProgressBar
+                    android:id="@+id/progressBarCompetitions"
+                    style="@android:style/Widget.Holo.ProgressBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

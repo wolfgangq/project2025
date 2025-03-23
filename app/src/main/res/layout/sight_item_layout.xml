@@ -1,7 +1,7 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cardView"
+    android:id="@+id/cardViewAppl"
     style="@style/MyCardViewStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="12dp">
 
         <TextView
             android:id="@+id/event_title"
@@ -65,7 +65,7 @@
             android:id="@+id/buttonToContinue"
             android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="6dp"
             android:backgroundTint="#D9D7D7"
             android:insetTop="0dp"
             android:insetBottom="0dp"

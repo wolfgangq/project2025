@@ -12,7 +12,6 @@ import com.tradition.mobilevtkproject.R
 import com.tradition.mobilevtkproject.User
 import com.tradition.mobilevtkproject.databinding.FragmentSecondBinding
 
-@Suppress("DEPRECATION")
 class SecondFragmentName : Fragment() {
 
     lateinit var binding: FragmentSecondBinding
@@ -33,6 +32,7 @@ class SecondFragmentName : Fragment() {
         binding.continueButton.setOnClickListener{
             val name = binding.editTextName.text.toString().trim()
             val surname = binding.editTextSurname.text.toString().trim()
+            @Suppress("DEPRECATION")
             val currentUser = arguments?.getSerializable("info") as User
             if(name == "" || surname == "" ){
                 Toast.makeText(MAIN, "Введите данные", Toast.LENGTH_SHORT).show()
