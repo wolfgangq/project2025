@@ -13,13 +13,15 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.PhysicsProject"
+        android:theme="@style/Theme.Project"
         tools:targetApi="34">
         <activity
             android:name=".TransitionActivity"
             android:exported="true"
             android:label="@string/title_activity_transition"
-            android:theme="@style/Theme.PhysicsProject.NoActionBar" />
+            android:theme="@style/Theme.Project.NoActionBar"
+            android:screenOrientation="portrait"
+            tools:ignore="DiscouragedApi,LockedOrientationActivity"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

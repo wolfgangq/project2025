@@ -9,6 +9,23 @@
     tools:context=".screens.AccountFragment">
 
 
+    <Button
+        android:id="@+id/buttonAdminRecreate"
+        style="@style/CustomButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="@color/ic_launcher_background"
+        android:text="Пересоздать муниципалитеты [БД]"
+        android:visibility="gone"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.07"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonLogOut"
+        app:layout_constraintWidth_percent="0.5" />
+
     <View
         android:id="@+id/viewDivider6"
         android:layout_width="0dp"

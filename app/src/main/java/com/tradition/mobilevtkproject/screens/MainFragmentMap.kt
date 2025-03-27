@@ -66,6 +66,9 @@ class MainFragmentMap : Fragment() {
         )
 
 
+        binding.imageButtonInfo2.setOnClickListener{
+            (activity as? TransitionActivity)?.goFragment("Map", InfoFragment(), null)
+        }
 
         /*val popupMenu = PopupMenu(requireActivity(), binding.imageButtonAccount)
         popupMenu.inflate(R.menu.popupmenu)

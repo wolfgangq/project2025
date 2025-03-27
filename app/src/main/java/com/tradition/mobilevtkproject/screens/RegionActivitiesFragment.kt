@@ -303,7 +303,7 @@ class RegionActivitiesFragment : Fragment() {
         //(activity as? TransitionActivity)?.goFragment("Map", SettingsFragment(), bundle) //!!!
         when (objectType){
             Card.Excursion -> {
-                db.collection("excursionApplications")
+                db.collection("excursionApplications").whereEqualTo("userId", auth.currentUser!!.uid)
                     .whereEqualTo("cardName", cardName)
                     .get()
                     .addOnSuccessListener { querySnapshot ->
@@ -316,7 +316,7 @@ class RegionActivitiesFragment : Fragment() {
                             }
                             builder.setPositiveButton("Да") { dialog, which ->
                                 val myDate = getTime()
-                                db.collection("excursionApplications")
+                                db.collection("excursionApplications").whereEqualTo("userId", auth.currentUser!!.uid)
                                     .whereEqualTo("cardName", cardName)
                                     .get()
                                     .addOnSuccessListener { querySnapshot ->
@@ -333,10 +333,8 @@ class RegionActivitiesFragment : Fragment() {
                                                         lifecycleScope.launch {
                                                             val snapshot =
                                                                 db.collection("excursionApplications")
-                                                                    .whereEqualTo(
-                                                                        "cardName",
-                                                                        cardName
-                                                                    ).get().await()
+                                                                    .whereEqualTo("userId", auth.currentUser!!.uid)
+                                                                    .whereEqualTo("cardName", cardName).get().await()
                                                             if (!snapshot.isEmpty) {
                                                                 val document = snapshot.documents[0]
                                                                 document.reference.delete()
@@ -370,7 +368,7 @@ class RegionActivitiesFragment : Fragment() {
             Card.Event -> {}
             Card.Sight -> {}
             Card.Competition -> {
-                db.collection("competitiveApplications")
+                db.collection("competitiveApplications").whereEqualTo("userId", auth.currentUser!!.uid)
                     .whereEqualTo("cardName", cardName)
                     .get()
                     .addOnSuccessListener { querySnapshot ->

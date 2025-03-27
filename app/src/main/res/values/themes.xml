@@ -1,8 +1,22 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="Theme.PhysicsProject" parent="Theme.MaterialComponents.Light.NoActionBar">
+
+    <style name="Theme.Project" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:buttonStyle">@style/CustomButtonStyle</item>
         <item name="android:editTextStyle">@style/CustomEditTextStyle</item>
+        <item name="android:textViewStyle" />
     </style>
+
+    <style name="Theme.Project.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Project.AppBarOverlay"
+        parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.PhysicsProject.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+
     <style name="CustomButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">0dp</item>
@@ -32,22 +46,12 @@
         <item name="android:stateListAnimator">@animator/button_state_animator</item>
         <item name="android:background">@drawable/ripple_background</item>
     </style>
+
     <style name="CustomEditTextStyle">
         <item name="android:textColor">@color/white</item>
         <item name="android:colorAccent">@color/white</item>
         <item name="editTextColor">@color/white</item>
     </style>
-    <style name="CustomImgButtonStyle">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">0dp</item>
-        <item name="android:layout_marginStart">12dp</item>
-        <item name="android:layout_marginTop">28dp</item>
-    </style>
-    <style name="Theme.PhysicsProject.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-    <style name="Theme.PhysicsProject.AppBarOverlay"
-        parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-    <style name="Theme.PhysicsProject.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
 </resources>

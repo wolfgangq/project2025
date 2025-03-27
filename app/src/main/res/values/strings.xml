@@ -23,8 +23,8 @@
     <string name="compet_button">Глобальные конкурсы</string>
     <string name="sights_button">Достопримечательности</string>
     <string name="event_button">Мероприятия</string>
-    <string name="info1">Создатель приложения: Русанов Сергей (tg @soopium)</string>
-    <string name="info2">For api version 34 and below</string>
+    <string name="info1">Разработчик приложения: Сергей</string>
+    <string name="info2">По поводу идей и предложений, а также при возникновении проблем обращаться:</string>
     <string name="profile">Настройки профиля</string>
     <string name="balance">Ваш баланс:</string>
     <!-- TODO: Remove or change this placeholder text -->

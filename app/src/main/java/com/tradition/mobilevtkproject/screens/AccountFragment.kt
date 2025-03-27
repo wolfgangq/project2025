@@ -24,8 +24,10 @@ import com.tradition.mobilevtkproject.Application
 import com.tradition.mobilevtkproject.ApplicationItem
 import com.tradition.mobilevtkproject.MAIN2
 import com.tradition.mobilevtkproject.MainActivity
+import com.tradition.mobilevtkproject.MainActivity.Companion.getUserInfo
 import com.tradition.mobilevtkproject.R
 import com.tradition.mobilevtkproject.TransitionActivity
+import com.tradition.mobilevtkproject.TransitionActivity.Companion.createRegions
 import com.tradition.mobilevtkproject.TransitionActivity.Companion.setColors
 import com.tradition.mobilevtkproject.databinding.FragmentAccountBinding
 import kotlinx.coroutines.launch
@@ -36,6 +38,7 @@ class AccountFragment : Fragment() {
     lateinit var binding: FragmentAccountBinding
     val db = Firebase.firestore
     val auth = FirebaseAuth.getInstance()
+    val userId = auth.currentUser!!.uid
     var bundle = Bundle()
 
     override fun onCreateView(
@@ -43,6 +46,12 @@ class AccountFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAccountBinding.inflate(layoutInflater, container, false)
+        lifecycleScope.launch {
+            var currentUser = getUserInfo(userId)
+            if (currentUser?.get("accessLevel") == "Creator") {
+                binding.buttonAdminRecreate.visibility = View.VISIBLE
+            }
+        }
 
         lifecycleScope.launch {
             var excursionApplications = findApplications("excursionApplications")
@@ -75,6 +84,16 @@ class AccountFragment : Fragment() {
                 MAIN2.startActivity(intent)
                 Toast.makeText(MAIN2, "Вы вышли из аккаунта", Toast.LENGTH_LONG).show()
             }.show()
+        }
+
+        binding.buttonAdminRecreate.setOnClickListener{
+            lifecycleScope.launch {
+                var currentUser = getUserInfo(userId)
+                if (currentUser?.get("accessLevel") == "Creator") {
+                    Toast.makeText(MAIN2, "Информация муниципалитетов пересоздана", Toast.LENGTH_SHORT).show()
+                    createRegions()
+                }
+            }
         }
     }
 

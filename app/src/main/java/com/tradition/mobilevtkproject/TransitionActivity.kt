@@ -20,17 +20,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.tradition.mobilevtkproject.MainActivity.Companion.getUserInfo
 import com.tradition.mobilevtkproject.databinding.ActivityTransitionBinding
 import com.tradition.mobilevtkproject.screens.AccountFragment
 import com.tradition.mobilevtkproject.screens.MainFragmentMap
 import com.tradition.mobilevtkproject.screens.ShopFragment
-import kotlinx.coroutines.launch
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -57,12 +54,6 @@ class TransitionActivity : AppCompatActivity() {
         MAIN2 = this
         if (isFirstLaunch()) {
             showFirstDialog()
-        }
-        lifecycleScope.launch {
-            var currentUser = getUserInfo(id)
-            if (currentUser?.get("accessLevel") == "Creator"){
-                createRegions()
-            }
         }
 
         binding.tabLayout.getTabAt(1)?.select()

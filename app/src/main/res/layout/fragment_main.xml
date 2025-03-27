@@ -9,6 +9,22 @@
     android:persistentDrawingCache="animation"
     tools:context=".screens.MainFragmentMap">
 
+    <ImageButton
+        android:id="@+id/imageButtonInfo2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="24dp"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:src="@drawable/info"
+        android:tint="@color/back2"
+        app:layout_constraintCircleRadius="@dimen/app_bar_height"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.1" />
+
     <ImageView
         android:id="@+id/imageViewMap"
         android:layout_width="0dp"

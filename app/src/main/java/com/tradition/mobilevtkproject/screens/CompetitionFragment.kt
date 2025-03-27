@@ -54,8 +54,8 @@ class CompetitionFragment : Fragment() {
             if (binding.editTextUrl.text.toString().trim() != "") {
                 val myDate = getTime()
                 db.collection("competitiveApplications")
-                    .whereEqualTo("cardName", cardName)
-                    .get()
+                    .whereEqualTo("userId", auth.currentUser!!.uid)
+                    .whereEqualTo("cardName", cardName).get()
                     .addOnSuccessListener { querySnapshot ->
                         if (querySnapshot.isEmpty) {
                             val application = hashMapOf(
@@ -72,10 +72,8 @@ class CompetitionFragment : Fragment() {
                                             lifecycleScope.launch {
                                                 val snapshot =
                                                     db.collection("competitiveApplications")
-                                                        .whereEqualTo(
-                                                            "cardName",
-                                                            cardName
-                                                        ).get().await()
+                                                        .whereEqualTo("userId", auth.currentUser!!.uid)
+                                                        .whereEqualTo("cardName", cardName).get().await()
                                                 if (!snapshot.isEmpty) {
                                                     val document = snapshot.documents[0]
                                                     document.reference.delete()

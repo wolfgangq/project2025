@@ -1,14 +1,15 @@
 package com.tradition.mobilevtkproject.screens
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.tradition.mobilevtkproject.MAIN
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.tradition.mobilevtkproject.MainActivity
 import com.tradition.mobilevtkproject.MainActivity.Companion.setColors
 import com.tradition.mobilevtkproject.MainActivity.Companion.setLightStatusBar
+import com.tradition.mobilevtkproject.TransitionActivity
 import com.tradition.mobilevtkproject.databinding.FragmentInfoBinding
 
 class InfoFragment : Fragment() {
@@ -25,15 +26,31 @@ class InfoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val act = requireActivity()
         binding.imageButtonBack.setOnClickListener{
-            (activity as? MainActivity)?.onBackPressed()
+            if (act is MainActivity) {
+                (activity as? MainActivity)?.onBackPressed()
+            }
+            else{
+                (activity as? TransitionActivity)?.onBackPressed()
+            }
         }
     }
 
     override fun onResume() {
         super.onResume()
         val act = requireActivity()
-        setColors(act, "mainGreen")
+        if (act is TransitionActivity){
+            val colorResId = act.resources.getIdentifier("mainGreen", "color", act.packageName)
+            val color = ContextCompat.getColor(act, colorResId)
+            val colorResId2 = act.resources.getIdentifier("white", "color", act.packageName)
+            val color2 = ContextCompat.getColor(act, colorResId2)
+            act.window.statusBarColor = color
+            act.window.navigationBarColor = color2
+        }
+        else{
+            setColors(act, "mainGreen")
+        }
         setLightStatusBar(act)
     }
 
