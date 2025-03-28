@@ -3,13 +3,18 @@ package com.tradition.mobilevtkproject.screens
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -236,7 +241,7 @@ class RegionActivitiesFragment : Fragment() {
         }
     }
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("MissingInflatedId", "ClickableViewAccessibility")
     private fun populateCards(container: android.widget.LinearLayout, someList: MutableList<UniversalRegionItem>, objectType: Card) {
         val inflater = LayoutInflater.from(MAIN2)
         if (container.size >= 2){
@@ -280,7 +285,60 @@ class RegionActivitiesFragment : Fragment() {
             }
 
             view.setOnClickListener { onViewClick(item) }
-            continueButton.setOnClickListener { onButtonClick(item, objectType) }
+            val scaleDownValue = 0.97f
+            val scaleUpValue = 1f
+            val animationDuration = 150L
+
+            val vibrator = context?.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
+
+            continueButton.setOnTouchListener { v, event ->
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                        view.animate()
+                            .scaleX(scaleDownValue)
+                            .scaleY(scaleDownValue)
+                            .setDuration(animationDuration)
+                            .withStartAction {
+                                if (Build.VERSION.SDK_INT >= 26) {
+                                    vibrator?.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE))
+                                } else {
+                                    vibrator?.vibrate(50)
+                                }
+                            }
+                            .start()
+                        false
+                    }
+                    MotionEvent.ACTION_UP -> {
+                        v.post {
+                            v.isPressed = false
+                            v.jumpDrawablesToCurrentState()
+                        }
+                        view.animate()
+                            .scaleX(scaleUpValue)
+                            .scaleY(scaleUpValue)
+                            .setDuration(animationDuration)
+                            .withEndAction {
+                                onButtonClick(item, objectType)
+                            }
+                            .start()
+                        true
+                    }
+                    MotionEvent.ACTION_CANCEL -> {
+                        v.post {
+                            v.isPressed = false
+                            v.jumpDrawablesToCurrentState()
+                        }
+                        view.animate()
+                            .scaleX(scaleUpValue)
+                            .scaleY(scaleUpValue)
+                            .setDuration(animationDuration)
+                            .start()
+                        true
+                    }
+                    else -> false
+                }
+            }
+
             container.addView(view)
         }
 
