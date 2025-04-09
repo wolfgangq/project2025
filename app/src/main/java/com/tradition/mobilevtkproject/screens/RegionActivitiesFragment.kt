@@ -53,10 +53,6 @@ class RegionActivitiesFragment : Fragment() {
     val auth = Firebase.auth
     lateinit var bundle: Bundle
     lateinit var regionName: String
-    lateinit var excursionItems: MutableList<UniversalRegionItem>
-    lateinit var eventItems: MutableList<UniversalRegionItem>
-    lateinit var sightItems: MutableList<UniversalRegionItem>
-    lateinit var competitionItems: MutableList<UniversalRegionItem>
 
 
     override fun onCreateView(
@@ -69,16 +65,16 @@ class RegionActivitiesFragment : Fragment() {
             try {
                 val snapshot = db.collection("regions").whereEqualTo("regionName", regionName).get().await()
                 if (!snapshot.isEmpty) {
-                    excursionItems = getItemList("excursions")
+                    var excursionItems = getItemList("excursions")
                     binding.progressBarExcursions.visibility = View.GONE
                     populateCards(binding.LinearLayoutExcursionsContainer, excursionItems, Card.Excursion)
-                    eventItems = getItemList("events")
+                    var eventItems = getItemList("events")
                     binding.progressBarEvents.visibility = View.GONE
                     populateCards(binding.LinearLayoutEventsContainer, eventItems, Card.Event)
-                    sightItems = getItemList("sights")
+                    var sightItems = getItemList("sights")
                     binding.progressBarSights.visibility = View.GONE
                     populateCards(binding.LinearLayoutSightsContainer, sightItems, Card.Sight)
-                    competitionItems = getItemList("competitions")
+                    var competitionItems = getItemList("competitions")
                     binding.progressBarCompetitions.visibility = View.GONE
                     populateCards(binding.LinearLayoutCompetitionsContainer, competitionItems, Card.Competition)
                 }
@@ -391,7 +387,11 @@ class RegionActivitiesFragment : Fragment() {
         binding.buttonExcursions.setOnClickListener{
             if(f1==0){
                 f1 = 1
-                populateCards(binding.LinearLayoutExcursionsContainer, excursionItems, Card.Excursion)
+                lifecycleScope.launch {
+                    var excursionItems = getItemList("excursions")
+                    binding.progressBarExcursions.visibility = View.GONE
+                    populateCards(binding.LinearLayoutExcursionsContainer, excursionItems, Card.Excursion)
+                }
                 binding.buttonExcursions.setCompoundDrawablesWithIntrinsicBounds(R.drawable.top_arrow, 0, 0, 0)
                 binding.LinearLayoutExcursionsContainer.visibility = View.VISIBLE
                 if (binding.LinearLayoutExcursionsContainer.size >= 2){
@@ -407,7 +407,11 @@ class RegionActivitiesFragment : Fragment() {
         binding.buttonEvents.setOnClickListener{
             if(f2==0){
                 f2 = 1
-                populateCards(binding.LinearLayoutEventsContainer, eventItems, Card.Event)
+                lifecycleScope.launch {
+                    var eventItems = getItemList("events")
+                    binding.progressBarEvents.visibility = View.GONE
+                    populateCards(binding.LinearLayoutEventsContainer, eventItems, Card.Event)
+                }
                 binding.buttonEvents.setCompoundDrawablesWithIntrinsicBounds(R.drawable.top_arrow, 0, 0, 0)
                 binding.LinearLayoutEventsContainer.visibility = View.VISIBLE
                 if (binding.LinearLayoutEventsContainer.size >= 2){
@@ -423,7 +427,11 @@ class RegionActivitiesFragment : Fragment() {
         binding.buttonSights.setOnClickListener{
             if(f3==0){
                 f3 = 1
-                populateCards(binding.LinearLayoutSightsContainer, sightItems, Card.Sight)
+                lifecycleScope.launch {
+                    var sightItems = getItemList("sights")
+                    binding.progressBarSights.visibility = View.GONE
+                    populateCards(binding.LinearLayoutSightsContainer, sightItems, Card.Sight)
+                }
                 binding.buttonSights.setCompoundDrawablesWithIntrinsicBounds(R.drawable.top_arrow, 0, 0, 0)
                 binding.LinearLayoutSightsContainer.visibility = View.VISIBLE
                 if (binding.LinearLayoutSightsContainer.size >= 2){
@@ -439,7 +447,11 @@ class RegionActivitiesFragment : Fragment() {
         binding.buttonLocalCompetitions.setOnClickListener{
             if(f4==0){
                 f4 = 1
-                populateCards(binding.LinearLayoutCompetitionsContainer, competitionItems, Card.Competition)
+                lifecycleScope.launch {
+                    var competitionItems = getItemList("competitions")
+                    binding.progressBarCompetitions.visibility = View.GONE
+                    populateCards(binding.LinearLayoutCompetitionsContainer, competitionItems, Card.Competition)
+                }
                 binding.buttonLocalCompetitions.setCompoundDrawablesWithIntrinsicBounds(R.drawable.top_arrow, 0, 0, 0)
                 binding.LinearLayoutCompetitionsContainer.visibility = View.VISIBLE
                 if (binding.LinearLayoutCompetitionsContainer.size >= 2){
