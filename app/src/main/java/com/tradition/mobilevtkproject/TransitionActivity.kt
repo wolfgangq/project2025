@@ -310,8 +310,7 @@ class TransitionActivity : AppCompatActivity() {
             addRegion("Болгуры", descBolguri, historyBolguri, excursionsListBolguri,
                 eventsListBolguri, sightsListBolguri, competitionsListBolguri)
         }
-        fun addRegion(regionName: String, descReg: String, historyReg: String, excursionList: List<UniversalRegionItem>, eventList: List<UniversalRegionItem>,
-                      sightList: List<UniversalRegionItem>, competitionList: List<UniversalRegionItem>){
+        fun addRegion(regionName: String, descReg: String, historyReg: String, excursionList: List<UniversalRegionItem>, eventList: List<UniversalRegionItem>, sightList: List<UniversalRegionItem>, competitionList: List<UniversalRegionItem>){
             val db = Firebase.firestore
             db.collection("regions")
                 .whereEqualTo("regionName", regionName)
@@ -327,73 +326,64 @@ class TransitionActivity : AppCompatActivity() {
                             .add(region)
                             .addOnSuccessListener { documentReference ->
                                 Log.d(TAG, "DocumentSnapshot added with regionName: $regionName")
-                                for(item in excursionList){
+                                val fullList = hashMapOf(
+                                    "excursions" to excursionList,
+                                    "events" to eventList,
+                                    "sights" to sightList,
+                                    "competitions" to competitionList
+                                )
+                                for(collection in fullList.keys){
+                                    for(item in fullList.get(collection)!!){
+                                        val excursion = hashMapOf(
+                                            "itemName" to item.title,
+                                            "itemDescription" to item.description,
+                                            "itemImageUrl" to item.imageUrl,
+                                            "itemFullDescription" to item.fullDescription
+                                        )
+                                        documentReference.collection(collection)
+                                            .add(excursion)
+                                    }
+                                }
+                                /*for(item in excursionList){
                                     val excursion = hashMapOf(
-                                        "excursionName" to item.title,
-                                        "excursionDescription" to item.description,
-                                        "excursionImageUrl" to item.imageUrl,
-                                        "excursionFullDesc" to item.fullDescription
+                                        "itemName" to item.title,
+                                        "itemDescription" to item.description,
+                                        "itemImageUrl" to item.imageUrl,
+                                        "itemFullDescription" to item.fullDescription
                                     )
                                     documentReference.collection("excursions")
                                         .add(excursion)
-                                        .addOnSuccessListener {
-                                            Log.d(TAG, "Sight added successfully")
-                                        }
-                                        .addOnFailureListener { e ->
-                                            Log.w(TAG, "Error adding sight", e)
-                                        }
                                 }
                                 for(item in eventList){
                                     val event = hashMapOf(
-                                        "eventName" to item.title,
-                                        "eventDescription" to item.description,
-                                        "eventImageUrl" to item.imageUrl,
-                                        "eventFullDesc" to item.fullDescription
+                                        "itemName" to item.title,
+                                        "itemDescription" to item.description,
+                                        "itemImageUrl" to item.imageUrl,
+                                        "itemFullDescription" to item.fullDescription
                                     )
                                     documentReference.collection("events")
                                         .add(event)
-                                        .addOnSuccessListener {
-                                            Log.d(TAG, "Sight added successfully")
-                                        }
-                                        .addOnFailureListener { e ->
-                                            Log.w(TAG, "Error adding sight", e)
-                                        }
                                 }
                                 for(item in sightList){
                                     val sight = hashMapOf(
-                                        "sightName" to item.title,
-                                        "sightDescription" to item.description,
-                                        "sightImageUrl" to item.imageUrl,
-                                        "sightFullDesc" to item.fullDescription
+                                        "itemName" to item.title,
+                                        "itemDescription" to item.description,
+                                        "itemImageUrl" to item.imageUrl,
+                                        "itemFullDescription" to item.fullDescription
                                     )
                                     documentReference.collection("sights")
                                         .add(sight)
-                                        .addOnSuccessListener {
-                                            Log.d(TAG, "Sight added successfully")
-                                        }
-                                        .addOnFailureListener { e ->
-                                            Log.w(TAG, "Error adding sight", e)
-                                        }
                                 }
                                 for(item in competitionList){
                                     val competition = hashMapOf(
-                                        "competitionName" to item.title,
-                                        "competitionDescription" to item.description,
-                                        "competitionImageUrl" to item.imageUrl,
-                                        "competitionFullDesc" to item.fullDescription
+                                        "itemName" to item.title,
+                                        "itemDescription" to item.description,
+                                        "itemImageUrl" to item.imageUrl,
+                                        "itemFullDescription" to item.fullDescription
                                     )
                                     documentReference.collection("competitions")
                                         .add(competition)
-                                        .addOnSuccessListener {
-                                            Log.d(TAG, "Sight added successfully")
-                                        }
-                                        .addOnFailureListener { e ->
-                                            Log.w(TAG, "Error adding sight", e)
-                                        }
-                                }
-                            }
-                            .addOnFailureListener { e ->
-                                Log.w(TAG, "Error adding document", e)
+                                }*/
                             }
                     }
                     else {

@@ -52,11 +52,11 @@ class RegionActivitiesFragment : Fragment() {
     val db = Firebase.firestore
     val auth = Firebase.auth
     lateinit var bundle: Bundle
-    var excursionItems = mutableListOf<UniversalRegionItem>()
-    var eventItems = mutableListOf<UniversalRegionItem>()
-    var sightItems = mutableListOf<UniversalRegionItem>()
-    var competitionItems = mutableListOf<UniversalRegionItem>()
     lateinit var regionName: String
+    lateinit var excursionItems: MutableList<UniversalRegionItem>
+    lateinit var eventItems: MutableList<UniversalRegionItem>
+    lateinit var sightItems: MutableList<UniversalRegionItem>
+    lateinit var competitionItems: MutableList<UniversalRegionItem>
 
 
     override fun onCreateView(
@@ -69,113 +69,18 @@ class RegionActivitiesFragment : Fragment() {
             try {
                 val snapshot = db.collection("regions").whereEqualTo("regionName", regionName).get().await()
                 if (!snapshot.isEmpty) {
-                    val document = snapshot.documents[0]
-
-
-                    val excursionsSnapshot = document.reference.collection("excursions").get().await()
-                    if (!excursionsSnapshot.isEmpty) {
-                        excursionItems.clear()
-                        for (excursion in excursionsSnapshot.documents) {
-                            val excursionData = excursion.data
-                            val curTitle = excursionData?.get("excursionName").toString()
-                            val curDescr = excursionData?.get("excursionDescription").toString()
-                            val url = excursionData?.get("excursionImageUrl")
-                            if (url != null){
-                                val curImageUrl = url.toString()
-                                excursionItems.add(UniversalRegionItem(curTitle, curDescr, curImageUrl))
-                            }
-                            else{
-                                val curImageUrl = url
-                                excursionItems.add(UniversalRegionItem(curTitle, curDescr, curImageUrl))
-                            }
-                            Log.d("Firestore", "Sight data: $excursionData")
-                        }
-                        excursionItems.sortBy { it.title }
-                        populateCards(binding.LinearLayoutExcursionsContainer, excursionItems, Card.Excursion)
-
-                    } else {
-                        Log.d("Firestore", "No excursions found for this region.")
-                    }
+                    excursionItems = getItemList("excursions")
                     binding.progressBarExcursions.visibility = View.GONE
-
-                    val eventsSnapshot = document.reference.collection("events").get().await()
-                    if (!eventsSnapshot.isEmpty) {
-                        eventItems.clear()
-                        for (event in eventsSnapshot.documents) {
-                            val eventData = event.data
-                            val curTitle = eventData?.get("eventName").toString()
-                            val curDescr = eventData?.get("eventDescription").toString()
-                            val url = eventData?.get("eventImageUrl")
-                            if (url != null){
-                                val curImageUrl = url.toString()
-                                eventItems.add(UniversalRegionItem(curTitle, curDescr, curImageUrl))
-                            }
-                            else{
-                                val curImageUrl = url
-                                eventItems.add(UniversalRegionItem(curTitle, curDescr, curImageUrl))
-                            }
-                            Log.d("Firestore", "Sight data: $eventData")
-                        }
-                        eventItems.sortBy { it.title }
-                        populateCards(binding.LinearLayoutEventsContainer, eventItems, Card.Event)
-
-                    } else {
-                        Log.d("Firestore", "No events found for this region.")
-                    }
+                    populateCards(binding.LinearLayoutExcursionsContainer, excursionItems, Card.Excursion)
+                    eventItems = getItemList("events")
                     binding.progressBarEvents.visibility = View.GONE
-
-                    val sightsSnapshot = document.reference.collection("sights").get().await()
-                    if (!sightsSnapshot.isEmpty) {
-                        sightItems.clear()
-                        for (sight in sightsSnapshot.documents) {
-                            val sightData = sight.data
-                            val curTitle = sightData?.get("sightName").toString()
-                            val curDescr = sightData?.get("sightDescription").toString()
-                            val url = sightData?.get("sightImageUrl")
-                            if (url != null){
-                                val curImageUrl = url.toString()
-                                sightItems.add(UniversalRegionItem(curTitle, curDescr, curImageUrl))
-                            }
-                            else{
-                                val curImageUrl = url
-                                sightItems.add(UniversalRegionItem(curTitle, curDescr, curImageUrl))
-                            }
-                            Log.d("Firestore", "Sight data: $sightData")
-                        }
-                        sightItems.sortByDescending { it.imageUrl }
-                        populateCards(binding.LinearLayoutSightsContainer, sightItems, Card.Sight)
-
-                    } else {
-                        Log.d("Firestore", "No sights found for this region.")
-                    }
+                    populateCards(binding.LinearLayoutEventsContainer, eventItems, Card.Event)
+                    sightItems = getItemList("sights")
                     binding.progressBarSights.visibility = View.GONE
-
-                    val competitionsSnapshot = document.reference.collection("competitions").get().await()
-                    if (!competitionsSnapshot.isEmpty) {
-                        competitionItems.clear()
-                        for (competition in competitionsSnapshot.documents) {
-                            val competitionData = competition.data
-                            val curTitle = competitionData?.get("competitionName").toString()
-                            val curDescr = competitionData?.get("competitionDescription").toString()
-                            val url = competitionData?.get("competitionImageUrl")
-                            if (url != null){
-                                val curImageUrl = url.toString()
-                                competitionItems.add(UniversalRegionItem(curTitle, curDescr, curImageUrl))
-                            }
-                            else{
-                                val curImageUrl = url
-                                competitionItems.add(UniversalRegionItem(curTitle, curDescr, curImageUrl))
-                            }
-                            Log.d("Firestore", "Sight data: $competitionData")
-                        }
-                        competitionItems.sortBy { it.title }
-                        populateCards(binding.LinearLayoutCompetitionsContainer, competitionItems, Card.Competition)
-
-                    } else {
-                        Log.d("Firestore", "No competitions found for this region.")
-                    }
+                    populateCards(binding.LinearLayoutSightsContainer, sightItems, Card.Sight)
+                    competitionItems = getItemList("competitions")
                     binding.progressBarCompetitions.visibility = View.GONE
-
+                    populateCards(binding.LinearLayoutCompetitionsContainer, competitionItems, Card.Competition)
                 }
             }
             catch (e: Exception) {
@@ -239,6 +144,35 @@ class RegionActivitiesFragment : Fragment() {
         else{
             return
         }
+    }
+
+    private suspend fun getItemList(collection: String): MutableList<UniversalRegionItem>{
+        var list = mutableListOf<UniversalRegionItem>()
+        val snapshot = db.collection("regions").whereEqualTo("regionName", regionName).get().await()
+        if (!snapshot.isEmpty) {
+            val document = snapshot.documents[0]
+            val itemSnapshot = document.reference.collection(collection).get().await()
+            if (!itemSnapshot.isEmpty) {
+                list.clear()
+                for (excursion in itemSnapshot.documents) {
+                    val itemData = excursion.data
+                    val curTitle = itemData?.get("itemName").toString()
+                    val curDescr = itemData?.get("itemDescription").toString()
+                    val url = itemData?.get("itemImageUrl")
+                    if (url != null){
+                        val curImageUrl = url.toString()
+                        list.add(UniversalRegionItem(curTitle, curDescr, curImageUrl))
+                    }
+                    else{
+                        val curImageUrl = url
+                        list.add(UniversalRegionItem(curTitle, curDescr, curImageUrl))
+                    }
+                    Log.d("Firestore", "Sight data: $itemData")
+                }
+                list.sortBy { it.title }
+            }
+        }
+        return list
     }
 
     @SuppressLint("MissingInflatedId", "ClickableViewAccessibility")

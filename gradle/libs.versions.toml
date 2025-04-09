@@ -28,6 +28,7 @@ playServicesAds = "24.1.0"
 ui = "1.7.8"
 uiToolingPreview = "1.7.8"
 cardviewV7 = "28.0.0"
+playServicesMaps = "19.1.0"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
@@ -60,6 +61,7 @@ firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version
 material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
 play-services-ads = { group = "com.google.android.gms", name = "play-services-ads", version.ref = "playServicesAds" }
 cardview-v7 = { group = "com.android.support", name = "cardview-v7", version.ref = "cardviewV7" }
+play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -5,24 +5,22 @@ import android.content.ContentValues.TAG
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.tradition.mobilevtkproject.MAIN
 import com.tradition.mobilevtkproject.MainActivity
-import com.tradition.mobilevtkproject.R
-import com.tradition.mobilevtkproject.databinding.FragmentForgotPasswordBinding
-import com.tradition.mobilevtkproject.MainActivity.Companion.isPassValid
 import com.tradition.mobilevtkproject.MainActivity.Companion.isEmailValid
 import com.tradition.mobilevtkproject.MainActivity.Companion.setColors
 import com.tradition.mobilevtkproject.MainActivity.Companion.setLightStatusBar
 import com.tradition.mobilevtkproject.MainActivity.Companion.toDefaultColors
 import com.tradition.mobilevtkproject.TransitionActivity
+import com.tradition.mobilevtkproject.databinding.FragmentForgotPasswordBinding
 
 class ForgotPasswordFragment : Fragment() {
     lateinit var binding: FragmentForgotPasswordBinding
@@ -50,7 +48,7 @@ class ForgotPasswordFragment : Fragment() {
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             Log.d(TAG, "Email sent.")
-                            val builder = AlertDialog.Builder(MAIN)
+                            val builder = AlertDialog.Builder(requireActivity())
                             builder.setTitle("Восстановление пароля")
                                 .setMessage("Письмо было отправлено на почту")
 

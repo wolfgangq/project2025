@@ -14,4 +14,11 @@
 .externalNativeBuild
 .cxx
 /secrets/
-*.keystoreC:/Users/serge/AndroidStudioProjects/MobileApp/app/google-services.json
+my-release-key.jks
+*.dm
+/app/build/outputs/native-debug-symbols/
+*.apk
+*.aab
+/app/build/outputs/
+output-metadata.json
+/app/build/outputs/**/output-metadata.json

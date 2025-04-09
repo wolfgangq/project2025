@@ -189,7 +189,7 @@ class AccountFragment : Fragment() {
         builder.setPositiveButton("Да") { dialog, which ->
             lifecycleScope.launch {
                 val snapshot = db.collection(collection)
-                    .whereEqualTo("cardName", item.title).get().await()
+                    .whereEqualTo("cardName", item.title).whereEqualTo("userId", userId).get().await()
                 if (!snapshot.isEmpty) {
                     val document = snapshot.documents[0]
                     document.reference.delete().addOnSuccessListener{
