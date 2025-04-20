@@ -5,6 +5,8 @@ import android.app.AlertDialog
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.graphics.Color
+import android.graphics.PointF
+import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
@@ -42,6 +44,12 @@ import com.tradition.mobilevtkproject.TransitionActivity.Companion.getTime
 import com.tradition.mobilevtkproject.TransitionActivity.Companion.setColors
 import com.tradition.mobilevtkproject.UniversalRegionItem
 import com.tradition.mobilevtkproject.databinding.FragmentRegionActivitiesBinding
+import com.yandex.mapkit.MapKitFactory
+import com.yandex.mapkit.geometry.Point
+import com.yandex.mapkit.map.CameraPosition
+import com.yandex.mapkit.map.IconStyle
+import com.yandex.mapkit.mapview.MapView
+import com.yandex.runtime.image.ImageProvider
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlin.math.pow
@@ -54,12 +62,12 @@ class RegionActivitiesFragment : Fragment() {
     lateinit var bundle: Bundle
     lateinit var regionName: String
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentRegionActivitiesBinding.inflate(layoutInflater, container, false)
+
         regionName = arguments?.getString("RegionName").toString()
         lifecycleScope.launch {
             try {
@@ -150,18 +158,19 @@ class RegionActivitiesFragment : Fragment() {
             val itemSnapshot = document.reference.collection(collection).get().await()
             if (!itemSnapshot.isEmpty) {
                 list.clear()
-                for (excursion in itemSnapshot.documents) {
-                    val itemData = excursion.data
+                for (item in itemSnapshot.documents) {
+                    val itemData = item.data
                     val curTitle = itemData?.get("itemName").toString()
                     val curDescr = itemData?.get("itemDescription").toString()
+                    val coordinates = itemData?.get("itemCoordinates").toString()
                     val url = itemData?.get("itemImageUrl")
                     if (url != null){
                         val curImageUrl = url.toString()
-                        list.add(UniversalRegionItem(curTitle, curDescr, curImageUrl))
+                        list.add(UniversalRegionItem(curTitle, curDescr, curImageUrl, coordinates = coordinates))
                     }
                     else{
                         val curImageUrl = url
-                        list.add(UniversalRegionItem(curTitle, curDescr, curImageUrl))
+                        list.add(UniversalRegionItem(curTitle, curDescr, curImageUrl, coordinates = coordinates))
                     }
                     Log.d("Firestore", "Sight data: $itemData")
                 }
@@ -174,56 +183,19 @@ class RegionActivitiesFragment : Fragment() {
     @SuppressLint("MissingInflatedId", "ClickableViewAccessibility")
     private fun populateCards(container: android.widget.LinearLayout, someList: MutableList<UniversalRegionItem>, objectType: Card) {
         val inflater = LayoutInflater.from(MAIN2)
+        val scaleDownValue = 0.97f
+        val scaleUpValue = 1f
+        val animationDuration = 150L
         if (container.size >= 2){
             return
         }
-
-        if (objectType == Card.Event) {
-            binding.progressBarEvents.visibility = View.GONE
-            val view = inflater.inflate(R.layout.sight_item_layout, container, false)
-            view.findViewById<TextView>(R.id.event_title).text = "Находится в разработке"
-            val continueButton: Button = view.findViewById(R.id.buttonToContinue)
-            val constraintCard: ConstraintLayout = view.findViewById(R.id.constraintCard)
-            constraintCard.visibility = View.GONE
-            continueButton.visibility = View.GONE
-            container.addView(view)
-            return
-        }
-
-        for (item in someList) {
-            val view = inflater.inflate(R.layout.sight_item_layout, container, false)
-            view.findViewById<TextView>(R.id.event_title).text = item.title
-            view.findViewById<TextView>(R.id.event_description).text = item.description
-            val imageView: ImageView = view.findViewById(R.id.event_image)
-            val progressBar: ProgressBar = view.findViewById(R.id.progressBar)
-            val constraintCard: ConstraintLayout = view.findViewById(R.id.constraintCard)
-            val continueButton: Button = view.findViewById(R.id.buttonToContinue)
-            when (objectType){
-                Card.Excursion -> {
-                    continueButton.text = "Записаться"
-                }
-                Card.Event -> {}
-                Card.Sight -> continueButton.visibility = View.GONE
-                Card.Competition -> continueButton.text = "Отправить работу"
-            }
-
-            if (item.imageUrl != null){
-                loadImageWithRetry(imageView, item.imageUrl, progressBar)
-            }
-            else{
-                constraintCard.visibility = View.GONE
-            }
-
-            view.setOnClickListener { onViewClick(item) }
-            val scaleDownValue = 0.97f
-            val scaleUpValue = 1f
-            val animationDuration = 150L
-
+        fun setupButton(continueButton: Button, item: UniversalRegionItem, view: View){
             val vibrator = context?.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
 
             continueButton.setOnTouchListener { v, event ->
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
+                        v.tag = true
                         view.animate()
                             .scaleX(scaleDownValue)
                             .scaleY(scaleDownValue)
@@ -236,21 +208,49 @@ class RegionActivitiesFragment : Fragment() {
                                 }
                             }
                             .start()
-                        false
+                        true
+                    }
+                    MotionEvent.ACTION_MOVE -> {
+                        val rect = Rect()
+                        v.getGlobalVisibleRect(rect)
+
+                        val isInside = rect.contains(event.rawX.toInt(), event.rawY.toInt())
+
+                        if (!isInside) {
+                            v.tag = false
+                            v.post {
+                                v.isPressed = false
+                                v.jumpDrawablesToCurrentState()
+                            }
+                            view.animate()
+                                .scaleX(scaleUpValue)
+                                .scaleY(scaleUpValue)
+                                .setDuration(animationDuration)
+                                .start()
+                        }
+                        true
                     }
                     MotionEvent.ACTION_UP -> {
-                        v.post {
-                            v.isPressed = false
-                            v.jumpDrawablesToCurrentState()
-                        }
-                        view.animate()
-                            .scaleX(scaleUpValue)
-                            .scaleY(scaleUpValue)
-                            .setDuration(animationDuration)
-                            .withEndAction {
-                                onButtonClick(item, objectType)
+                        if (v.tag as? Boolean == true) {
+                            v.post {
+                                v.isPressed = false
+                                v.jumpDrawablesToCurrentState()
                             }
-                            .start()
+                            view.animate()
+                                .scaleX(scaleUpValue)
+                                .scaleY(scaleUpValue)
+                                .setDuration(animationDuration)
+                                .withEndAction {
+                                    onButtonClick(item, objectType)
+                                }
+                                .start()
+                        } else {
+                            view.animate()
+                                .scaleX(scaleUpValue)
+                                .scaleY(scaleUpValue)
+                                .setDuration(animationDuration)
+                                .start()
+                        }
                         true
                     }
                     MotionEvent.ACTION_CANCEL -> {
@@ -268,10 +268,107 @@ class RegionActivitiesFragment : Fragment() {
                     else -> false
                 }
             }
-
-            container.addView(view)
         }
+        when(objectType){
+            Card.Excursion -> {
+                for (item in someList) {
+                    val view = inflater.inflate(R.layout.sight_item_layout, container, false)
+                    view.findViewById<TextView>(R.id.event_title).text = item.title
+                    view.findViewById<TextView>(R.id.event_description).text = item.description
+                    val imageView: ImageView = view.findViewById(R.id.event_image)
+                    val progressBar: ProgressBar = view.findViewById(R.id.progressBar)
+                    val constraintCard: ConstraintLayout = view.findViewById(R.id.constraintCard)
+                    val continueButton: Button = view.findViewById(R.id.buttonToContinue)
+                    continueButton.text = "Записаться"
 
+                    if (item.imageUrl != null){
+                        loadImageWithRetry(imageView, item.imageUrl, progressBar)
+                    }
+                    else{
+                        constraintCard.visibility = View.GONE
+                    }
+                    view.setOnClickListener { onViewClick(item) }
+
+                    setupButton(continueButton, item, view)
+
+                    container.addView(view)
+                }
+            }
+            Card.Event -> {
+                binding.progressBarEvents.visibility = View.GONE
+                val view = inflater.inflate(R.layout.sight_item_layout, container, false)
+                view.findViewById<TextView>(R.id.event_title).text = "Находится в разработке"
+                view.findViewById<TextView>(R.id.event_title).setTextColor(Color.BLACK)
+                val continueButton: Button = view.findViewById(R.id.buttonToContinue)
+                val constraintCard: ConstraintLayout = view.findViewById(R.id.constraintCard)
+                view.findViewById<TextView>(R.id.event_description).visibility = View.GONE
+                constraintCard.visibility = View.GONE
+                continueButton.visibility = View.GONE
+                container.addView(view)
+                return
+            }
+            Card.Sight -> {
+                for (item in someList) {
+                    val view = inflater.inflate(R.layout.item_design_sight, container, false)
+                    view.findViewById<TextView>(R.id.sightName).text = item.title
+                    val textViewDescr = view.findViewById<TextView>(R.id.miniDescriptionSight)
+                    if (item.description != "null") {
+                        textViewDescr.text = item.description
+                    }
+                    else{
+                        textViewDescr.visibility = View.GONE
+                    }
+                    val imageView: ImageView = view.findViewById(R.id.sightImage)
+                    val progressBar: ProgressBar = view.findViewById(R.id.progressBar)
+                    val constraintCard: ConstraintLayout = view.findViewById(R.id.constraintCard)
+                    val continueButton: Button = view.findViewById(R.id.detailSightButton)
+                    val textViewCord = view.findViewById<TextView>(R.id.coordinatesSight)
+                    val mapView = view.findViewById<MapView>(R.id.mapview)
+
+                    if (item.coordinates != "null") {
+                        textViewCord.text = item.coordinates
+                        mapView.apply {
+                            mapWindow.map.isScrollGesturesEnabled = false
+                            mapWindow.map.isZoomGesturesEnabled = false
+                            mapWindow.map.isRotateGesturesEnabled = false
+                            mapWindow.map.isTiltGesturesEnabled = false
+                            onStart()
+                            setupSightPoint(this, item.coordinates!!)
+                        }
+                    }
+                    else{
+                        textViewCord.visibility = View.GONE
+                        mapView.visibility = View.GONE
+                        view.findViewById<ImageView>(R.id.imageViewIconCord).visibility = View.GONE
+                    }
+                    if (item.imageUrl != null){
+                        loadImageWithRetry(imageView, item.imageUrl, progressBar)
+                    }
+                    else{
+                        constraintCard.visibility = View.GONE
+                    }
+
+                    view.setOnClickListener { onViewClick(item) }
+                    setupButton(continueButton, item, view)
+
+                    container.addView(view)
+                }
+            }
+            Card.Competition -> {
+                for (item in someList) {
+                    val view = inflater.inflate(R.layout.item_design_compet, container, false)
+                    view.findViewById<TextView>(R.id.competTitle).text = item.title.substringBefore(" (")
+                    view.findViewById<TextView>(R.id.miniDescriptionCompet).text = item.description
+                    view.findViewById<TextView>(R.id.locationText).text = item.title.substringAfter(" (").substringBeforeLast(")")
+                    val continueButton: Button = view.findViewById(R.id.sendButton)
+
+                    view.setOnClickListener { onViewClick(item) }
+                    setupButton(continueButton, item, view)
+
+                    container.addView(view)
+                }
+            }
+        }
     }
 
     private fun onViewClick(item: UniversalRegionItem) {
@@ -473,6 +570,47 @@ class RegionActivitiesFragment : Fragment() {
         super.onResume()
         requireActivity().window.navigationBarColor = Color.WHITE
         setColors(requireActivity(), "mainGreen")
+    }
+
+
+    private fun setupSightPoint(mapView: MapView, cords: String){
+        val listCords = cords.split(",")
+        val sightPoint = Point(listCords[0].toDouble(), listCords[1].toDouble())
+
+        val map = mapView.mapWindow.map
+        map.move(CameraPosition(sightPoint, 17.25f, 0f, 0f))
+        val markersCollection = map.mapObjects.addCollection()
+
+        fun addBeautifulPlacemark(point: Point, context: Context) {
+            markersCollection.addPlacemark().apply {
+                geometry = point
+                setIcon(ImageProvider.fromResource(context, R.drawable.place))
+                val iconStyle = IconStyle().apply {
+                    anchor = PointF(0.5f, 1.0f)
+                    scale = 0.04f
+                    zIndex = 10f
+                }
+                setIconStyle(iconStyle)
+            }
+        }
+        addBeautifulPlacemark(sightPoint, MAIN2)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        MapKitFactory.getInstance().onStart()
+    }
+
+    override fun onStop() {
+        /*if (::mapView.isInitialized) {
+            mapView.onStop()*/
+        MapKitFactory.getInstance().onStop()
+        super.onStop()
+    }
+
+    override fun onDestroyView() {
+        MapKitFactory.getInstance().onStop()
+        super.onDestroyView()
     }
 
     fun showSnackbar(view: View, text: String) {

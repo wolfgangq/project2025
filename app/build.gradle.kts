@@ -7,14 +7,14 @@ plugins {
 
 android {
     namespace = "com.tradition.mobilevtkproject"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.tradition.mobilevtkproject"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
-        versionName = "1.21"
+        versionName = "1.22"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -40,10 +40,12 @@ android {
     kotlinOptions {
         jvmTarget = "18"
     }
-    buildToolsVersion = "34.0.0"
+    //buildToolsVersion = "34.0.0"
 }
 
 dependencies {
+    implementation("com.yandex.android:maps.mobile:4.14.0-full")
+
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.material)
@@ -76,7 +78,6 @@ dependencies {
 
     implementation(libs.play.services.maps)
     implementation("com.google.android.gms:play-services-location:21.3.0")
-    //implementation(libs.play.services.ads)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

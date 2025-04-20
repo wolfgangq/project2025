@@ -280,26 +280,24 @@ class TransitionActivity : AppCompatActivity() {
             val eventsListBolguri = mutableListOf<UniversalRegionItem>()
 
             val sightsListBolguri = listOf(
-                UniversalRegionItem("Погибшим в Великой Отечественной войне", "",
-                    "https://drive.usercontent.google.com/download?id=1VexEbLIVAEx07LJ-rDMiYUZ5uTghnkZg&export=view"),
+                UniversalRegionItem("Погибшим в Великой Отечественной войне",
+                    imageUrl = "https://drive.usercontent.google.com/download?id=1VexEbLIVAEx07LJ-rDMiYUZ5uTghnkZg&export=view", coordinates = "56.963618, 53.762885"),
                 UniversalRegionItem("Памятник Жертвам белого террора",
                     "В 1977 году в деревне Болгуры был возведён памятник «Жертвам белого террора». Он находится на улице Центральная, между домами 63 и 65",
-                    "https://drive.usercontent.google.com/download?id=1yCKhsm6jyiNf4kIIV4Mvt2NhwzhLYN-O&export=view"),
-                UniversalRegionItem("Музей живых ремёсел и оленья ферма Добрянка", "«Добрянка» — музей живых ремёсел, объект сельского туризма. Комплекс, расположенный вблизи железнодорожной станции «Болгуры», демонстрирует традиционный быт и ремесленное мастерство русского народа. На территории также располагается оленья ферма и другие достопримечательности.)\n[56.941237, 53.771450]",
-                    "https://drive.usercontent.google.com/download?id=1m3JRO-DrAU7BFYpj1a2DwEO6HIWPq6AK&export=view"),
-                UniversalRegionItem("Питомник орехоплодных культур и растений экзотов", "[56.958503, 53.787957]",
-                    "https://drive.usercontent.google.com/download?id=1ivJEqm08oZLjtJSzZF0eyQuf5oae7y9Z&export=view"),
+                    "https://drive.usercontent.google.com/download?id=1yCKhsm6jyiNf4kIIV4Mvt2NhwzhLYN-O&export=view", coordinates = "56.962937, 53.771127"),
+                UniversalRegionItem("Музей живых ремёсел и оленья ферма Добрянка", "«Добрянка» — музей живых ремёсел, объект сельского туризма. Комплекс, расположенный вблизи железнодорожной станции «Болгуры», демонстрирует традиционный быт и ремесленное мастерство русского народа. На территории также располагается оленья ферма и другие достопримечательности",
+                    "https://drive.usercontent.google.com/download?id=1m3JRO-DrAU7BFYpj1a2DwEO6HIWPq6AK&export=view", coordinates = "56.941237, 53.771450"),
+                UniversalRegionItem("Питомник орехоплодных культур и растений экзотов", coordinates = "56.958503, 53.787957",
+                    imageUrl = "https://drive.usercontent.google.com/download?id=1ivJEqm08oZLjtJSzZF0eyQuf5oae7y9Z&export=view"),
                 UniversalRegionItem("Пруд Сушилка", "Пруд «Сушилка» расположен в деревне Болгуры, используется для хозяйственно-питьевого и технического водоснабжения, а также является местом отдыха и рыболовства"),
-                UniversalRegionItem("Холм Белая Глинка", "Одна из главных природных достопримечательностей деревни Болгуры. Высота горы — более 60 метров. Половина покрыта лесом, на вершине растёт рябина. Другая половина поросла травой и открывает панораму на деревню и близлежащие поля и леса\n[56.963533, 53.762140]",
-                ),
-                UniversalRegionItem("Гора Пупыш", "Одна из главных природных достопримечательностей деревни Болгуры. Высота горы — более 60 метров. Половина покрыта лесом, на вершине растёт рябина. Другая половина поросла травой и открывает панораму на деревню и близлежащие поля и леса\n[56.963533, 53.762140]",
+                UniversalRegionItem("Холм Белая Глинка", "Одна из главных природных достопримечательностей деревни Болгуры. Высота горы — более 60 метров. Половина покрыта лесом, на вершине растёт рябина. Другая половина поросла травой и открывает панораму на деревню и близлежащие поля и леса"),
+                UniversalRegionItem("Гора Пупыш", "Одна из главных природных достопримечательностей деревни Болгуры. Высота горы — более 60 метров. Половина покрыта лесом, на вершине растёт рябина. Другая половина поросла травой и открывает панораму на деревню и близлежащие поля и леса",
                     "https://drive.usercontent.google.com/download?id=1qS0T_Cwr0kj_CcFBR9Z8EgcE1uSIPygs&export=view"),
                 UniversalRegionItem("Обводненный карьер", "Бывший карьер, где когда-то на склоне холма добывали глину и увозили на стройки Воткинска. Обнажение получилось неглубоким, но большим по площади. Карьер пытались вернуть природе, засадили елями и соснами. Однако из-за бедности почвы саженцы не растут"),
-                UniversalRegionItem("«Бабушкины ивы»", "«Бабушкины ивы» — это ивы, которым более 100 лет, они растут в деревне Болгуры. В народе их прозвали «Бабушки ивы».Чтобы обхватить одно такое дерево,понадобится компания из 5 человек\n[56.963533, 53.762140]",
-                    "https://drive.usercontent.google.com/download?id=10upWL7l40Q1r2IVxBpdcT48VBFVpWa_Q&export=view"),
-                UniversalRegionItem("Болгуринский СДК", "Учреждение находится по адресу: Удмуртская Республика, Воткинский район, д. Болгуры, ул. Школьная, д. 1е.\nВ Доме культуры проводятся занятия любительских объединений для всех возрастных групп, организуются выставки, конкурсы и экскурсии, творческие встречи с интересными людьми, экологические акции, праздничные вечера\n[56.963469, 53.764412]",
-                    "https://drive.usercontent.google.com/download?id=1Xo-xiIUcGYtp07aIGxLsHexT-GBcCJT9&export=view"),
-                UniversalRegionItem("Деревообрабатывающее предприятие", ""),
+                UniversalRegionItem("«Бабушкины ивы»", "«Бабушкины ивы» — это ивы, которым более 100 лет, они растут в деревне Болгуры. В народе их прозвали «Бабушки ивы».Чтобы обхватить одно такое дерево,понадобится компания из 5 человек",
+                    "https://drive.usercontent.google.com/download?id=10upWL7l40Q1r2IVxBpdcT48VBFVpWa_Q&export=view", coordinates = "56.963533, 53.762140"),
+                UniversalRegionItem("Болгуринский СДК", "Учреждение находится по адресу: Удмуртская Республика, Воткинский район, д. Болгуры, ул. Школьная, д. 1е.\nВ Доме культуры проводятся занятия любительских объединений для всех возрастных групп, организуются выставки, конкурсы и экскурсии, творческие встречи с интересными людьми, экологические акции, праздничные вечера",
+                    "https://drive.usercontent.google.com/download?id=1Xo-xiIUcGYtp07aIGxLsHexT-GBcCJT9&export=view", coordinates = "56.963469, 53.764412"),
             )
             val competitionsListBolguri = listOf(
                 UniversalRegionItem("Царь горы (Д.Болгуры [Холм Пупыш])", "Заберитесь на вершину холма Пупыш и сфотографируйтесь"),
@@ -338,7 +336,8 @@ class TransitionActivity : AppCompatActivity() {
                                             "itemName" to item.title,
                                             "itemDescription" to item.description,
                                             "itemImageUrl" to item.imageUrl,
-                                            "itemFullDescription" to item.fullDescription
+                                            "itemFullDescription" to item.fullDescription,
+                                            "itemCoordinates" to item.coordinates
                                         )
                                         documentReference.collection(collection)
                                             .add(excursion)

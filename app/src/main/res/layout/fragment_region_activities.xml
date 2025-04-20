@@ -50,7 +50,8 @@
         app:layout_constraintTop_toTopOf="@+id/textViewEventTitle"
         app:layout_constraintWidth_percent="0.08" />
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollViewMain"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -196,7 +197,7 @@
             </LinearLayout>
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <TextView
         android:id="@+id/textViewSize"

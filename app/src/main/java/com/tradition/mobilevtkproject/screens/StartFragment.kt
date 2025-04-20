@@ -31,7 +31,7 @@ class StartFragment : Fragment() {
     val db = Firebase.firestore
     val installedVersion: Float by lazy {
         val packageInfo: PackageInfo = requireContext().packageManager.getPackageInfo(requireContext().packageName, 0)
-        packageInfo.versionName.toFloat()
+        packageInfo.versionName!!.toFloat()
     }
 
     override fun onCreateView(
