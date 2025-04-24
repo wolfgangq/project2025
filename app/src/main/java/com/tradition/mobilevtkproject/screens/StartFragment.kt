@@ -1,16 +1,17 @@
 package com.tradition.mobilevtkproject.screens
 
+import WindowUtils
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -18,9 +19,7 @@ import com.google.firebase.ktx.Firebase
 import com.tradition.mobilevtkproject.MAIN
 import com.tradition.mobilevtkproject.MainActivity
 import com.tradition.mobilevtkproject.MainActivity.Companion.isInternetAvailable
-import com.tradition.mobilevtkproject.MainActivity.Companion.setDarkStatusBar
 import com.tradition.mobilevtkproject.MainActivity.Companion.successAuth
-import com.tradition.mobilevtkproject.MainActivity.Companion.toDefaultColors
 import com.tradition.mobilevtkproject.databinding.FragmentStartBinding
 
 @Suppress("DEPRECATION")
@@ -143,7 +142,8 @@ class StartFragment : Fragment() {
             .setMessage("Уважаемый пользователь!\nУстановленная версия приложения: $installedVersion\nНовейшая версия: $newestAvailableVersion\nПожалуйста, обновитесь до новейшей версии")
 
         builder.setPositiveButton("Обновить") { dialog, which ->
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://drive.google.com/drive/folders/10YuxH1BKjsqZ6Zt0G18PXvQlZw7N7HlJ?usp=sharing"))
+            val intent = Intent(Intent.ACTION_VIEW,
+                "https://drive.google.com/drive/folders/10YuxH1BKjsqZ6Zt0G18PXvQlZw7N7HlJ?usp=sharing".toUri())
             startActivity(intent)
         }
         builder.setCancelable(false)
@@ -152,8 +152,9 @@ class StartFragment : Fragment() {
     }
     override fun onStart() {
         super.onStart()
-        setDarkStatusBar(requireActivity())
-        toDefaultColors(requireActivity())
+        WindowUtils.setDarkStatusBarIcons(requireActivity())
+        WindowUtils.resetStatusBarToDefault(requireActivity())
+        WindowUtils.resetNavigationBarToDefault(requireActivity())
         checkForUpdates(requireContext())
         turnButtons(false)
         val auth = Firebase.auth
@@ -189,5 +190,10 @@ class StartFragment : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        WindowUtils.setDarkNavigationBarIcons(requireActivity())
     }
 }

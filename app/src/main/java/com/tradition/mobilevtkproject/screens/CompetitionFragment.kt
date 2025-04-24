@@ -1,5 +1,6 @@
 package com.tradition.mobilevtkproject.screens
 
+import WindowUtils
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.content.Context
@@ -19,9 +20,8 @@ import com.google.firebase.ktx.Firebase
 import com.tradition.mobilevtkproject.MAIN2
 import com.tradition.mobilevtkproject.R
 import com.tradition.mobilevtkproject.TransitionActivity
-import com.tradition.mobilevtkproject.TransitionActivity.Companion.getTime
-import com.tradition.mobilevtkproject.TransitionActivity.Companion.setColors
 import com.tradition.mobilevtkproject.databinding.FragmentCompetitionBinding
+import com.tradition.mobilevtkproject.utils.DateTimeUtils
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
@@ -52,7 +52,7 @@ class CompetitionFragment : Fragment() {
         binding.buttonSendUrl.setOnClickListener {
             hideKeyboard(view)
             if (binding.editTextUrl.text.toString().trim() != "") {
-                val myDate = getTime()
+                val myDate = DateTimeUtils.getMoscowTime()
                 db.collection("competitiveApplications")
                     .whereEqualTo("userId", auth.currentUser!!.uid)
                     .whereEqualTo("cardName", cardName).get()
@@ -111,7 +111,7 @@ class CompetitionFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        setColors(requireActivity(), "desert")
+        WindowUtils.setStatusBarColor(requireActivity(), R.color.desert)
     }
 
     fun hideKeyboard(view: View) {

@@ -1,7 +1,7 @@
 package com.tradition.mobilevtkproject.screens
 
+import WindowUtils
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.tradition.mobilevtkproject.MAIN2
+import com.tradition.mobilevtkproject.R
 import com.tradition.mobilevtkproject.TransitionActivity
-import com.tradition.mobilevtkproject.TransitionActivity.Companion.setColors
 import com.tradition.mobilevtkproject.databinding.FragmentMainBinding
 
 class MainFragmentMap : Fragment() {
@@ -218,8 +218,10 @@ class MainFragmentMap : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        requireActivity().window.navigationBarColor = Color.WHITE
-        setColors(requireActivity(), "mainGreen")
+        WindowUtils.setLightStatusBarIcons(requireActivity())
+        WindowUtils.setDarkNavigationBarIcons(requireActivity())
+        WindowUtils.setStatusBarColor(requireActivity(), R.color.mainGreen)
+        WindowUtils.setNavigationBarColor(requireActivity(), R.color.white)
     }
 
 }

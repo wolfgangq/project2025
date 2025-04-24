@@ -3,23 +3,22 @@ package com.tradition.mobilevtkproject.screens
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.tradition.mobilevtkproject.Level
-import com.tradition.mobilevtkproject.User
 import com.tradition.mobilevtkproject.MAIN
 import com.tradition.mobilevtkproject.MainActivity
-import com.tradition.mobilevtkproject.R
-import com.tradition.mobilevtkproject.databinding.FragmentFourthBinding
-import com.tradition.mobilevtkproject.MainActivity.Companion.isPassValid
 import com.tradition.mobilevtkproject.MainActivity.Companion.successAuth
+import com.tradition.mobilevtkproject.User
+import com.tradition.mobilevtkproject.databinding.FragmentFourthBinding
+import com.tradition.mobilevtkproject.utils.TextFormattingUtils
 
 @Suppress("DEPRECATION")
 class FourthFragmentPass : Fragment() {
@@ -43,7 +42,7 @@ class FourthFragmentPass : Fragment() {
         binding.continueButton.setOnClickListener{
             val pass = binding.editTextPass.text.toString().trim()
             val currentUser = arguments?.getSerializable("info") as User
-            if(!isPassValid(pass)){
+            if(!TextFormattingUtils.isPassValid(pass)){
                 Toast.makeText(MAIN, "Пароль должен быть не меньше 8 символов", Toast.LENGTH_SHORT).show()
             }
             if(pass.length > 40){

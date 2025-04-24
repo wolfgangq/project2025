@@ -1,5 +1,6 @@
 package com.tradition.mobilevtkproject.screens
 
+import WindowUtils
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.os.Bundle
@@ -8,27 +9,25 @@ import android.text.TextWatcher
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.Firebase
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.firestore
 import com.tradition.mobilevtkproject.MAIN2
-import com.tradition.mobilevtkproject.MainActivity.Companion.getUserInfo
-import com.tradition.mobilevtkproject.MainActivity.Companion.isPassValid
-import com.tradition.mobilevtkproject.TransitionActivity.Companion.setColors
-import com.tradition.mobilevtkproject.databinding.FragmentSettingsBinding
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import kotlin.toString
 import com.tradition.mobilevtkproject.R
 import com.tradition.mobilevtkproject.TransitionActivity
+import com.tradition.mobilevtkproject.data.repository.impl.FirebaseUserRepository
+import com.tradition.mobilevtkproject.databinding.FragmentSettingsBinding
+import com.tradition.mobilevtkproject.utils.TextFormattingUtils
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class SettingsFragment : Fragment() {
 
@@ -90,7 +89,7 @@ class SettingsFragment : Fragment() {
             lifecycleScope.launch {
                 var id = auth.currentUser?.uid.toString()
                 val db = Firebase.firestore
-                var currentUser = getUserInfo(id)
+                var currentUser = FirebaseUserRepository().getUserInfo(id)
                 try {
                     val snapshot = db.collection("users").whereEqualTo("authId", id).get().await()
                     var k = 0
@@ -281,7 +280,7 @@ class SettingsFragment : Fragment() {
             else if(newpass.length > 40){
                 Toast.makeText(MAIN2, "Новый пароль слишком длинный", Toast.LENGTH_SHORT).show()
             }
-            else if(!isPassValid(newpass)){
+            else if(!TextFormattingUtils.isPassValid(newpass)){
                 Toast.makeText(MAIN2, "Новый пароль должен быть не менее 8 символов", Toast.LENGTH_SHORT).show()
             }
             else{
@@ -304,7 +303,7 @@ class SettingsFragment : Fragment() {
         lifecycleScope.launch {
             val auth = FirebaseAuth.getInstance()
             var id = auth.currentUser?.uid.toString()
-            var currentUser = getUserInfo(id)
+            var currentUser = FirebaseUserRepository().getUserInfo(id)
             binding.editTextName2.setText(currentUser?.get("name").toString())
             binding.editTextSurname2.setText(currentUser?.get("surname").toString())
             binding.editTextEmail2.setText(currentUser?.get("email").toString())
@@ -314,7 +313,7 @@ class SettingsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        setColors(requireActivity(), "mainGreen")
+        WindowUtils.setStatusBarColor(requireActivity(), R.color.mainGreen)
     }
 
     }

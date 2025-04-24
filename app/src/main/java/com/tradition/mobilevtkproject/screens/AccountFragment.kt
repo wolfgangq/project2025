@@ -1,5 +1,6 @@
 package com.tradition.mobilevtkproject.screens
 
+import WindowUtils
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
@@ -20,15 +21,15 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.tradition.mobilevtkproject.Application
 import com.tradition.mobilevtkproject.ApplicationItem
+import com.tradition.mobilevtkproject.Card
+import com.tradition.mobilevtkproject.FirestoreRegionInitializer
 import com.tradition.mobilevtkproject.MAIN2
 import com.tradition.mobilevtkproject.MainActivity
-import com.tradition.mobilevtkproject.MainActivity.Companion.getUserInfo
 import com.tradition.mobilevtkproject.R
 import com.tradition.mobilevtkproject.TransitionActivity
-import com.tradition.mobilevtkproject.TransitionActivity.Companion.createRegions
-import com.tradition.mobilevtkproject.TransitionActivity.Companion.setColors
+import com.tradition.mobilevtkproject.data.RegionDataBolguri
+import com.tradition.mobilevtkproject.data.repository.impl.FirebaseUserRepository
 import com.tradition.mobilevtkproject.databinding.FragmentAccountBinding
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -47,7 +48,7 @@ class AccountFragment : Fragment() {
     ): View? {
         binding = FragmentAccountBinding.inflate(layoutInflater, container, false)
         lifecycleScope.launch {
-            var currentUser = getUserInfo(userId)
+            var currentUser = FirebaseUserRepository().getUserInfo(userId)
             if (currentUser?.get("accessLevel") == "Creator") {
                 binding.buttonAdminRecreate.visibility = View.VISIBLE
             }
@@ -55,9 +56,9 @@ class AccountFragment : Fragment() {
 
         lifecycleScope.launch {
             var excursionApplications = findApplications("excursionApplications")
-            populateCards(binding.linearLayoutExcursions, excursionApplications, Application.Excursion)
+            populateCards(binding.linearLayoutExcursions, excursionApplications, Card.Excursion)
             var competitiveApplications = findApplications("competitiveApplications")
-            populateCards(binding.linearLayoutCompetitions, competitiveApplications, Application.Competition)
+            populateCards(binding.linearLayoutCompetitions, competitiveApplications, Card.Competition)
         }
 
         return binding.root
@@ -88,10 +89,11 @@ class AccountFragment : Fragment() {
 
         binding.buttonAdminRecreate.setOnClickListener{
             lifecycleScope.launch {
-                var currentUser = getUserInfo(userId)
+                var currentUser = FirebaseUserRepository().getUserInfo(userId)
                 if (currentUser?.get("accessLevel") == "Creator") {
                     Toast.makeText(MAIN2, "Информация муниципалитетов пересоздана", Toast.LENGTH_SHORT).show()
-                    createRegions()
+                    FirestoreRegionInitializer().initializeRegion("Болгуры", RegionDataBolguri.SHORT_DESCRIPTION, RegionDataBolguri.HISTORY, RegionDataBolguri.EXCURSIONS_LIST,
+                        RegionDataBolguri.EVENTS_LIST, RegionDataBolguri.SIGHTS_LIST, RegionDataBolguri.COMPETITIONS_LIST)
                 }
             }
         }
@@ -99,8 +101,8 @@ class AccountFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        requireActivity().window.navigationBarColor = Color.WHITE
-        setColors(requireActivity(), "mainGreen")
+        WindowUtils.setNavigationBarColor(requireActivity(), R.color.white)
+        WindowUtils.setStatusBarColor(requireActivity(), R.color.mainGreen)
     }
 
     suspend fun findApplications(collection: String): MutableList<ApplicationItem> {
@@ -133,7 +135,7 @@ class AccountFragment : Fragment() {
     }
 
     @SuppressLint("MissingInflatedId")
-    private fun populateCards(container: LinearLayout, someList: MutableList<ApplicationItem>, objectType: Application) {
+    private fun populateCards(container: LinearLayout, someList: MutableList<ApplicationItem>, objectType: Card) {
         val inflater = LayoutInflater.from(MAIN2)
         container.removeAllViews()
 
@@ -167,19 +169,20 @@ class AccountFragment : Fragment() {
             if (item != someList.last()){
                 container.addView(divider)
             }
-            deleteButton.setOnClickListener { onButtonClick(item, objectType,container, someList) }
+            deleteButton.setOnClickListener { onButtonClick(item, objectType, container, someList) }
         }
 
     }
 
-    private fun onButtonClick(item: ApplicationItem, objectType: Application, container: LinearLayout, someList: MutableList<ApplicationItem>) {
+    private fun onButtonClick(item: ApplicationItem, objectType: Card, container: LinearLayout, someList: MutableList<ApplicationItem>) {
         when (objectType){
-            Application.Excursion -> deleteApplication(item, "excursionApplications", "Запись удалена!", objectType,container, someList)
-            Application.Competition -> deleteApplication(item, "competitiveApplications", "Заявка удалена!", objectType,container, someList)
+            Card.Excursion -> deleteApplication(item, "excursionApplications", "Запись удалена!", objectType, container, someList)
+            Card.Competition -> deleteApplication(item, "competitiveApplications", "Заявка удалена!", objectType, container, someList)
+            else -> {}
         }
     }
 
-    private fun deleteApplication(item: ApplicationItem, collection: String, onDeleteText: String, objectType: Application, container: LinearLayout, someList: MutableList<ApplicationItem>){
+    private fun deleteApplication(item: ApplicationItem, collection: String, onDeleteText: String, objectType: Card, container: LinearLayout, someList: MutableList<ApplicationItem>){
         val builder = AlertDialog.Builder(MAIN2)
         builder.setTitle("Экскурсия")
             .setMessage("Вы уверены, что хотите удалить конкурсную заявку?")

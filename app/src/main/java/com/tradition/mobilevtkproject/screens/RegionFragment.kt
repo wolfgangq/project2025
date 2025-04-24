@@ -1,21 +1,20 @@
 package com.tradition.mobilevtkproject.screens
 
+import WindowUtils
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
+import com.tradition.mobilevtkproject.R
 import com.tradition.mobilevtkproject.TransitionActivity
 import com.tradition.mobilevtkproject.databinding.FragmentRegionBinding
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import com.tradition.mobilevtkproject.R
-import com.tradition.mobilevtkproject.TransitionActivity.Companion.setColors
 
 class RegionFragment : Fragment() {
 
@@ -72,7 +71,7 @@ class RegionFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        requireActivity().window.navigationBarColor = Color.WHITE
-        setColors(requireActivity(), "mainGreen")
+        WindowUtils.setNavigationBarColor(requireActivity(), R.color.white)
+        WindowUtils.setStatusBarColor(requireActivity(), R.color.mainGreen)
     }
 }

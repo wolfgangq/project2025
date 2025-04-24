@@ -1,8 +1,8 @@
 package com.tradition.mobilevtkproject.screens
 
+import WindowUtils
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,12 +15,10 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.tradition.mobilevtkproject.MAIN
 import com.tradition.mobilevtkproject.MainActivity
-import com.tradition.mobilevtkproject.MainActivity.Companion.isEmailValid
-import com.tradition.mobilevtkproject.MainActivity.Companion.setColors
-import com.tradition.mobilevtkproject.MainActivity.Companion.setLightStatusBar
-import com.tradition.mobilevtkproject.MainActivity.Companion.toDefaultColors
+import com.tradition.mobilevtkproject.R
 import com.tradition.mobilevtkproject.TransitionActivity
 import com.tradition.mobilevtkproject.databinding.FragmentForgotPasswordBinding
+import com.tradition.mobilevtkproject.utils.TextFormattingUtils
 
 class ForgotPasswordFragment : Fragment() {
     lateinit var binding: FragmentForgotPasswordBinding
@@ -43,7 +41,7 @@ class ForgotPasswordFragment : Fragment() {
 
         binding.buttonSendEmail.setOnClickListener{
             val gotEmail = binding.editTextEmail.text.toString()
-            if (isEmailValid(gotEmail)){
+            if (TextFormattingUtils.isEmailValid(gotEmail)){
                 Firebase.auth.sendPasswordResetEmail(gotEmail)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
@@ -81,15 +79,19 @@ class ForgotPasswordFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        setLightStatusBar(requireActivity())
-        toDefaultColors(requireActivity()) // MAIN
+        WindowUtils.setLightStatusBarIcons(requireActivity())
+        WindowUtils.resetStatusBarToDefault(requireActivity())
+        WindowUtils.resetNavigationBarToDefault(requireActivity())
     }
 
     override fun onResume() {
         super.onResume()
-        setColors(requireActivity(), "darkGreen")
+        WindowUtils.setStatusBarColor(requireActivity(), R.color.darkGreen)
         if (requireActivity() is TransitionActivity){
-            requireActivity().window.navigationBarColor = Color.WHITE
+            WindowUtils.setNavigationBarColor(requireActivity(), R.color.white)
+        }
+        else{
+            WindowUtils.setNavigationBarColor(requireActivity(), R.color.darkGreen)
         }
     }
 }

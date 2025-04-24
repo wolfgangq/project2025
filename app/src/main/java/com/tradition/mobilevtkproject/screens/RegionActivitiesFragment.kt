@@ -1,5 +1,6 @@
 package com.tradition.mobilevtkproject.screens
 
+import WindowUtils
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
@@ -40,10 +41,9 @@ import com.tradition.mobilevtkproject.Card
 import com.tradition.mobilevtkproject.MAIN2
 import com.tradition.mobilevtkproject.R
 import com.tradition.mobilevtkproject.TransitionActivity
-import com.tradition.mobilevtkproject.TransitionActivity.Companion.getTime
-import com.tradition.mobilevtkproject.TransitionActivity.Companion.setColors
 import com.tradition.mobilevtkproject.UniversalRegionItem
 import com.tradition.mobilevtkproject.databinding.FragmentRegionActivitiesBinding
+import com.tradition.mobilevtkproject.utils.DateTimeUtils
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
@@ -400,7 +400,7 @@ class RegionActivitiesFragment : Fragment() {
 
                             }
                             builder.setPositiveButton("Да") { dialog, which ->
-                                val myDate = getTime()
+                                val myDate = DateTimeUtils.getMoscowTime()
                                 db.collection("excursionApplications").whereEqualTo("userId", auth.currentUser!!.uid)
                                     .whereEqualTo("cardName", cardName)
                                     .get()
@@ -568,8 +568,8 @@ class RegionActivitiesFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        requireActivity().window.navigationBarColor = Color.WHITE
-        setColors(requireActivity(), "mainGreen")
+        WindowUtils.setNavigationBarColor(requireActivity(), R.color.white)
+        WindowUtils.setStatusBarColor(requireActivity(), R.color.mainGreen)
     }
 
 
@@ -593,7 +593,7 @@ class RegionActivitiesFragment : Fragment() {
                 setIconStyle(iconStyle)
             }
         }
-        addBeautifulPlacemark(sightPoint, MAIN2)
+        //addBeautifulPlacemark(sightPoint, MAIN2)
     }
 
     override fun onStart() {

@@ -3,18 +3,20 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.google.devtools.ksp")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
     namespace = "com.tradition.mobilevtkproject"
     compileSdk = 35
 
+
     defaultConfig {
         applicationId = "com.tradition.mobilevtkproject"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
-        versionName = "1.22"
+        versionName = "1.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -23,6 +25,7 @@ android {
         //noinspection DataBindingWithoutKapt
         dataBinding = true
         viewBinding = true
+        prefab = false
     }
     buildTypes {
         release {
@@ -40,11 +43,27 @@ android {
     kotlinOptions {
         jvmTarget = "18"
     }
-    //buildToolsVersion = "34.0.0"
+
+    packagingOptions {
+        resources.excludes += setOf(
+            "**/libmaps-mobile.so",
+            "**/libjni.so",
+            "**/libjnidispatch.so"
+        )
+
+        jniLibs.useLegacyPackaging = true
+    }
+
+
+            //buildToolsVersion = "34.0.0"
 }
 
 dependencies {
-    implementation("com.yandex.android:maps.mobile:4.14.0-full")
+    implementation("com.yandex.android:maps.mobile:4.12.0-lite") {
+        exclude(group = "com.yandex.android", module = "maps-http-client")
+        exclude(group = "com.yandex.android", module = "maps-mobile")
+        exclude(group = "com.yandex.android", module = "runtime")
+    }
 
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.androidx.ui)
@@ -60,6 +79,7 @@ dependencies {
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.firebase.analytics)
     implementation("com.google.firebase:firebase-auth-ktx:23.2.0")
+    implementation("com.google.firebase:firebase-crashlytics-ktx")
 
     /*implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)

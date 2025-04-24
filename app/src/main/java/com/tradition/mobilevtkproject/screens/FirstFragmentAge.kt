@@ -1,15 +1,14 @@
 package com.tradition.mobilevtkproject.screens
 
+import WindowUtils
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.tradition.mobilevtkproject.MAIN
 import com.tradition.mobilevtkproject.MainActivity
-import com.tradition.mobilevtkproject.MainActivity.Companion.setColors
-import com.tradition.mobilevtkproject.MainActivity.Companion.setLightStatusBar
 import com.tradition.mobilevtkproject.R
 import com.tradition.mobilevtkproject.User
 import com.tradition.mobilevtkproject.databinding.FragmentFirstBinding
@@ -55,8 +54,10 @@ class FirstFragmentAge : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        setLightStatusBar(requireActivity())
-        setColors(requireActivity(), "darkGreen")
+        WindowUtils.setLightStatusBarIcons(requireActivity())
+        WindowUtils.setLightNavigationBarIcons(requireActivity())
+        WindowUtils.setStatusBarColor(requireActivity(), R.color.darkGreen)
+        WindowUtils.setNavigationBarColor(requireActivity(), R.color.darkGreen)
     }
 
 
