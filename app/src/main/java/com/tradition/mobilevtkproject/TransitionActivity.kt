@@ -21,7 +21,6 @@ import com.tradition.mobilevtkproject.screens.AccountFragment
 import com.tradition.mobilevtkproject.screens.MainFragmentMap
 import com.tradition.mobilevtkproject.screens.ShopFragment
 
-
 @Suppress("OVERRIDE_DEPRECATION")
 class TransitionActivity : AppCompatActivity() {
 
@@ -29,6 +28,7 @@ class TransitionActivity : AppCompatActivity() {
     var prevStack = ""
     val auth = Firebase.auth
     var id = auth.currentUser?.uid.toString()
+    var f = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +62,7 @@ class TransitionActivity : AppCompatActivity() {
                 when (position) {
                     0 -> {
                         goLastFragment(tab1, ShopFragment())
-                        }
+                    }
                     1 -> {
                         goLastFragment(tab2, MainFragmentMap())
                         tab.setIcon(R.drawable.map_icon)
@@ -79,7 +79,7 @@ class TransitionActivity : AppCompatActivity() {
                 when (position) {
                     0 -> {
                         prevStack = tab1
-                        supportFragmentManager.commit{
+                        supportFragmentManager.commit {
                             supportFragmentManager.saveBackStack(tab1)
                         }
                     }
@@ -87,18 +87,19 @@ class TransitionActivity : AppCompatActivity() {
                         prevStack = tab2
                         tab.setIcon(R.drawable.unselected_map)
                         tab.icon!!.alpha = 70
-                        supportFragmentManager.commit{
+                        supportFragmentManager.commit {
                             supportFragmentManager.saveBackStack(tab2)
                         }
                     }
                     2 -> {
                         prevStack = tab3
-                        supportFragmentManager.commit{
+                        supportFragmentManager.commit {
                             supportFragmentManager.saveBackStack(tab3)
                         }
                     }
                 }
             }
+
             override fun onTabReselected(tab: TabLayout.Tab) {
                 val position = tab.position
                 when (position) {
@@ -113,25 +114,21 @@ class TransitionActivity : AppCompatActivity() {
                     }
                 }
             }
-
         })
     }
 
-    var f = 0
     @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
         var currentFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
         if (currentFragment !is ShopFragment && currentFragment !is MainFragmentMap && currentFragment !is AccountFragment) {
             supportFragmentManager.popBackStack()
-        }
-        else {
+        } else {
             val toast = Toast.makeText(MAIN, "Нажмите еще раз для выхода", Toast.LENGTH_SHORT)
             f += 1
             if (f == 2) {
                 f = 0
                 toast.cancel()
                 finish()
-                //super.onBackPressedDispatcher.onBackPressed()
             } else if (f == 1) {
                 toast.show()
                 Handler(Looper.getMainLooper()).postDelayed({
@@ -144,14 +141,14 @@ class TransitionActivity : AppCompatActivity() {
         }
     }
 
-    fun goFragment(stackName: String, fragment: Fragment, bundle: Bundle?, bool: Boolean? = true){
-        supportFragmentManager.commit{
-            if (bool == true){
+    fun goFragment(stackName: String, fragment: Fragment, bundle: Bundle?, bool: Boolean? = true) {
+        supportFragmentManager.commit {
+            if (bool == true) {
                 setCustomAnimations(
-                    0,//R.anim.slide_in, // enter
-                    0,//R.anim.fade_out, // exit
-                    R.anim.fade_in, // popEnter
-                    R.anim.slide_out // popExit
+                    0, //R.anim.slide_in,
+                    0, //R.anim.fade_out,
+                    R.anim.fade_in,
+                    R.anim.slide_out
                 )
             }
             fragment.arguments = bundle
@@ -172,7 +169,7 @@ class TransitionActivity : AppCompatActivity() {
         return false
     }
 
-    private fun showFirstDialog(){
+    private fun showFirstDialog() {
         val builder = AlertDialog.Builder(MAIN2)
         builder.setTitle("Информация")
             .setMessage("Уважаемый пользователь! Данное приложение находится на стадии активной разработки.\nНа " +
@@ -208,8 +205,8 @@ class TransitionActivity : AppCompatActivity() {
         handler.post(runnable)
     }
 
-    private fun goLastFragment(stackName: String, fragment: Fragment){
-        supportFragmentManager.commit{
+    private fun goLastFragment(stackName: String, fragment: Fragment) {
+        supportFragmentManager.commit {
             setReorderingAllowed(true)
             supportFragmentManager.beginTransaction().replace(R.id.fragmentContainerView,
                 fragment).commit()
@@ -217,19 +214,17 @@ class TransitionActivity : AppCompatActivity() {
         }
     }
 
-    fun goToAccount(){
+    fun goToAccount() {
         binding.tabLayout.getTabAt(2)?.select()
         resetStack("Account", AccountFragment())
     }
 
-    private fun resetStack(stackName: String, fragment: Fragment){
-        supportFragmentManager.commit{
+    private fun resetStack(stackName: String, fragment: Fragment) {
+        supportFragmentManager.commit {
             supportFragmentManager.popBackStack(stackName, FragmentManager.POP_BACK_STACK_INCLUSIVE)
             setReorderingAllowed(true)
             supportFragmentManager.beginTransaction().replace(R.id.fragmentContainerView,
                 fragment).commit()
         }
     }
-
-
 }

@@ -59,7 +59,7 @@ class InfoFragment : Fragment() {
             WindowUtils.setNavigationBarColor(requireActivity(), R.color.lightBlue)
         }
         WindowUtils.setLightStatusBarIcons(requireActivity())
-        WindowUtils.setLightNavigationBarIcons(requireActivity())
+        WindowUtils.setDarkNavigationBarIcons(requireActivity())
     }
 
 }
