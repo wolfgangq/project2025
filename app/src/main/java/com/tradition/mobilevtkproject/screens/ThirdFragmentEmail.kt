@@ -54,6 +54,29 @@ class ThirdFragmentEmail : Fragment() {
                 }
             }
         }
+        /*binding.continueButton.setOnClickListener{
+            val email = binding.editTextEmail.text.toString().trim()
+            val currentUser = arguments?.getSerializable("info") as User
+            when{
+                email == "" -> Toast.makeText(MAIN, "Введите адрес электронной почты", Toast.LENGTH_SHORT).show()
+                !TextFormattingUtils.isEmailValid(email) -> Toast.makeText(MAIN, "Введите правильный адрес почты", Toast.LENGTH_SHORT).show()
+
+                else -> {
+                    lifecycleScope.launch {
+                        val result = FirebaseUserRepository().userWithThisEmailExists(email)
+                        when (result) {
+                            FirebaseUserRepository.EmailCheckResult.Registered -> {Toast.makeText(MAIN, "Такой пользователь уже зарегестрирован", Toast.LENGTH_LONG).show()}
+                            FirebaseUserRepository.EmailCheckResult.Available -> {
+                                currentUser.email = email
+                                bundle.putSerializable("info", currentUser)
+                                (activity as? MainActivity)?.goFragment(null, FourthFragmentPass(), bundle)
+                            }
+                            is FirebaseUserRepository.EmailCheckResult.Error -> {}
+                        }
+                    }
+                }
+            }
+        }*/
         binding.imageButton.setOnClickListener{
             (activity as? MainActivity)?.onBackPressed()
         }

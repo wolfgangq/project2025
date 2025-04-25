@@ -32,4 +32,26 @@ class FirebaseUserRepository(private val firestore: FirebaseFirestore = Firebase
             false
         }
     }
+
+    /*override suspend fun userWithThisEmailExists(email: String): EmailCheckResult {
+        return try {
+            val result = Firebase.auth.fetchSignInMethodsForEmail(email).await()
+            val signInMethods = result.signInMethods
+
+            if (signInMethods?.isNotEmpty() == true) {
+                EmailCheckResult.Registered
+            } else {
+                EmailCheckResult.Available
+            }
+        } catch (e: Exception) {
+            EmailCheckResult.Error(e.message)
+        }
+    }
+
+    sealed class EmailCheckResult : Serializable {
+        object Registered : EmailCheckResult()
+        object Available : EmailCheckResult()
+        data class Error(val message: String?) : EmailCheckResult()
+    }*/
+
 }
