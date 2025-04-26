@@ -5,6 +5,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.tradition.mobilevtkproject.data.repository.UserRepository
 import kotlinx.coroutines.tasks.await
+import java.io.Serializable
 
 class FirebaseUserRepository(private val firestore: FirebaseFirestore = Firebase.firestore) : UserRepository {
     override suspend fun getUserInfo(id: String): Map<String, Any>? {
@@ -34,6 +35,35 @@ class FirebaseUserRepository(private val firestore: FirebaseFirestore = Firebase
     }
 
     /*override suspend fun userWithThisEmailExists(email: String): EmailCheckResult {
+        val auth = Firebase.auth
+        val tempPassword = "8204e440221df2ef6e7f7efb36d7bea3c728e8f"
+
+        return suspendCoroutine { continuation ->
+            auth.signInWithEmailAndPassword(email, tempPassword)
+                .addOnCompleteListener { task ->
+                    when {
+                        task.isSuccessful -> {
+                            auth.signOut()
+                            continuation.resume(EmailCheckResult.Registered)
+                        }
+                        task.exception is FirebaseAuthInvalidUserException -> {
+                            continuation.resume(EmailCheckResult.Available)
+                        }
+                        task.exception is FirebaseAuthInvalidCredentialsException -> {
+                            continuation.resume(EmailCheckResult.Registered)
+                        }
+                        else -> {
+                            continuation.resume(EmailCheckResult.Error(task.exception?.message))
+                        }
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    continuation.resume(EmailCheckResult.Error(exception.message))
+                }
+        }
+    }*/
+
+    /*override suspend fun userWithThisEmailExists(email: String): EmailCheckResult {
         return try {
             val result = Firebase.auth.fetchSignInMethodsForEmail(email).await()
             val signInMethods = result.signInMethods
@@ -46,12 +76,12 @@ class FirebaseUserRepository(private val firestore: FirebaseFirestore = Firebase
         } catch (e: Exception) {
             EmailCheckResult.Error(e.message)
         }
-    }
+    }*/
 
     sealed class EmailCheckResult : Serializable {
         object Registered : EmailCheckResult()
         object Available : EmailCheckResult()
         data class Error(val message: String?) : EmailCheckResult()
-    }*/
+    }
 
 }
