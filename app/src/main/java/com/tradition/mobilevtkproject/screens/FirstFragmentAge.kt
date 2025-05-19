@@ -29,7 +29,7 @@ class FirstFragmentAge : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.progressBar.progress = 25
+        binding.progressBar.progress = 100/3
         binding.continueButton.setOnClickListener{
             val age = binding.editTextAge.text.toString().trim()
             if(age == ""){

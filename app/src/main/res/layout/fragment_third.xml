@@ -10,6 +10,24 @@
 
 
     <EditText
+        android:id="@+id/editTextPass"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="15dp"
+        android:ems="10"
+        android:hint="@string/hintPass"
+        android:inputType="text|textPassword"
+        android:textColor="@color/white"
+        android:textColorHint="#E9E8E8"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
+
+    <EditText
         android:id="@+id/editTextEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -19,7 +37,7 @@
         android:hint="@string/hintEmail"
         android:inputType="text|textEmailAddress"
         android:textColor="@color/white"
-        android:textColorHint="@color/white"
+        android:textColorHint="#E9E8E8"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,13 +57,13 @@
         android:backgroundTint="@color/back"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:text="@string/continue_button"
+        android:text="Зарегистрироваться"
         android:textAllCaps="true"
         app:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.07"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextPass" />
 
     <TextView
         android:id="@+id/textViewForgot"
@@ -55,7 +73,7 @@
         android:layout_marginRight="15dp"
         android:clickable="false"
         android:gravity="center"
-        android:text="@string/req_text3"
+        android:text="Ваши почта и пароль"
         android:textColor="@color/white"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -1,14 +1,13 @@
 package com.tradition.mobilevtkproject.screens
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.tradition.mobilevtkproject.MAIN
 import com.tradition.mobilevtkproject.MainActivity
-import com.tradition.mobilevtkproject.R
 import com.tradition.mobilevtkproject.User
 import com.tradition.mobilevtkproject.databinding.FragmentSecondBinding
 
@@ -27,7 +26,7 @@ class SecondFragmentName : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.progressBar.progress = 50
+        binding.progressBar.progress = 200/3
 
         binding.continueButton.setOnClickListener{
             val name = binding.editTextName.text.toString().trim()

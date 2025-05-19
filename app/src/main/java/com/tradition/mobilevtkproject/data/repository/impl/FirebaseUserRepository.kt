@@ -1,11 +1,15 @@
 package com.tradition.mobilevtkproject.data.repository.impl
 
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.tradition.mobilevtkproject.data.repository.UserRepository
 import kotlinx.coroutines.tasks.await
 import java.io.Serializable
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class FirebaseUserRepository(private val firestore: FirebaseFirestore = Firebase.firestore) : UserRepository {
     override suspend fun getUserInfo(id: String): Map<String, Any>? {
@@ -31,6 +35,40 @@ class FirebaseUserRepository(private val firestore: FirebaseFirestore = Firebase
                 .isEmpty
         } catch (e: Exception) {
             false
+        }
+    }
+
+    override suspend fun checkEmailByCreation(email: String): EmailCheckResult {
+        val auth = Firebase.auth
+        val tempPassword = "8204e440221df2ef6e7f7efb36d7bea3c728e8f"
+
+        return suspendCoroutine { continuation ->
+            auth.createUserWithEmailAndPassword(email, tempPassword)
+                .addOnCompleteListener { task ->
+                    try {
+                        if (task.isSuccessful) {
+                            // Пользователь создан - email свободен
+                            task.result?.user?.delete()?.addOnCompleteListener { deleteTask ->
+                                if (deleteTask.isSuccessful) {
+                                    continuation.resume(EmailCheckResult.Available)
+                                } else {
+                                    continuation.resume(EmailCheckResult.Error(deleteTask.exception?.message))
+                                }
+                            }
+                        } else {
+                            when (val exception = task.exception) {
+                                is FirebaseAuthUserCollisionException -> {
+                                    continuation.resume(EmailCheckResult.Registered)
+                                }
+                                else -> {
+                                    continuation.resume(EmailCheckResult.Error(exception?.message))
+                                }
+                            }
+                        }
+                    } catch (e: Exception) {
+                        continuation.resume(EmailCheckResult.Error(e.message))
+                    }
+                }
         }
     }
 

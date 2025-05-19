@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="authBackground">#638953</color>
+    <color name="authBackground">#74A062</color>
     <color name="mainBackground">#83B46F</color>
 
     <color name="black">#FF000000</color>
