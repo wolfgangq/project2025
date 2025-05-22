@@ -199,33 +199,7 @@ class AccountFragment : Fragment() {
                         someList.remove(item)
                         populateCards(container, someList, objectType)
                         Snackbar.make(requireView(), onDeleteText, 1000)
-                            /*.setAction("Отменить") {
-                                lifecycleScope.launch {
-                                    when (objectType){
-                                        Application.Excursion -> {
-                                            val application = hashMapOf(
-                                                "userId" to auth.currentUser!!.uid,
-                                                "cardName" to item.title,
-                                                "applicationDate" to item.date
-                                            )
-                                            db.collection(collection).add(application).addOnSuccessListener{
-                                                container.addView(view)
-                                            }
-                                        }
-                                        Application.Competition -> {
-                                            val application = hashMapOf(
-                                                "userId" to auth.currentUser!!.uid,
-                                                "cardName" to item.title,
-                                                "applicationDate" to item.date,
-                                                "sentUrl" to item.imageUrl
-                                            )
-                                            db.collection(collection).add(application).addOnSuccessListener{
-                                                container.addView(view)
-                                            }
-                                        }
-                                    }
-                                }
-                            }*/.setBackgroundTint(resources.getColor(R.color.black, null)).setTextColor(resources.getColor(R.color.neutralBlue, null)).setActionTextColor(resources.getColor(R.color.discard, null))
+                            .setBackgroundTint(resources.getColor(R.color.black, null)).setTextColor(resources.getColor(R.color.neutralBlue, null)).setActionTextColor(resources.getColor(R.color.discard, null))
                             .show()
                     }
                 }

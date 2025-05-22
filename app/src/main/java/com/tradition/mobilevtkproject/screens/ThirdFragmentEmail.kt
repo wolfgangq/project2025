@@ -35,33 +35,10 @@ class ThirdFragmentEmail : Fragment() {
         binding = FragmentThirdBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
-    val bundle = Bundle()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.progressBar.progress = 100
-
-        /*binding.continueButton.setOnClickListener{
-            val email = binding.editTextEmail.text.toString().trim()
-            val currentUser = arguments?.getSerializable("info") as User
-            when{
-                email == "" -> Toast.makeText(MAIN, "Введите адрес электронной почты", Toast.LENGTH_SHORT).show()
-                !TextFormattingUtils.isEmailValid(email) -> Toast.makeText(MAIN, "Введите правильный адрес почты", Toast.LENGTH_SHORT).show()
-
-                else -> {
-                    lifecycleScope.launch {
-                        if(FirebaseUserRepository().userWithThisEmailExists(email)){
-                            Toast.makeText(MAIN, "Такой пользователь уже зарегестрирован", Toast.LENGTH_LONG).show()
-                        }
-                        else{
-                            currentUser.email = email
-                            bundle.putSerializable("info", currentUser)
-                            (activity as? MainActivity)?.goFragment(null, FourthFragmentPass(), bundle)
-                        }
-                    }
-                }
-            }
-        }*/
 
         binding.continueButton.setOnClickListener{
             val pass = binding.editTextPass.text.toString().trim()
@@ -84,7 +61,7 @@ class ThirdFragmentEmail : Fragment() {
                 currentUser.pass = pass
                 auth = Firebase.auth
 
-                // Сначала проверяем интернет
+                // Проверка соединения
                 if (!isInternetAvailable(MAIN)) {
                     Toast.makeText(MAIN, "Нет подключения к интернету", Toast.LENGTH_LONG).show()
                     return@setOnClickListener
@@ -93,14 +70,14 @@ class ThirdFragmentEmail : Fragment() {
                 auth.createUserWithEmailAndPassword(currentUser.email, currentUser.pass)
                     .addOnCompleteListener { task ->
                         if (!task.isSuccessful) {
-                            // Обрабатываем разные типы ошибок
+                            // Обрабатка ошибок
                             when (task.exception) {
                                 is FirebaseAuthUserCollisionException -> {
-                                    // Ошибка: email уже занят
+                                    // Email уже занят
                                     Toast.makeText(MAIN, "Этот email уже зарегистрирован", Toast.LENGTH_LONG).show()
                                 }
                                 is FirebaseNetworkException -> {
-                                    // Ошибка сети (может возникнуть после проверки)
+                                    // Ошибка сети
                                     Toast.makeText(MAIN, "Ошибка сети при регистрации", Toast.LENGTH_LONG).show()
                                 }
                                 else -> {
