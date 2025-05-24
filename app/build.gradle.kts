@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.Packaging
+
 plugins {
     id("com.google.gms.google-services")
     alias(libs.plugins.android.application)
@@ -44,7 +46,7 @@ android {
         jvmTarget = "18"
     }
 
-    packagingOptions {
+    fun Packaging.() {
         resources.excludes += setOf(
             "**/libmaps-mobile.so",
             "**/libjni.so",
@@ -55,7 +57,7 @@ android {
     }
 
 
-            //buildToolsVersion = "34.0.0"
+    //buildToolsVersion = "34.0.0"
 }
 
 dependencies {
@@ -75,15 +77,11 @@ dependencies {
     implementation(libs.glide)
     implementation(libs.androidx.recyclerview)
 
-    implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
+    implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.firebase.analytics)
-    implementation("com.google.firebase:firebase-auth-ktx:23.2.0")
-    implementation("com.google.firebase:firebase-crashlytics-ktx")
-
-    /*implementation(libs.androidx.room.runtime)
-    ksp(libs.androidx.room.compiler)
-    implementation(libs.androidx.room.ktx)*/
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.firebase.crashlytics.ktx)
 
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.kotlin.stdlib)
@@ -97,7 +95,7 @@ dependencies {
     implementation(libs.androidx.navigation.fragment)
 
     implementation(libs.play.services.maps)
-    implementation("com.google.android.gms:play-services-location:21.3.0")
+    implementation(libs.play.services.location)
 
     implementation(libs.core)
 
