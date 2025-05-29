@@ -20,14 +20,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.ProgressBar
-import android.widget.TextView
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
@@ -40,6 +37,10 @@ import com.tradition.mobilevtkproject.MAIN2
 import com.tradition.mobilevtkproject.R
 import com.tradition.mobilevtkproject.TransitionActivity
 import com.tradition.mobilevtkproject.UniversalRegionItem
+import com.tradition.mobilevtkproject.adapter.ItemCompetitionAdapter
+import com.tradition.mobilevtkproject.adapter.ItemEventAdapter
+import com.tradition.mobilevtkproject.adapter.ItemExcursionAdapter
+import com.tradition.mobilevtkproject.adapter.ItemSightAdapter
 import com.tradition.mobilevtkproject.data.repository.impl.ActivitiesRepositoryImpl
 import com.tradition.mobilevtkproject.databinding.FragmentRegionActivitiesBinding
 import com.yandex.mapkit.MapKitFactory
@@ -60,6 +61,10 @@ class RegionActivitiesFragment : Fragment() {
     var eventItems: List<UniversalRegionItem> = emptyList()
     var sightItems: List<UniversalRegionItem> = emptyList()
     var competitionItems: List<UniversalRegionItem> = emptyList()
+    val adapterExcursionItems = ItemExcursionAdapter(::onViewClick, ::actionExcursionBook)
+    val adapterEventItems = ItemEventAdapter(::onViewClick, {})
+    val adapterSightItems = ItemSightAdapter(::onViewClick, {})
+    val adapterCompetitionItems = ItemCompetitionAdapter(::onViewClick, ::actionCompetitionToSend)
 
 
 
@@ -70,6 +75,9 @@ class RegionActivitiesFragment : Fragment() {
     ): View? {
         regionName = arguments?.getString("RegionName").toString()
         binding = FragmentRegionActivitiesBinding.inflate(layoutInflater, container, false)
+
+        binding.recyclerViewItems.layoutManager = LinearLayoutManager(requireContext())
+
         for (i in 0 until binding.tabLayout.tabCount) {
             val tab = binding.tabLayout.getTabAt(i)
             tab?.view?.isClickable = false
@@ -80,7 +88,8 @@ class RegionActivitiesFragment : Fragment() {
                 val snapshot = db.collection("regions").whereEqualTo("regionName", regionName).get().await()
                 if (!snapshot.isEmpty) {
                     excursionItems = ActivitiesRepositoryImpl().getItemList(regionName, "excursions")
-                    populateExcursionCards(excursionItems)
+                    binding.recyclerViewItems.adapter = adapterExcursionItems
+                    adapterExcursionItems.submitList(excursionItems)
                     eventItems = ActivitiesRepositoryImpl().getItemList(regionName, "events")
                     sightItems = ActivitiesRepositoryImpl().getItemList(regionName, "sights")
                     competitionItems = ActivitiesRepositoryImpl().getItemList(regionName, "competitions")
@@ -116,23 +125,25 @@ class RegionActivitiesFragment : Fragment() {
                 tab?.position?.let { position ->
                     when (position) {
                         0 -> {
-                            binding.multiLinearLayout.removeAllViews()
-                            populateExcursionCards(excursionItems)
-                            }
+                            binding.recyclerViewItems.adapter = adapterExcursionItems
+                            adapterExcursionItems.submitList(excursionItems)
+                        }
                         1 -> {
-                            binding.multiLinearLayout.removeAllViews()
-                            populateEventCards(eventItems)
+                            binding.recyclerViewItems.adapter = adapterEventItems
+                            adapterEventItems.submitList(eventItems)
                         }
                         2 -> {
-                            binding.multiLinearLayout.removeAllViews()
-                            populateSightCards(sightItems)
+                            binding.recyclerViewItems.adapter = adapterSightItems
+                            adapterSightItems.submitList(sightItems)
                         }
                         3 -> {
-                            binding.multiLinearLayout.removeAllViews()
-                            populateCompetitionCards(competitionItems)
+                            binding.recyclerViewItems.adapter = adapterCompetitionItems
+                            adapterCompetitionItems.submitList(competitionItems)
                         }
                     }
                 }
+                if (binding.recyclerViewItems.adapter!!.itemCount == 0) {showEmptyState(true)}
+                else {showEmptyState(false)}
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) = Unit
@@ -140,189 +151,6 @@ class RegionActivitiesFragment : Fragment() {
                 onTabSelected(tab)
             }
         })
-    }
-
-
-    fun populateExcursionCards(itemList: List<UniversalRegionItem>){
-        showEmptyState(false)
-        val inflater = LayoutInflater.from(requireContext())
-        val container = view?.findViewById<LinearLayout>(R.id.multiLinearLayout)!!
-        if (container.size >= 2) {
-            return
-        }
-        for (item in itemList) {
-            val view = inflater.inflate(R.layout.item_excursion, container, false)
-            view.findViewById<TextView>(R.id.excursionTitle).text = item.title
-            view.findViewById<TextView>(R.id.excursionDescription).text = item.description
-            val imageView: ImageView = view.findViewById(R.id.excursionImage)
-            val progressBar: ProgressBar = view.findViewById(R.id.excursionProgressBar)
-            val constraintCard: ConstraintLayout = view.findViewById(R.id.excursionConstraintCard)
-            val continueButton: Button = view.findViewById(R.id.bookButton)
-            val textViewDuration = view.findViewById<TextView>(R.id.excursionDuration)
-            val textViewGroupSize = view.findViewById<TextView>(R.id.excursionGroupSize)
-
-
-            if (item.imageUrl != null) {
-                loadImageWithRetry(imageView, item.imageUrl, progressBar)
-            }
-            else {
-                constraintCard.visibility = View.GONE
-            }
-            if (item.duration != null) {
-                textViewDuration.text = item.duration
-            }
-            else {
-                textViewDuration.visibility = View.GONE
-            }
-            if (item.groupSize != null) {
-                textViewGroupSize.text = item.groupSize
-            }
-            else {
-                textViewGroupSize.visibility = View.GONE
-            }
-
-            view.setOnClickListener { onViewClick(item) }
-            doButtonActionWithVibrate(continueButton, view, {actionExcursionBook(item)})
-
-            container.addView(view)
-        }
-        if (container.size == 0) {
-            showEmptyState(true)
-        }
-    }
-    fun populateEventCards(itemList: List<UniversalRegionItem>){
-        showEmptyState(false)
-        val inflater = LayoutInflater.from(requireContext())
-        val container = view?.findViewById<LinearLayout>(R.id.multiLinearLayout)!!
-        if (container.size >= 2) {
-            return
-        }
-        for (item in itemList) {
-            val view = inflater.inflate(R.layout.item_event, container, false)
-            view.findViewById<TextView>(R.id.eventTitle).text = item.title
-            view.findViewById<TextView>(R.id.eventDescription).text = item.description
-            val continueButton: Button = view.findViewById(R.id.registerButton)
-            val textViewDate = view.findViewById<TextView>(R.id.eventDate)
-            val textViewTime = view.findViewById<TextView>(R.id.eventTime)
-            if (item.date != null) {
-                textViewDate.text = item.date
-            }
-            else {
-                textViewDate.visibility = View.GONE
-            }
-
-            if (item.startTime != null && item.endTime != null) {
-                textViewTime.text = "${item.startTime} - ${item.endTime}"
-            }
-            else if (item.startTime != null) {
-                textViewTime.text = item.startTime
-            }
-            else {
-                textViewTime.visibility = View.GONE
-            }
-
-
-
-            view.setOnClickListener { onViewClick(item) }
-            doButtonActionWithVibrate(continueButton, view, {})
-
-            container.addView(view)
-        }
-        if (container.size == 0) {
-            showEmptyState(true)
-        }
-    }
-    fun populateSightCards(itemList: List<UniversalRegionItem>){
-        showEmptyState(false)
-        val inflater = LayoutInflater.from(requireContext())
-        val container = view?.findViewById<LinearLayout>(R.id.multiLinearLayout)!!
-        if (container.size >= 2) {
-            return
-        }
-        for (item in itemList) {
-            val view = inflater.inflate(R.layout.item_sight, container, false)
-            view.findViewById<TextView>(R.id.sightName).text = item.title
-            val textViewDescription = view.findViewById<TextView>(R.id.miniDescriptionSight)
-            val imageView: ImageView = view.findViewById(R.id.sightImage)
-            val progressBar: ProgressBar = view.findViewById(R.id.sightProgressBar)
-            val constraintCard: ConstraintLayout = view.findViewById(R.id.sightConstraintCard)
-            val continueButton: Button = view.findViewById(R.id.detailSightButton)
-            val textViewCord = view.findViewById<TextView>(R.id.coordinatesSight)
-            val mapView: MapView = view.findViewById<MapView>(R.id.mapview)
-
-            if (item.description != null) {
-                textViewDescription.text = item.description
-            }
-            else {
-                textViewDescription.visibility = View.GONE
-            }
-            if (item.imageUrl != null) {
-                loadImageWithRetry(imageView, item.imageUrl, progressBar)
-            }
-            else {
-                constraintCard.visibility = View.GONE
-            }
-            if (item.coordinates != null) {
-                textViewCord.text = item.coordinates
-                mapView.apply {
-                    mapWindow.map.isScrollGesturesEnabled = false
-                    mapWindow.map.isZoomGesturesEnabled = false
-                    mapWindow.map.isRotateGesturesEnabled = false
-                    mapWindow.map.isTiltGesturesEnabled = false
-                    onStart()
-                    setupSightPoint(this, item.coordinates!!)
-                }
-            }
-            else{
-                textViewCord.visibility = View.GONE
-                mapView.visibility = View.GONE
-            }
-
-            view.setOnClickListener { onViewClick(item) }
-            doButtonActionWithVibrate(continueButton, view, {})
-
-            container.addView(view)
-        }
-        if (container.size == 0) {
-            showEmptyState(true)
-        }
-    }
-    private fun setupSightPoint(mapView: MapView, cords: String){
-        val listCords = cords.split(",")
-        val sightPoint = Point(listCords[0].toDouble(), listCords[1].toDouble())
-
-        val map = mapView.mapWindow.map
-        map.move(CameraPosition(sightPoint, 17.25f, 0f, 0f))
-    }
-    fun populateCompetitionCards(itemList: List<UniversalRegionItem>){
-        showEmptyState(false)
-        val inflater = LayoutInflater.from(requireContext())
-        val container = view?.findViewById<LinearLayout>(R.id.multiLinearLayout)!!
-        if (container.size >= 2) {
-            return
-        }
-        for (item in itemList) {
-            val view = inflater.inflate(R.layout.item_competition, container, false)
-            view.findViewById<TextView>(R.id.competTitle).text = item.title
-            view.findViewById<TextView>(R.id.miniDescriptionCompet).text = item.description
-            val continueButton: Button = view.findViewById(R.id.sendButton)
-            val textViewLocation = view.findViewById<TextView>(R.id.locationText)
-
-            if (item.location != null) {
-                textViewLocation.text = item.location
-            }
-            else {
-                textViewLocation.visibility = View.GONE
-            }
-
-            view.setOnClickListener { onViewClick(item) }
-            doButtonActionWithVibrate(continueButton, view, {actionCompetitionToSend(item)})
-
-            container.addView(view)
-        }
-        if (container.size == 0) {
-            showEmptyState(true)
-        }
     }
 
     private fun actionExcursionBook(excursion: UniversalRegionItem) {
@@ -413,154 +241,6 @@ class RegionActivitiesFragment : Fragment() {
         }, 1000)
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    fun doButtonActionWithVibrate(button: Button, view: View, onAction: () -> Unit) {
-        val scaleDownValue = 0.97f
-        val scaleUpValue = 1f
-        val animationDuration = 150L
-        val vibrator = context?.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
-
-        button.setOnTouchListener { v, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    v.tag = true
-                    view.animate()
-                        .scaleX(scaleDownValue)
-                        .scaleY(scaleDownValue)
-                        .setDuration(animationDuration)
-                        .withStartAction {
-                            if (Build.VERSION.SDK_INT >= 26) {
-                                vibrator?.vibrate(
-                                    VibrationEffect.createOneShot(
-                                        50,
-                                        VibrationEffect.DEFAULT_AMPLITUDE
-                                    )
-                                )
-                            } else {
-                                vibrator?.vibrate(50)
-                            }
-                        }
-                        .start()
-                    true
-                }
-
-                MotionEvent.ACTION_MOVE -> {
-                    val rect = Rect()
-                    v.getGlobalVisibleRect(rect)
-
-                    val isInside = rect.contains(event.rawX.toInt(), event.rawY.toInt())
-
-                    if (!isInside) {
-                        v.tag = false
-                        v.post {
-                            v.isPressed = false
-                            v.jumpDrawablesToCurrentState()
-                        }
-                        view.animate()
-                            .scaleX(scaleUpValue)
-                            .scaleY(scaleUpValue)
-                            .setDuration(animationDuration)
-                            .start()
-                    }
-                    true
-                }
-
-                MotionEvent.ACTION_UP -> {
-                    if (v.tag as? Boolean == true) {
-                        v.post {
-                            v.isPressed = false
-                            v.jumpDrawablesToCurrentState()
-                        }
-                        view.animate()
-                            .scaleX(scaleUpValue)
-                            .scaleY(scaleUpValue)
-                            .setDuration(animationDuration)
-                            .withEndAction {
-                                onAction()
-                            }
-                            .start()
-                    } else {
-                        view.animate()
-                            .scaleX(scaleUpValue)
-                            .scaleY(scaleUpValue)
-                            .setDuration(animationDuration)
-                            .start()
-                    }
-                    true
-                }
-
-                MotionEvent.ACTION_CANCEL -> {
-                    v.post {
-                        v.isPressed = false
-                        v.jumpDrawablesToCurrentState()
-                    }
-                    view.animate()
-                        .scaleX(scaleUpValue)
-                        .scaleY(scaleUpValue)
-                        .setDuration(animationDuration)
-                        .start()
-                    true
-                }
-
-                else -> false
-            }
-        }
-    }
-
-    fun loadImageWithRetry(imageView: ImageView, imageUrl: String?, progressBar: ProgressBar, attempt: Int = 1, MAX_ATTEMPTS: Int = 10) {
-        if (imageUrl != null){
-            if (attempt > MAX_ATTEMPTS) {
-                Log.e("Glide", "Max attempts reached for loading image")
-                val toast = Toast.makeText(MAIN2, "Не удалось загрузить изображение за отведенное время", Toast.LENGTH_SHORT)
-                toast.show()
-                Handler(Looper.getMainLooper()).postDelayed({
-                    toast.cancel()
-                }, 500)
-                progressBar.visibility = View.GONE
-                return
-            }
-
-            Glide.with(imageView.context).clear(imageView)
-
-            Glide.with(imageView.context)
-                .load(imageUrl)
-                .listener(object : RequestListener<Drawable> {
-                    override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any?,
-                        target: com.bumptech.glide.request.target.Target<Drawable?>,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        Log.e("Glide", "Image load failed", e)
-
-                        val delayMillis = (500 * 2.0.pow(attempt.toDouble())).toLong()
-
-
-                        Handler(Looper.getMainLooper()).postDelayed({
-                            loadImageWithRetry(imageView, imageUrl, progressBar, attempt + 1)
-                        }, delayMillis)
-
-                        return true
-                    }
-
-                    override fun onResourceReady(
-                        resource: Drawable,
-                        model: Any,
-                        target: com.bumptech.glide.request.target.Target<Drawable?>,
-                        dataSource: com.bumptech.glide.load.DataSource,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        progressBar.visibility = View.GONE
-                        return false
-                    }
-                })
-                .into(imageView)
-        }
-        else{
-            return
-        }
-    }
-
     private fun showSnackbar(message: String) {
         Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)
             .setAction("К записям") {
@@ -578,7 +258,7 @@ class RegionActivitiesFragment : Fragment() {
 
     private fun showEmptyState(show: Boolean) {
         binding.emptyView.root.visibility = if (show) View.VISIBLE else View.GONE
-        binding.multiLinearLayout.visibility = if (show) View.GONE else View.VISIBLE
+        binding.recyclerViewItems.visibility = if (show) View.GONE else View.VISIBLE
     }
 
     private fun showError(message: String) {
@@ -605,6 +285,164 @@ class RegionActivitiesFragment : Fragment() {
     override fun onDestroyView() {
         MapKitFactory.getInstance().onStop()
         super.onDestroyView()
+    }
+
+    companion object {
+        fun setupSightPoint(mapView: MapView, cords: String){
+            val listCords = cords.split(",")
+            val sightPoint = Point(listCords[0].toDouble(), listCords[1].toDouble())
+
+            val map = mapView.mapWindow.map
+            map.move(CameraPosition(sightPoint, 17.25f, 0f, 0f))
+        }
+
+        @SuppressLint("ClickableViewAccessibility")
+        fun doButtonActionWithVibrate(button: Button, view: View, onAction: () -> Unit) {
+            val scaleDownValue = 0.97f
+            val scaleUpValue = 1f
+            val animationDuration = 150L
+            val vibrator = MAIN2.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
+
+            button.setOnTouchListener { v, event ->
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                        v.tag = true
+                        view.animate()
+                            .scaleX(scaleDownValue)
+                            .scaleY(scaleDownValue)
+                            .setDuration(animationDuration)
+                            .withStartAction {
+                                if (Build.VERSION.SDK_INT >= 26) {
+                                    vibrator?.vibrate(
+                                        VibrationEffect.createOneShot(
+                                            50,
+                                            VibrationEffect.DEFAULT_AMPLITUDE
+                                        )
+                                    )
+                                } else {
+                                    vibrator?.vibrate(50)
+                                }
+                            }
+                            .start()
+                        true
+                    }
+
+                    MotionEvent.ACTION_MOVE -> {
+                        val rect = Rect()
+                        v.getGlobalVisibleRect(rect)
+
+                        val isInside = rect.contains(event.rawX.toInt(), event.rawY.toInt())
+
+                        if (!isInside) {
+                            v.tag = false
+                            v.post {
+                                v.isPressed = false
+                                v.jumpDrawablesToCurrentState()
+                            }
+                            view.animate()
+                                .scaleX(scaleUpValue)
+                                .scaleY(scaleUpValue)
+                                .setDuration(animationDuration)
+                                .start()
+                        }
+                        true
+                    }
+
+                    MotionEvent.ACTION_UP -> {
+                        if (v.tag as? Boolean == true) {
+                            v.post {
+                                v.isPressed = false
+                                v.jumpDrawablesToCurrentState()
+                            }
+                            view.animate()
+                                .scaleX(scaleUpValue)
+                                .scaleY(scaleUpValue)
+                                .setDuration(animationDuration)
+                                .withEndAction {
+                                    onAction()
+                                }
+                                .start()
+                        } else {
+                            view.animate()
+                                .scaleX(scaleUpValue)
+                                .scaleY(scaleUpValue)
+                                .setDuration(animationDuration)
+                                .start()
+                        }
+                        true
+                    }
+
+                    MotionEvent.ACTION_CANCEL -> {
+                        v.post {
+                            v.isPressed = false
+                            v.jumpDrawablesToCurrentState()
+                        }
+                        view.animate()
+                            .scaleX(scaleUpValue)
+                            .scaleY(scaleUpValue)
+                            .setDuration(animationDuration)
+                            .start()
+                        true
+                    }
+
+                    else -> false
+                }
+            }
+        }
+
+        fun loadImageWithRetry(imageView: ImageView, imageUrl: String?, progressBar: ProgressBar, attempt: Int = 1, MAX_ATTEMPTS: Int = 10) {
+            if (imageUrl != null){
+                if (attempt > MAX_ATTEMPTS) {
+                    Log.e("Glide", "Max attempts reached for loading image")
+                    val toast = Toast.makeText(MAIN2, "Не удалось загрузить изображение за отведенное время", Toast.LENGTH_SHORT)
+                    toast.show()
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        toast.cancel()
+                    }, 500)
+                    progressBar.visibility = View.GONE
+                    return
+                }
+
+                Glide.with(imageView.context).clear(imageView)
+
+                Glide.with(imageView.context)
+                    .load(imageUrl)
+                    .listener(object : RequestListener<Drawable> {
+                        override fun onLoadFailed(
+                            e: GlideException?,
+                            model: Any?,
+                            target: com.bumptech.glide.request.target.Target<Drawable?>,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            Log.e("Glide", "Image load failed", e)
+
+                            val delayMillis = (500 * 2.0.pow(attempt.toDouble())).toLong()
+
+
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                loadImageWithRetry(imageView, imageUrl, progressBar, attempt + 1)
+                            }, delayMillis)
+
+                            return true
+                        }
+
+                        override fun onResourceReady(
+                            resource: Drawable,
+                            model: Any,
+                            target: com.bumptech.glide.request.target.Target<Drawable?>,
+                            dataSource: com.bumptech.glide.load.DataSource,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            progressBar.visibility = View.GONE
+                            return false
+                        }
+                    })
+                    .into(imageView)
+            }
+            else{
+                return
+            }
+        }
     }
 }
 
