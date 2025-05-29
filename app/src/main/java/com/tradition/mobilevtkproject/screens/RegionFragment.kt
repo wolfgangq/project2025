@@ -25,7 +25,7 @@ class RegionFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        regionName = ""
+        regionName = arguments?.getString("RegionName").toString()
     }
 
     override fun onCreateView(
@@ -40,11 +40,9 @@ class RegionFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (regionName == ""){
-            regionName = arguments?.getString("RegionName").toString()
-        }
-        if (regionName == "Болгуры"){
-            binding.imageViewRegion.setImageResource(R.drawable.bolguri)
+        when(regionName){
+            "Болгуры" -> binding.imageViewRegion.setImageResource(R.drawable.bolguri)
+            else -> {}
         }
         binding.imageButtonBack.setOnClickListener {
             (activity as? TransitionActivity)?.onBackPressed()

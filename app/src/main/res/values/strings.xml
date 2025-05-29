@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">GoTrad</string>
+    <string name="app_name" translatable="false">GoTrad: Туризм Воткинского района</string>
     <string name="intro">Изучайте местную культуру Воткинского района с интересом!</string>
     <string name="reg_button">⠀⠀⠀Создать аккаунт⠀⠀⠀</string>
     <string name="auth_button">У меня уже есть аккаунт</string>
@@ -28,6 +28,11 @@
     <string name="profile">Настройки профиля</string>
     <string name="balance">Ваш баланс:</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="empty_state_title">Ничего не найдено</string>
+    <string name="empty_state_subtitle">Здесь пока нет активностей</string>
+    <string name="tab_excursions">Экскурсии</string>
+    <string name="tab_events">Мероприятия</string>
+    <string name="tab_sights">Достопримечательности</string>
+    <string name="tab_competitions">Конкурсы</string>
 
 </resources>

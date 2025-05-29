@@ -1,212 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mainBackground"
-    tools:context=".screens.RegionActivitiesFragment">
+    android:background="@color/mainBackground">
 
-
-    <View
-        android:id="@+id/viewDivider2"
-        android:layout_width="0dp"
-        android:layout_height="2dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewEventTitle" />
-
-    <TextView
-        android:id="@+id/textViewEventTitle"
+    <!-- Header with back button and title -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/header"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginLeft="10dp"
         android:layout_marginTop="16dp"
-        android:layout_marginRight="10dp"
-        android:gravity="center"
-        android:text="Активности"
-        android:textColor="@color/white"
-        app:autoSizeTextType="uniform"
+        android:background="@color/mainGreen"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.04"
+        app:layout_constraintHeight_percent="0.045"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageButton
-        android:id="@+id/imageButtonBack"
+        <ImageButton
+            android:id="@+id/imageButtonBack"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            android:src="@drawable/whitearrow"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/title"
+            app:layout_constraintWidth_percent="0.08" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:autoSizeTextType="uniform"
+            android:gravity="center"
+            android:text="Активности"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- TabLayout for categories -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:background="@null"
-        android:scaleType="fitCenter"
-        android:src="@drawable/whitearrow"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewEventTitle"
-        app:layout_constraintDimensionRatio="1:1"
+        android:layout_height="48dp"
+        android:layout_marginTop="3dp"
+        android:background="@color/mainGreen"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textViewEventTitle"
-        app:layout_constraintWidth_percent="0.08" />
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:tabIndicatorColor="@color/white"
+        app:tabIndicatorHeight="3dp"
+        app:tabMode="scrollable"
+        app:tabPaddingEnd="16dp"
+        app:tabPaddingStart="16dp"
+        app:tabRippleColor="@color/white_20"
+        app:tabSelectedTextColor="@color/white"
+        app:tabTextColor="@color/white_80">
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/scrollViewMain"
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Экскурсии" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Мероприятия" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Достопримечательности" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Конкурсы" />
+    </com.google.android.material.tabs.TabLayout>
+
+    <!-- RecyclerView for cards -->
+
+    <!-- Progress indicator -->
+
+    <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewDivider2">
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout">
 
         <LinearLayout
+            android:id="@+id/multiLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"/>
+    </ScrollView>
 
-            <Button
-                android:id="@+id/buttonExcursions"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginRight="15dp"
-                android:backgroundTint="@color/lightBlue"
-                android:drawableLeft="@drawable/bottom_arrow"
-                android:insetTop="1dp"
-                android:insetBottom="1dp"
-                android:lines="1"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:text="⠀⠀⠀⠀⠀Экскурсии⠀⠀⠀⠀⠀"
-                android:textAllCaps="true"
-                app:autoSizeTextType="uniform"
-                app:layout_constraintHeight_percent="0.075" />
-
-            <LinearLayout
-                android:id="@+id/LinearLayoutExcursionsContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <ProgressBar
-                    android:id="@+id/progressBarExcursions"
-                    style="@android:style/Widget.Holo.ProgressBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/buttonEvents"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginRight="15dp"
-                android:backgroundTint="@color/lightBlue"
-                android:drawableLeft="@drawable/bottom_arrow"
-                android:insetTop="1dp"
-                android:insetBottom="1dp"
-                android:lines="1"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:text="⠀⠀⠀⠀Мероприятия⠀⠀⠀⠀"
-                android:textAllCaps="true"
-                app:autoSizeTextType="uniform"
-                app:layout_constraintHeight_percent="0.075" />
-
-            <LinearLayout
-                android:id="@+id/LinearLayoutEventsContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <ProgressBar
-                    android:id="@+id/progressBarEvents"
-                    style="@android:style/Widget.Holo.ProgressBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/buttonSights"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginRight="15dp"
-                android:backgroundTint="@color/lightBlue"
-                android:drawableLeft="@drawable/bottom_arrow"
-                android:insetTop="1dp"
-                android:insetBottom="1dp"
-                android:lines="1"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:text="@string/sights_button"
-                android:textAllCaps="true"
-                app:autoSizeTextType="uniform"
-                app:layout_constraintHeight_percent="0.075" />
-
-            <LinearLayout
-                android:id="@+id/LinearLayoutSightsContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <ProgressBar
-                    android:id="@+id/progressBarSights"
-                    style="@android:style/Widget.Holo.ProgressBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/buttonLocalCompetitions"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginRight="15dp"
-                android:backgroundTint="@color/blue"
-                android:drawableLeft="@drawable/bottom_arrow"
-                android:insetTop="1dp"
-                android:insetBottom="1dp"
-                android:lines="1"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:text="⠀⠀⠀⠀⠀Конкурсы⠀⠀⠀⠀⠀"
-                android:textAllCaps="true"
-                app:autoSizeTextType="uniform"
-                app:layout_constraintHeight_percent="0.075" />
-
-            <LinearLayout
-                android:id="@+id/LinearLayoutCompetitionsContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <ProgressBar
-                    android:id="@+id/progressBarCompetitions"
-                    style="@android:style/Widget.Holo.ProgressBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
-
-    <TextView
-        android:id="@+id/textViewSize"
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progressBar"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="invisible"
+        android:layout_height="4dp"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:indicatorColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tabLayout" />
+
+    <!-- Empty state view -->
+    <include
+        android:id="@+id/emptyView"
+        layout="@layout/layout_empty_state"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/tabLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

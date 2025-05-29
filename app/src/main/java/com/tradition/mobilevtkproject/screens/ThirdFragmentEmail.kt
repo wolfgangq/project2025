@@ -16,10 +16,10 @@ import com.google.firebase.ktx.Firebase
 import com.tradition.mobilevtkproject.Level
 import com.tradition.mobilevtkproject.MAIN
 import com.tradition.mobilevtkproject.MainActivity
-import com.tradition.mobilevtkproject.MainActivity.Companion.isInternetAvailable
 import com.tradition.mobilevtkproject.MainActivity.Companion.successAuth
 import com.tradition.mobilevtkproject.User
 import com.tradition.mobilevtkproject.databinding.FragmentThirdBinding
+import com.tradition.mobilevtkproject.utils.NetworkUtils
 import com.tradition.mobilevtkproject.utils.TextFormattingUtils
 
 @Suppress("DEPRECATION")
@@ -62,7 +62,7 @@ class ThirdFragmentEmail : Fragment() {
                 auth = Firebase.auth
 
                 // Проверка соединения
-                if (!isInternetAvailable(MAIN)) {
+                if (!NetworkUtils.isInternetAvailable(MAIN)) {
                     Toast.makeText(MAIN, "Нет подключения к интернету", Toast.LENGTH_LONG).show()
                     return@setOnClickListener
                 }

@@ -58,4 +58,18 @@
     </style>
 
 
+    <style name="MyTabLayoutStyle" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabTextAppearance">@style/MyTabTextAppearance</item>
+        <item name="tabSelectedTextAppearance">@style/MyTabTextAppearance</item>
+    </style>
+
+    <style name="MyTabTextAppearance" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="textAllCaps">true</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+
 </resources>

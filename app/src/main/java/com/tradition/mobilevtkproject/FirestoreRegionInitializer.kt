@@ -39,7 +39,9 @@ class FirestoreRegionInitializer {
                                     "itemDescription" to item.description,
                                     "itemImageUrl" to item.imageUrl,
                                     "itemFullDescription" to item.fullDescription,
-                                    "itemCoordinates" to item.coordinates
+                                    "itemCoordinates" to item.coordinates,
+                                    "itemDuration" to item.duration,
+                                    "itemGroupSize" to item.groupSize
                                 )
                                 documentReference.collection("excursions")
                                     .add(excursion)
@@ -50,7 +52,10 @@ class FirestoreRegionInitializer {
                                     "itemDescription" to item.description,
                                     "itemImageUrl" to item.imageUrl,
                                     "itemFullDescription" to item.fullDescription,
-                                    "itemCoordinates" to item.coordinates
+                                    "itemCoordinates" to item.coordinates,
+                                    "itemStartTime" to item.startTime,
+                                    "itemEndTime" to item.endTime,
+                                    "itemDate" to item.date
                                 )
                                 documentReference.collection("events")
                                     .add(event)
@@ -72,7 +77,8 @@ class FirestoreRegionInitializer {
                                     "itemDescription" to item.description,
                                     "itemImageUrl" to item.imageUrl,
                                     "itemFullDescription" to item.fullDescription,
-                                    "itemCoordinates" to item.coordinates
+                                    "itemCoordinates" to item.coordinates,
+                                    "itemLocation" to item.location
                                 )
                                 documentReference.collection("competitions")
                                     .add(competition)

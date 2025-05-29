@@ -22,5 +22,13 @@
     <color name="red">#D30909</color>
     <color name="discard">#CE3A3A</color>
 
+    <color name="white_80">#CCFFFFFF</color>
+    <color name="white_20">#33FFFFFF</color>
+
+    <color name="textSecondary">#80000000</color>
+    <color name="textHint">#42000000</color>
+
+    <color name="softBrown">#5D4037</color>
+
 
 </resources>

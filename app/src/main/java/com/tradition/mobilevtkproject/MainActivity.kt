@@ -1,10 +1,7 @@
 package com.tradition.mobilevtkproject
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -85,10 +82,5 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(MAIN, "Вы вошли как $email", Toast.LENGTH_LONG).show()
         }
 
-        fun isInternetAvailable(context: Context): Boolean {
-            val connectivityManager = context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
-            val networkCapabilities = connectivityManager.activeNetwork?.let { connectivityManager.getNetworkCapabilities(it) }
-            return networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
-        }
     }
 }

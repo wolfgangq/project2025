@@ -1,0 +1,75 @@
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="15dp"
+    android:layout_marginTop="15dp"
+    android:layout_marginBottom="5dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp"
+    app:strokeColor="@color/authBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/competTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:letterSpacing="0.02"
+            android:lineSpacingExtra="4sp"
+            android:text="Title"
+            android:textColor="#2E7D32"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/locationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:drawableStart="@drawable/map_icon"
+            android:drawablePadding="6dp"
+            android:drawableTint="@color/softBrown"
+            android:gravity="center_vertical"
+            android:text="Location"
+            android:textColor="@color/softBrown"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="12dp"
+            android:background="#EEEEEE" />
+
+        <TextView
+            android:id="@+id/miniDescriptionCompet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="4sp"
+            android:text="Description"
+            android:textColor="#424242"
+            android:textSize="16sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/sendButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="#2E7D32"
+            android:insetTop="2dp"
+            android:insetBottom="2dp"
+            android:text="Отправить работу"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            app:cornerRadius="8dp"
+            app:icon="@drawable/ic_send_doc"
+            app:iconGravity="textEnd" />
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

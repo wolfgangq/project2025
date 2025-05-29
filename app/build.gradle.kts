@@ -18,7 +18,7 @@ android {
         minSdk = 26
         targetSdk = 34
         versionCode = 1
-        versionName = "1.31"
+        versionName = "1.4.0-alpha"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -77,7 +77,7 @@ dependencies {
     implementation(libs.glide)
     implementation(libs.androidx.recyclerview)
 
-    implementation(platform(libs.firebase.bom))
+    implementation(platform("com.google.firebase:firebase-bom:33.14.0"))
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.auth.ktx)
