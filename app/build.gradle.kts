@@ -19,6 +19,9 @@ android {
         versionName = "1.4.0-beta.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters += listOf("armeabi-v7a", "arm64-v8a")
+        }
     }
 
     buildFeatures{
@@ -65,15 +68,6 @@ android {
             )
         }
     }
-
-    /*splits {
-        abi {
-            isEnable = true
-            reset()
-            include("armeabi-v7a", "arm64-v8a") // ограничение операционок (2/4)
-            isUniversalApk = true
-        }
-    }*/
 
     //buildToolsVersion = "34.0.0"
 }
