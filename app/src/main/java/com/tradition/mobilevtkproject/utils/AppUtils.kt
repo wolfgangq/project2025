@@ -1,23 +1,11 @@
 package com.tradition.mobilevtkproject.utils
 
-import android.app.AlertDialog
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
-import android.content.pm.PackageInfo
-import androidx.core.net.toUri
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.tradition.mobilevtkproject.MAIN
 import kotlinx.coroutines.tasks.await
 
 object AppUtils {
-    fun getCurrentVersion(context: Context): String? {
-        val packageInfo: PackageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-        val installedVersion: String? = packageInfo.versionName
-        return installedVersion
-    }
     suspend fun getNewestVersion(): String? {
         val db: FirebaseFirestore = Firebase.firestore
         var newestAvailableVersion: String? = null
@@ -27,22 +15,6 @@ object AppUtils {
             }
         }.await()
         return newestAvailableVersion
-    }
-    suspend fun checkForUpdates(context: Context, doIfNotNewest: () -> Unit) {
-        val sharedPreferences: SharedPreferences = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
-        val lastCheckTime = sharedPreferences.getLong("lastCheckTime", 0L)
-        val currentTime = System.currentTimeMillis()
-        val installedVersion = getCurrentVersion(context)
-        try {
-            val newestAvailableVersion = getNewestVersion()!!
-            if (currentTime - lastCheckTime > 24*3600*1000) { // Раз в день
-                when (compareVersions(installedVersion.toString(), newestAvailableVersion)) {
-                    VersionOrder.LOWER -> {doIfNotNewest()}
-                    else -> {}
-                }
-            }
-        }
-        catch(e: Exception) {}
     }
 
     enum class VersionOrder { GREATER, EQUAL, LOWER }
@@ -114,18 +86,4 @@ object AppUtils {
         }
     }
 
-    fun showUpdateDialog(context: Context, newestAvailableVersion: String?) {
-        val builder = AlertDialog.Builder(MAIN)
-        builder.setTitle("Информация")
-            .setMessage("Уважаемый пользователь!\nУстановленная версия приложения: ${getCurrentVersion(context)}\nНовейшая версия: $newestAvailableVersion\nПожалуйста, обновитесь до новейшей версии")
-
-        builder.setPositiveButton("Обновить") { dialog, which ->
-            val intent = Intent(Intent.ACTION_VIEW,
-                "https://drive.google.com/drive/folders/10YuxH1BKjsqZ6Zt0G18PXvQlZw7N7HlJ?usp=sharing".toUri())
-            context.startActivity(intent)
-        }
-        builder.setCancelable(false)
-        val alertDialog = builder.create()
-        alertDialog.show()
-    }
 }

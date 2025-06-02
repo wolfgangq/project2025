@@ -25,6 +25,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
@@ -77,6 +78,9 @@ class RegionActivitiesFragment : Fragment() {
         binding = FragmentRegionActivitiesBinding.inflate(layoutInflater, container, false)
 
         binding.recyclerViewItems.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewItems.setRecycledViewPool(RecyclerView.RecycledViewPool().apply {
+            setMaxRecycledViews(0,3)   // одновременно не более 3 карт в пуле
+        })
 
         for (i in 0 until binding.tabLayout.tabCount) {
             val tab = binding.tabLayout.getTabAt(i)

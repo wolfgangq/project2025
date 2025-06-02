@@ -1,5 +1,3 @@
-import com.android.build.api.dsl.Packaging
-
 plugins {
     id("com.google.gms.google-services")
     alias(libs.plugins.android.application)
@@ -18,24 +16,32 @@ android {
         minSdk = 26
         targetSdk = 34
         versionCode = 1
-        versionName = "1.4.0-alpha"
+        versionName = "1.4.0-beta.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildFeatures{
         //noinspection DataBindingWithoutKapt
+        buildConfig = true
         dataBinding = true
         viewBinding = true
         prefab = false
     }
     buildTypes {
+        debug {
+            isDebuggable = true
+        }
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            ndk {
+                debugSymbolLevel = "none"
+            }
         }
     }
     compileOptions {
@@ -46,22 +52,34 @@ android {
         jvmTarget = "18"
     }
 
-    fun Packaging.() {
-        resources.excludes += setOf(
-            "**/libmaps-mobile.so",
-            "**/libjni.so",
-            "**/libjnidispatch.so"
-        )
-
-        jniLibs.useLegacyPackaging = true
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+        resources {
+            excludes += setOf(
+                "**/META-INF/AL2.0",
+                "**/META-INF/LGPL2.1",
+                "**/libmaps-mobile.so",
+                "**/libjni.so"
+            )
+        }
     }
 
+    /*splits {
+        abi {
+            isEnable = true
+            reset()
+            include("armeabi-v7a", "arm64-v8a") // ограничение операционок (2/4)
+            isUniversalApk = true
+        }
+    }*/
 
     //buildToolsVersion = "34.0.0"
 }
 
 dependencies {
-    implementation("com.yandex.android:maps.mobile:4.12.0-lite") {
+    implementation("com.yandex.android:maps.mobile:4.16.0-lite") {
         exclude(group = "com.yandex.android", module = "maps-http-client")
         exclude(group = "com.yandex.android", module = "maps-mobile")
         exclude(group = "com.yandex.android", module = "runtime")
@@ -82,6 +100,11 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.crashlytics.ktx)
+    implementation(libs.firebase.appcheck.playintegrity)
+    implementation(libs.firebase.appcheck.debug)
+    implementation(libs.firebase.config)
+    implementation(libs.firebase.messaging.ktx)
+    //implementation(libs.firebase.ai)
 
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.kotlin.stdlib)
@@ -94,7 +117,6 @@ dependencies {
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.navigation.fragment)
 
-    implementation(libs.play.services.maps)
     implementation(libs.play.services.location)
 
     implementation(libs.core)

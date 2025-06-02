@@ -38,16 +38,17 @@ class AuthFragment : Fragment() {
         binding.buttonSignIn.setOnClickListener {
             auth = Firebase.auth
             val enteremail = binding.editTextEmailAddress.text.toString()
-            val enterpass = binding.editTextTextPassword.text.toString()
+            val enterpass = binding.editTextPassword.text.toString()
             if(TextFormattingUtils.isEmailValid(enteremail) && TextFormattingUtils.isPassValid(enterpass)) {
+                turnAuthButtons(false)
                 auth.signInWithEmailAndPassword(enteremail, enterpass)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             successAuth(enteremail)
                         }
                     }.addOnFailureListener { exception ->
-                    Toast.makeText(MAIN, "Не удалось войти", Toast.LENGTH_LONG)
-                        .show()
+                        turnAuthButtons(true)
+                        Toast.makeText(MAIN, "Не удалось войти", Toast.LENGTH_LONG).show()
                 }
             }
             else{
@@ -65,6 +66,14 @@ class AuthFragment : Fragment() {
         binding.imageButton.setOnClickListener{
             (activity as? MainActivity)?.onBackPressed()
         }
+    }
+
+    private fun turnAuthButtons(bool: Boolean) {
+        binding.buttonSignIn.isClickable = bool
+        binding.textViewForgotPass.isClickable = bool
+        binding.buttonSignIn.isClickable = bool
+        binding.editTextEmailAddress.isClickable = bool
+        binding.editTextPassword.isClickable = bool
     }
 
     override fun onStart() {

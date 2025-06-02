@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tradition.mobilevtkproject.R
 import com.tradition.mobilevtkproject.UniversalRegionItem
 import com.tradition.mobilevtkproject.screens.RegionActivitiesFragment
-import com.tradition.mobilevtkproject.screens.RegionActivitiesFragment.Companion.doButtonActionWithVibrate
-import com.tradition.mobilevtkproject.screens.RegionActivitiesFragment.Companion.loadImageWithRetry
 import com.yandex.mapkit.mapview.MapView
 
 class ItemSightAdapter(
@@ -24,6 +22,17 @@ class ItemSightAdapter(
 ) : ListAdapter<UniversalRegionItem, ItemSightAdapter.VH>(Diff) {
 
     inner class VH(val view: View) : RecyclerView.ViewHolder(view) {
+        val mapView: MapView = view.findViewById<MapView>(R.id.mapview)
+        init {
+            /*mapView.apply {
+                mapWindow.map.isScrollGesturesEnabled = false
+                mapWindow.map.isZoomGesturesEnabled = false
+                mapWindow.map.isRotateGesturesEnabled = false
+                mapWindow.map.isTiltGesturesEnabled = false
+                }*/
+            mapView.setNoninteractive(true)
+            mapView.onStart()
+        }
         fun bind(item: UniversalRegionItem) = with(view) {
             findViewById<TextView>(R.id.sightName).text = item.title
             val textViewDescription = view.findViewById<TextView>(R.id.miniDescriptionSight)
@@ -32,34 +41,31 @@ class ItemSightAdapter(
             val constraintCard: ConstraintLayout = view.findViewById(R.id.sightConstraintCard)
             val continueButton: Button = view.findViewById(R.id.detailSightButton)
             val textViewCord = view.findViewById<TextView>(R.id.coordinatesSight)
-            val mapView: MapView = view.findViewById<MapView>(R.id.mapview)
 
             if (item.description != null) {
+                textViewDescription.visibility = View.VISIBLE
                 textViewDescription.text = item.description
             } else {
                 textViewDescription.visibility = View.GONE
             }
             if (item.imageUrl != null) {
-                loadImageWithRetry(imageView, item.imageUrl, progressBar)
+                constraintCard.visibility = View.VISIBLE
+                RegionActivitiesFragment.loadImageWithRetry(imageView, item.imageUrl, progressBar)
             } else {
                 constraintCard.visibility = View.GONE
             }
             if (item.coordinates != null) {
                 textViewCord.text = item.coordinates
-                mapView.apply {
-                    mapWindow.map.isScrollGesturesEnabled = false
-                    mapWindow.map.isZoomGesturesEnabled = false
-                    mapWindow.map.isRotateGesturesEnabled = false
-                    mapWindow.map.isTiltGesturesEnabled = false
-                    onStart()
-                    RegionActivitiesFragment.setupSightPoint(this, item.coordinates!!)
-                }
+                textViewCord.visibility = View.VISIBLE
+                mapView.visibility = View.VISIBLE
+                RegionActivitiesFragment.setupSightPoint(mapView, item.coordinates!!)
             } else {
                 textViewCord.visibility = View.GONE
                 mapView.visibility = View.GONE
+                mapView.onStop()
             }
 
-            doButtonActionWithVibrate(continueButton, view, {actionSightDetails(item)})
+            RegionActivitiesFragment.doButtonActionWithVibrate(continueButton, view, {actionSightDetails(item)})
 
             setOnClickListener { onItemClick(item) }
         }
@@ -69,6 +75,10 @@ class ItemSightAdapter(
         val v = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_sight, parent, false)
         return VH(v)
+    }
+
+    override fun onViewRecycled(holder: VH) {
+        super.onViewRecycled(holder)
     }
 
 
