@@ -168,7 +168,7 @@ class StartFragment : Fragment() {
             }
                 .create()
 
-        activeDialog?.dismiss() // Закрываем предыдущий, если был
+        activeDialog?.dismiss()
         activeDialog = dlg
         activeDialog!!.show()
     }

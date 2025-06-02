@@ -11,7 +11,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         Log.d("FCM", "Message from: ${remoteMessage.from}")
 
-        // Если есть уведомление — покажи
         remoteMessage.notification?.let {
             showNotification(it.title, it.body)
         }
@@ -19,7 +18,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         Log.d("FCM", "New token: $token")
-        // Отправь токен на сервер, если нужно
     }
 
 

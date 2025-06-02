@@ -32,25 +32,6 @@ class MainFragmentMap : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /*binding.imageButtonToOut.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                val drawable = ContextCompat.getDrawable(MAIN2, R.drawable.arrow) as BitmapDrawable?
-
-                if (drawable != null) {
-                    val density = resources.displayMetrics.density
-                    val params = binding.imageButtonToOut.width
-
-                    val width = (params/density).toInt()
-                    val height = (params/density).toInt()
-
-                    val resizedDrawable = BitmapDrawable(resources, Bitmap.createScaledBitmap(drawable.bitmap, width, height, true))
-
-                    binding.buttonToOut.setCompoundDrawablesWithIntrinsicBounds(resizedDrawable, null, null, null)
-                }
-            }
-        })*/
-        //setColors(requireActivity())
-
         var regionName = ""
 
         val regions = mapOf(
@@ -74,46 +55,6 @@ class MainFragmentMap : Fragment() {
             (activity as? TransitionActivity)?.goFragment("Map", InfoFragment(), null)
         }
 
-        /*val popupMenu = PopupMenu(requireActivity(), binding.imageButtonAccount)
-        popupMenu.inflate(R.menu.popupmenu)
-        popupMenu.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.settings -> {
-                    (activity as? TransitionActivity)?.goFragment("Map", SettingsFragment(), null)
-                }
-                R.id.checkBalance -> {
-                    lifecycleScope.launch {
-                        val auth = FirebaseAuth.getInstance()
-                        var id = auth.currentUser?.uid
-                        var currentUser = getUserInfo(id.toString())
-                        val builder = AlertDialog.Builder(MAIN2)
-                        builder.setTitle("Баланс")
-                            .setMessage("Ваш текущий баланс: ${currentUser!!["balance"]} зернышек")
-
-                        builder.setPositiveButton("Ок") { dialog, which ->
-                        }
-                        val alertDialog = builder.create()
-                        alertDialog.show()
-                    }
-                }
-                R.id.logOut -> {
-                    auth.signOut()
-                    val intent = Intent(MAIN2, MainActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                    MAIN2.startActivity(intent)
-                    Toast.makeText(MAIN2, "Вы вышли из аккаунта", Toast.LENGTH_LONG).show()
-                }
-            }
-            false
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            popupMenu.setForceShowIcon(true)
-        }
-
-        binding.imageButtonAccount.setOnClickListener {
-            popupMenu.show()
-        }*/
         binding.buttonCompetitions.setOnClickListener{
             val builder = AlertDialog.Builder(MAIN2)
             builder.setTitle("")
@@ -125,27 +66,6 @@ class MainFragmentMap : Fragment() {
             alertDialog.show()
         }
 
-
-        /*var k = 0
-        binding.textViewInfo.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                k += 1
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s != null && s.isNotEmpty()) {
-                    if(k != 0){
-                        binding.textViewInfo.visibility = View.VISIBLE
-                        binding.button.visibility = View.VISIBLE
-                        binding.textViewInfo.removeTextChangedListener(this)
-                    }
-                }
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-
-            }
-        })*/
 
         binding.imageButtonVtk.setOnClickListener{
             regionName = "Воткинск"
