@@ -19,9 +19,9 @@ android {
         versionName = "1.4.0-beta.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        ndk {
+        /*ndk {
             abiFilters += listOf("armeabi-v7a", "arm64-v8a")
-        }
+        }*/
     }
 
     buildFeatures{
